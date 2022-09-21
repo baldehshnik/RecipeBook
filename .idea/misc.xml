@@ -4,7 +4,11 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/RecipeBook/app/src/main/res/layout/activity_home.xml" value="0.25416666666666665" />
+        <entry key="..\:/RecipeBook/app/src/main/res/layout/app_bar_main.xml" value="0.23354958294717332" />
+        <entry key="..\:/RecipeBook/app/src/main/res/layout/app_toolbar.xml" value="0.23333333333333334" />
         <entry key="..\:/RecipeBook/app/src/main/res/layout/fragment_home.xml" value="0.25416666666666665" />
+        <entry key="..\:/RecipeBook/app/src/main/res/layout/fragment_hub.xml" value="0.23333333333333334" />
+        <entry key="..\:/RecipeBook/app/src/main/res/menu/bottom_nav_menu.xml" value="0.23333333333333334" />
       </map>
     </option>
   </component>
