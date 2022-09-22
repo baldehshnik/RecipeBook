@@ -5,4 +5,7 @@
     <string name="home">Home</string>
     <string name="hub">Hub</string>
     <string name="recipe_adding">recipe adding</string>
+    <string name="cocking_time_image">cocking time image</string>
+    <string name="ingredients_count_image">ingredients count image</string>
+    <string name="bookmark">bookmark</string>
 </resources>

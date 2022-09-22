@@ -8,7 +8,6 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.firstapplication.recipebook.R
 import com.firstapplication.recipebook.databinding.ActivityHomeBinding
-import com.firstapplication.recipebook.databinding.AppToolbarBinding
 
 class HomeActivity : AppCompatActivity() {
 

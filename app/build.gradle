@@ -76,4 +76,7 @@ dependencies {
 
     //Coroutines
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutineVersion"
+
+    //Image
+    implementation 'de.hdodenhof:circleimageview:2.1.0'
 }
