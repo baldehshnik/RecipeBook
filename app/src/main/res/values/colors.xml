@@ -10,4 +10,5 @@
 
     <color name="bottom_nav_view">#FF9900</color>
     <color name="grey_text">#656565</color>
+    <color name="dark_grey">#303030</color>
 </resources>

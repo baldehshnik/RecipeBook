@@ -24,7 +24,7 @@ class HomeActivity : AppCompatActivity() {
 
         val configuration = AppBarConfiguration(
             setOf(
-                R.id.navHome, R.id.navHub
+                R.id.navHome, R.id.navHub, R.id.navAdding, R.id.navSearch, R.id.navRecipeInfo
             )
         )
 

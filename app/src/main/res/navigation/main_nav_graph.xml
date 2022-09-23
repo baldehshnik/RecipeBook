@@ -13,4 +13,16 @@
         android:id="@+id/navHub"
         android:name="com.firstapplication.recipebook.ui.fragments.HubFragment"
         tools:layout="@layout/fragment_hub" />
+    <fragment
+        android:id="@+id/navAdding"
+        android:name="com.firstapplication.recipebook.ui.fragments.RecipeAddingFragment"
+        tools:layout="@layout/fragment_recipe_adding" />
+    <fragment
+        android:id="@+id/navSearch"
+        android:name="com.firstapplication.recipebook.ui.fragments.RecipeSearchingFragment"
+        tools:layout="@layout/fragment_recipe_searching" />
+    <fragment
+        android:id="@+id/navRecipeInfo"
+        android:name="com.firstapplication.recipebook.ui.fragments.RecipeInfoFragment"
+        tools:layout="@layout/fragment_recipe_info" />
 </navigation>

@@ -10,7 +10,7 @@ import com.firstapplication.recipebook.data.models.RecipeEntity
 interface RecipeDao {
 
     @Insert
-    fun insert(recipeEntity: RecipeEntity)
+    suspend fun insert(recipeEntity: RecipeEntity)
 
     @Query("SELECT * FROM recipes")
     fun readAllRecipes(): LiveData<List<RecipeEntity>>

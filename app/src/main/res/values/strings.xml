@@ -8,4 +8,7 @@
     <string name="cocking_time_image">cocking time image</string>
     <string name="ingredients_count_image">ingredients count image</string>
     <string name="bookmark">bookmark</string>
+    <string name="add">Add</string>
+    <string name="search_image">search image</string>
+    <string name="way_out_to_homefragment">way out to HomeFragment</string>
 </resources>
