@@ -2,21 +2,26 @@ package com.firstapplication.recipebook.ui.fragments
 
 import android.content.Context
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.View
-import android.widget.Toast
-import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.firstapplication.recipebook.App
 import com.firstapplication.recipebook.R
 import com.firstapplication.recipebook.databinding.FragmentRecipeAddingBinding
 import com.firstapplication.recipebook.extensions.appComponent
+import com.firstapplication.recipebook.ui.adapters.DishCategoryAdapter
+import com.firstapplication.recipebook.ui.interfacies.OnCategoryItemClickListener
 import com.firstapplication.recipebook.ui.viewmodels.RecipeAddingViewModel
 import com.firstapplication.recipebook.ui.viewmodels.factories.OnlyRecipeRepositoryViewModelFactory
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import javax.inject.Inject
 
-class RecipeAddingFragment: Fragment(R.layout.fragment_recipe_adding) {
+class RecipeAddingFragment : Fragment(R.layout.fragment_recipe_adding),
+    OnCategoryItemClickListener {
 
     private lateinit var binding: FragmentRecipeAddingBinding
 
@@ -35,5 +40,29 @@ class RecipeAddingFragment: Fragment(R.layout.fragment_recipe_adding) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentRecipeAddingBinding.bind(view)
+
+        val adapter = DishCategoryAdapter(getCategoriesList().toList(), this)
+
+        with(binding) {
+            rwCategory.layoutManager = LinearLayoutManager(
+                requireContext(),
+                LinearLayoutManager.HORIZONTAL,
+                false
+            )
+
+            rwCategory.adapter = adapter
+
+
+
+        }
     }
+
+    private fun getCategoriesList() = resources.getStringArray(
+        R.array.dish_categories
+    )
+
+    override fun onCategoryItemClick(categoryName: String) {
+
+    }
+
 }

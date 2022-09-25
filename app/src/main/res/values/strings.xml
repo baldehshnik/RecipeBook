@@ -11,4 +11,23 @@
     <string name="add">Add</string>
     <string name="search_image">search image</string>
     <string name="way_out_to_homefragment">way out to HomeFragment</string>
+    <string name="ingredients">Ingredients</string>
+    <string name="name">Name</string>
+    <string name="cooking_info">Cooking info</string>
+    <string name="time">Time</string>
+    <string name="save">Save</string>
+    <string name="add_new_ingredient">add new ingredient</string>
+
+    <string-array name="dish_categories">
+        <item name="all">Все</item>
+        <item name="hot_dish">Горячие блюда</item>
+        <item name="bakery_products">Выпечка</item>
+        <item name="salads">Салаты</item>
+        <item name="cold_dish">Холодные блюда</item>
+        <item name="beverages">Напитки</item>
+        <item name="snacks">Закуски</item>
+        <item name="seaming">Закатки</item>
+        <item name="others">Другое</item>
+    </string-array>
+
 </resources>

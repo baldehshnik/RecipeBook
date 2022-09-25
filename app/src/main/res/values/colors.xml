@@ -9,6 +9,9 @@
     <color name="white">#FFFFFFFF</color>
 
     <color name="bottom_nav_view">#FF9900</color>
+    <color name="bottom_nv_transparent">#F2FFEED5</color>
+    <color name="custom_text">#FF7700</color>
     <color name="grey_text">#656565</color>
+    <color name="light_grey">#DFDFDF</color>
     <color name="dark_grey">#303030</color>
 </resources>

@@ -1,6 +1,7 @@
 <resources>
 
     <style name="Theme.RecipeBook" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorAccent">@color/bottom_nav_view</item>
         <item name="colorPrimary">@color/bottom_nav_view</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
         <item name="colorOnPrimary">@color/white</item>
@@ -14,5 +15,14 @@
     <style name="Theme.RecipeBook.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.RecipeBook.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="Widget.AppTheme.TextInputLayoutList" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxCornerRadiusBottomEnd">5dp</item>
+        <item name="boxCornerRadiusBottomStart">5dp</item>
+        <item name="boxCornerRadiusTopEnd">5dp</item>
+        <item name="boxCornerRadiusTopStart">5dp</item>
+        <item name="boxStrokeColor">@color/black</item>
+        <item name="boxStrokeWidth">2dp</item>
+    </style>
 
 </resources>
