@@ -17,6 +17,14 @@
     <string name="time">Time</string>
     <string name="save">Save</string>
     <string name="add_new_ingredient">add new ingredient</string>
+    <string name="confirm">Confirm</string>
+    <string name="time_type">Time type</string>
+    <string name="cancel">Cancel</string>
+    <string name="delete_ingredient">delete ingredient</string>
+    <string name="save_new_ingredient">save new ingredient</string>
+    <string name="category">Category</string>
+    <string name="count">Count</string>
+    <string name="new_ingredient">New Ingredient</string>
 
     <string-array name="dish_categories">
         <item name="all">Все</item>

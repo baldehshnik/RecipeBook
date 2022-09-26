@@ -17,7 +17,7 @@
             android:layout_marginTop="7dp"
             android:layout_marginEnd="20dp"
             android:backgroundTint="@color/white"
-            android:contentDescription="@string/add_new_ingredient"
+            android:contentDescription="@string/save_new_ingredient"
             android:src="@drawable/ic_baseline_check_24"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -53,17 +53,36 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/etTimeLayout"
-            android:layout_width="match_parent"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="15dp"
+            android:layout_marginStart="50dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/etTitleLayout">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etTime"
+                android:maxLength="5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/time"
+                android:inputType="numberDecimal" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/etTimeTypeLayout"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="50dp"
+            app:layout_constraintLeft_toRightOf="@id/etTimeLayout"
+            app:layout_constraintTop_toBottomOf="@id/etTitleLayout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etTimeType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLength="15"
+                android:hint="@string/time_type"
                 android:inputType="text" />
 
         </com.google.android.material.textfield.TextInputLayout>

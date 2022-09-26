@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/RecipeBook/app/src/main/res/drawable/button_style.xml" value="0.2703125" />
         <entry key="..\:/RecipeBook/app/src/main/res/drawable/category_default.xml" value="0.2703125" />
         <entry key="..\:/RecipeBook/app/src/main/res/drawable/category_selected.xml" value="0.2703125" />
         <entry key="..\:/RecipeBook/app/src/main/res/drawable/category_selector.xml" value="0.2703125" />
@@ -13,6 +14,8 @@
         <entry key="..\:/RecipeBook/app/src/main/res/drawable/ic_baseline_arrow_back_ios_24.xml" value="0.2703125" />
         <entry key="..\:/RecipeBook/app/src/main/res/drawable/ic_baseline_bookmark_24.xml" value="0.2703125" />
         <entry key="..\:/RecipeBook/app/src/main/res/drawable/ic_baseline_bookmark_border_24.xml" value="0.2703125" />
+        <entry key="..\:/RecipeBook/app/src/main/res/drawable/ic_baseline_count_add_24.xml" value="0.2703125" />
+        <entry key="..\:/RecipeBook/app/src/main/res/drawable/ic_baseline_extension_24.xml" value="0.2703125" />
         <entry key="..\:/RecipeBook/app/src/main/res/drawable/ic_baseline_favorite_24.xml" value="0.2703125" />
         <entry key="..\:/RecipeBook/app/src/main/res/drawable/ic_baseline_home_24.xml" value="0.2703125" />
         <entry key="..\:/RecipeBook/app/src/main/res/drawable/ic_baseline_search_24.xml" value="0.2703125" />
@@ -20,17 +23,20 @@
         <entry key="..\:/RecipeBook/app/src/main/res/drawable/ic_outline_home_24.xml" value="0.2703125" />
         <entry key="..\:/RecipeBook/app/src/main/res/drawable/new_some.xml" value="0.2703125" />
         <entry key="..\:/RecipeBook/app/src/main/res/drawable/rounded_button.xml" value="0.2703125" />
+        <entry key="..\:/RecipeBook/app/src/main/res/drawable/some.xml" value="0.2703125" />
         <entry key="..\:/RecipeBook/app/src/main/res/drawable/text_view_category.xml" value="0.2703125" />
         <entry key="..\:/RecipeBook/app/src/main/res/drawable/textview_style.xml" value="0.2703125" />
         <entry key="..\:/RecipeBook/app/src/main/res/layout/activity_home.xml" value="0.25416666666666665" />
         <entry key="..\:/RecipeBook/app/src/main/res/layout/app_bar_main.xml" value="0.23354958294717332" />
         <entry key="..\:/RecipeBook/app/src/main/res/layout/app_toolbar.xml" value="0.23333333333333334" />
+        <entry key="..\:/RecipeBook/app/src/main/res/layout/dialog_fragment_ingredients_adding.xml" value="0.25416666666666665" />
         <entry key="..\:/RecipeBook/app/src/main/res/layout/dish_category_item.xml" value="0.25416666666666665" />
         <entry key="..\:/RecipeBook/app/src/main/res/layout/fragment_home.xml" value="0.25416666666666665" />
         <entry key="..\:/RecipeBook/app/src/main/res/layout/fragment_hub.xml" value="0.23333333333333334" />
         <entry key="..\:/RecipeBook/app/src/main/res/layout/fragment_recipe_adding.xml" value="0.25416666666666665" />
         <entry key="..\:/RecipeBook/app/src/main/res/layout/fragment_recipe_info.xml" value="0.25416666666666665" />
         <entry key="..\:/RecipeBook/app/src/main/res/layout/fragment_recipe_searching.xml" value="0.25416666666666665" />
+        <entry key="..\:/RecipeBook/app/src/main/res/layout/ingredient_item.xml" value="0.25416666666666665" />
         <entry key="..\:/RecipeBook/app/src/main/res/layout/recipe_item.xml" value="0.25416666666666665" />
         <entry key="..\:/RecipeBook/app/src/main/res/menu/bottom_nav_menu.xml" value="0.23333333333333334" />
       </map>

@@ -2,6 +2,7 @@ package com.firstapplication.recipebook.di
 
 import android.content.Context
 import com.firstapplication.recipebook.ui.fragments.HomeFragment
+import com.firstapplication.recipebook.ui.fragments.IngredientsAddingDialogFragment
 import com.firstapplication.recipebook.ui.fragments.RecipeAddingFragment
 import dagger.BindsInstance
 import dagger.Component
@@ -13,6 +14,7 @@ interface AppComponent {
 
     fun inject(fragment: HomeFragment)
     fun inject(fragment: RecipeAddingFragment)
+    fun inject(fragment: IngredientsAddingDialogFragment)
 
     @Component.Builder
     interface Builder {

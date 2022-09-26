@@ -25,4 +25,7 @@
         android:id="@+id/navRecipeInfo"
         android:name="com.firstapplication.recipebook.ui.fragments.RecipeInfoFragment"
         tools:layout="@layout/fragment_recipe_info" />
+    <dialog
+        android:id="@+id/navAddingIngredient"
+        android:name="com.firstapplication.recipebook.ui.fragments.IngredientsAddingDialogFragment" />
 </navigation>

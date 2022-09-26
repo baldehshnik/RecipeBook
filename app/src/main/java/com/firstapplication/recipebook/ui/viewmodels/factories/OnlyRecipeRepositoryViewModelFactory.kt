@@ -10,6 +10,7 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import java.lang.IllegalArgumentException
+import javax.inject.Singleton
 
 class OnlyRecipeRepositoryViewModelFactory @AssistedInject constructor(
     @Assisted("application") private val application: Application,
