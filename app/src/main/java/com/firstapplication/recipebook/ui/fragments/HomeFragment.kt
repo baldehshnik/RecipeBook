@@ -44,68 +44,62 @@ class HomeFragment : Fragment(R.layout.fragment_home), OnRecipeItemClickListener
 
         val adapter = RecipeAdapter(this)
 
-        adapter.submitList(listOf(
-            RecipeModel(
-                id = 1,
-                imageId = 1,
-                title = "My first title",
-                recipeInfo = "Information about my first recipe",
-                cookingTime = 1.4,
-                ingredientsCount = 10,
-                ingredients = mapOf(),
-                isSaved = false
-            ),
-            RecipeModel(
-                id = 2,
-                imageId = 1,
-                title = "My first title",
-                recipeInfo = "Information about my first recipe",
-                cookingTime = 1.4,
-                ingredientsCount = 10,
-                ingredients = mapOf(),
-                isSaved = false
-            ),
-            RecipeModel(
-                id = 3,
-                imageId = 1,
-                title = "My first title",
-                recipeInfo = "Information about my first recipe",
-                cookingTime = 1.4,
-                ingredientsCount = 10,
-                ingredients = mapOf(),
-                isSaved = false
-            ),
-            RecipeModel(
-                id = 4,
-                imageId = 1,
-                title = "My first title",
-                recipeInfo = "Information about my first recipe",
-                cookingTime = 1.4,
-                ingredientsCount = 10,
-                ingredients = mapOf(),
-                isSaved = false
-            ),
-            RecipeModel(
-                id = 5,
-                imageId = 1,
-                title = "My first title",
-                recipeInfo = "Information about my first recipe",
-                cookingTime = 1.4,
-                ingredientsCount = 10,
-                ingredients = mapOf(),
-                isSaved = false
-            ),
-            RecipeModel(
-                id = 6,
-                imageId = 1,
-                title = "My first title",
-                recipeInfo = "Information about my first recipe",
-                cookingTime = 1.4,
-                ingredientsCount = 10,
-                ingredients = mapOf(),
-                isSaved = false
-            )
-        ))
+//        adapter.submitList(listOf(
+//            RecipeModel(
+//                id = 1,
+//                imageId = 1,
+//                title = "My first title",
+//                recipeInfo = "Information about my first recipe",
+//                cookingTime = 1.4,
+//                ingredients = mapOf(),
+//                isSaved = false
+//            ),
+//            RecipeModel(
+//                id = 2,
+//                imageId = 1,
+//                title = "My first title",
+//                recipeInfo = "Information about my first recipe",
+//                cookingTime = 1.4,
+//                ingredients = mapOf(),
+//                isSaved = false
+//            ),
+//            RecipeModel(
+//                id = 3,
+//                imageId = 1,
+//                title = "My first title",
+//                recipeInfo = "Information about my first recipe",
+//                cookingTime = 1.4,
+//                ingredients = mapOf(),
+//                isSaved = false
+//            ),
+//            RecipeModel(
+//                id = 4,
+//                imageId = 1,
+//                title = "My first title",
+//                recipeInfo = "Information about my first recipe",
+//                cookingTime = 1.4,
+//                ingredients = mapOf(),
+//                isSaved = false
+//            ),
+//            RecipeModel(
+//                id = 5,
+//                imageId = 1,
+//                title = "My first title",
+//                recipeInfo = "Information about my first recipe",
+//                cookingTime = 1.4,
+//                ingredients = mapOf(),
+//                isSaved = false
+//            ),
+//            RecipeModel(
+//                id = 6,
+//                imageId = 1,
+//                title = "My first title",
+//                recipeInfo = "Information about my first recipe",
+//                cookingTime = 1.4,
+//                ingredients = mapOf(),
+//                isSaved = false
+//            )
+//        ))
 
         binding.rwRecipes.adapter = adapter
     }

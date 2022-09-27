@@ -25,6 +25,7 @@
     <string name="category">Category</string>
     <string name="count">Count</string>
     <string name="new_ingredient">New Ingredient</string>
+    <string name="fill_ingredient_name">Fill ingredient name</string>
 
     <string-array name="dish_categories">
         <item name="all">Все</item>

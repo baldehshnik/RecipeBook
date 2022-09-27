@@ -12,6 +12,7 @@ import com.firstapplication.recipebook.App
 import com.firstapplication.recipebook.R
 import com.firstapplication.recipebook.databinding.DialogFragmentIngredientsAddingBinding
 import com.firstapplication.recipebook.extensions.appComponent
+import com.firstapplication.recipebook.enums.IngredientsKeys
 import com.firstapplication.recipebook.ui.viewmodels.RecipeAddingViewModel
 import com.firstapplication.recipebook.ui.viewmodels.factories.OnlyRecipeRepositoryViewModelFactory
 import javax.inject.Inject
@@ -42,22 +43,13 @@ class IngredientsAddingDialogFragment :
         with(binding) {
             btnConfirmIngredientAdding.setOnClickListener {
                 if (etIngredientAdding.length() != 0 && etIngredientCount.length() != 0) {
-
-                    val ingredientName = etIngredientAdding.text.toString()
-
-                    parentFragmentManager.setFragmentResult(
-                        "ingredientKey", bundleOf(
-                            "ingredientName" to ingredientName,
-                            "ingredientCountFullName" to getIngredientCount()
-                        )
-                    )
-
+                    setFragmentResult(etIngredientAdding.text.toString())
                     dismiss()
                 } else {
                     Toast.makeText(
                         requireContext(),
-                        "Fill ingredient name",
-                        Toast.LENGTH_SHORT
+                        resources.getString(R.string.fill_ingredient_name),
+                        Toast.LENGTH_LONG
                     ).show()
                 }
             }
@@ -67,6 +59,15 @@ class IngredientsAddingDialogFragment :
             }
         }
 
+    }
+
+    private fun setFragmentResult(name: String) {
+        parentFragmentManager.setFragmentResult(
+            IngredientsKeys.CONNECT_KEY.key, bundleOf(
+                IngredientsKeys.NAME_KEY.key to name,
+                IngredientsKeys.COUNT_FULL_NAME_KEY.key to getIngredientCount()
+            )
+        )
     }
 
     private fun getIngredientCount(): String = with(binding) {

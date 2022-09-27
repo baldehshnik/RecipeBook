@@ -72,55 +72,38 @@
                 app:layout_constraintTop_toBottomOf="@id/twTitle"
                 tools:text="Description" />
 
-            <ImageView
-                android:id="@+id/imageClock"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="40dp"
-                android:layout_marginBottom="15dp"
-                android:contentDescription="@string/cocking_time_image"
-                android:src="@drawable/ic_baseline_access_time_24"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent" />
-
             <TextView
                 android:id="@+id/twHours"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
+                android:layout_marginStart="40dp"
                 android:layout_marginTop="14dp"
                 android:layout_marginBottom="16dp"
+                android:drawablePadding="8dp"
                 android:textColor="@color/black"
                 android:textSize="16sp"
+                app:drawableStartCompat="@drawable/ic_baseline_access_time_24"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toRightOf="@id/imageClock"
+                app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/circleImageView"
                 tools:text="Hours" />
 
-            <ImageView
-                android:id="@+id/imageCount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="180dp"
-                android:layout_marginBottom="15dp"
-                android:contentDescription="@string/ingredients_count_image"
-                android:src="@drawable/ic_baseline_access_time_24"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintRight_toRightOf="parent" />
-
             <TextView
-                android:id="@+id/twCount"
+                android:id="@+id/twCategory"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="15dp"
+                android:layout_marginEnd="90dp"
                 android:layout_marginBottom="16dp"
+                android:drawablePadding="8dp"
                 android:textColor="@color/black"
                 android:textSize="16sp"
+                app:drawableStartCompat="@drawable/ic_baseline_extension_24"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toRightOf="@id/imageCount"
+                app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/circleImageView"
-                tools:text="Count" />
+                tools:text="Category" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

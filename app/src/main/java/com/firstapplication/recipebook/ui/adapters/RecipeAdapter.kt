@@ -19,7 +19,7 @@ class RecipeAdapter(private val listener: OnRecipeItemClickListener) :
 
         fun bind(recipeModel: RecipeModel, listener: OnRecipeItemClickListener) = with(binding) {
             twTitle.text = recipeModel.title
-            twCount.text = recipeModel.ingredientsCount.toString()
+            twCategory.text = recipeModel.category
             twHours.text = recipeModel.cookingTime.toString()
             twDescription.text = recipeModel.recipeInfo
 

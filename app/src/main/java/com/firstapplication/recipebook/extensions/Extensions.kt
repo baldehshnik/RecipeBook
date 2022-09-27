@@ -18,9 +18,10 @@ fun RecipeEntity.migrateFromRecipeEntityToRecipeModel() = RecipeModel(
     title = title,
     recipeInfo = recipeInfo,
     cookingTime = cookingTime,
-    ingredientsCount = ingredientsCount,
+    timeType = timeType,
     ingredients = ingredients,
-    isSaved = isSaved
+    isSaved = isSaved,
+    category = category
 )
 
 fun RecipeModel.migrateFromRecipeModelToRecipeEntity() = RecipeEntity(
@@ -29,7 +30,8 @@ fun RecipeModel.migrateFromRecipeModelToRecipeEntity() = RecipeEntity(
     title = title,
     recipeInfo = recipeInfo,
     cookingTime = cookingTime,
-    ingredientsCount = ingredientsCount,
+    timeType = timeType,
     ingredients = ingredients,
-    isSaved = isSaved
+    isSaved = isSaved,
+    category = category
 )

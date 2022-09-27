@@ -21,12 +21,15 @@ data class RecipeEntity(
     @ColumnInfo(name = "cooking_time")
     val cookingTime: Double,
 
-    @ColumnInfo(name = "ingredients_count")
-    val ingredientsCount: Int = 0,
+    @ColumnInfo(name = "time_type")
+    val timeType: String,
 
     @ColumnInfo(name = "ingredients")
     val ingredients: Map<String, String>,
 
     @ColumnInfo(name = "is_saved")
-    val isSaved: Boolean = false
+    val isSaved: Boolean = false,
+
+    @ColumnInfo(name = "category")
+    val category: String = "Горячее блюдо"
 )

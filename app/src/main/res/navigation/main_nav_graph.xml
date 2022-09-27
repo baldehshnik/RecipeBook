@@ -15,8 +15,7 @@
         tools:layout="@layout/fragment_hub" />
     <fragment
         android:id="@+id/navAdding"
-        android:name="com.firstapplication.recipebook.ui.fragments.RecipeAddingFragment"
-        tools:layout="@layout/fragment_recipe_adding" />
+        android:name="com.firstapplication.recipebook.ui.fragments.RecipeAddingFragment" />
     <fragment
         android:id="@+id/navSearch"
         android:name="com.firstapplication.recipebook.ui.fragments.RecipeSearchingFragment"

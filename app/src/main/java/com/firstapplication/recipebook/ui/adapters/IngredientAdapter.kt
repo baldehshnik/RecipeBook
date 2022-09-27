@@ -7,14 +7,15 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.firstapplication.recipebook.databinding.IngredientItemBinding
 import android.text.method.ScrollingMovementMethod
+import com.firstapplication.recipebook.ui.interfacies.OnIngredientDeleteItemClickListener
 
-class IngredientAdapter :
+class IngredientAdapter(private val listenerDelete: OnIngredientDeleteItemClickListener) :
     ListAdapter<Pair<String, String>, IngredientAdapter.IngredientViewHolder>(IngredientDiffUtil()) {
 
     class IngredientViewHolder(private val binding: IngredientItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(pair: Pair<String, String>) = with(binding) {
+        fun bind(pair: Pair<String, String>, listenerDelete: OnIngredientDeleteItemClickListener) = with(binding) {
             twIngredientName.apply {
                 twIngredientName.text = pair.first
                 twIngredientName.setHorizontallyScrolling(true)
@@ -26,6 +27,10 @@ class IngredientAdapter :
                 twIngredientCount.setHorizontallyScrolling(true)
                 twIngredientCount.movementMethod = ScrollingMovementMethod()
             }
+
+            btnDeleteIngredient.setOnClickListener { view ->
+                listenerDelete.onIngredientDeleteItemClick(view = view, ingredient = pair)
+            }
         }
 
     }
@@ -36,7 +41,7 @@ class IngredientAdapter :
     }
 
     override fun onBindViewHolder(holder: IngredientViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        holder.bind(getItem(position), listenerDelete)
     }
 
 }
