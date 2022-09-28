@@ -105,6 +105,23 @@
                 app:layout_constraintTop_toBottomOf="@id/circleImageView"
                 tools:text="Category" />
 
+            <RadioGroup
+                android:id="@+id/radioGroupLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent">
+
+                <RadioButton
+                    android:id="@+id/btnRadioDelete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="25dp"
+                    android:visibility="gone"
+                    android:layout_marginBottom="14dp" />
+
+            </RadioGroup>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </FrameLayout>

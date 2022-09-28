@@ -22,18 +22,6 @@ class IngredientsAddingDialogFragment :
 
     private lateinit var binding: DialogFragmentIngredientsAddingBinding
 
-    @Inject
-    lateinit var onlyRecipeRepositoryViewModelFactory: OnlyRecipeRepositoryViewModelFactory.Factory
-
-    private val viewModel: RecipeAddingViewModel by viewModels {
-        onlyRecipeRepositoryViewModelFactory.create(activity?.application as App)
-    }
-
-    override fun onAttach(context: Context) {
-        context.applicationContext.appComponent.inject(this)
-        super.onAttach(context)
-    }
-
     @SuppressLint("ResourceType")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

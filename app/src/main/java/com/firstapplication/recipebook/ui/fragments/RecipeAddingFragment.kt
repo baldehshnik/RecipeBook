@@ -91,6 +91,8 @@ class RecipeAddingFragment : Fragment(R.layout.fragment_recipe_adding),
                     etTimeType.length() == 0 -> etTimeType.requestFocus()
                     else -> {
                         createNewRecipe()
+                        // check it
+                        findNavController().popBackStack()
                     }
                 }
             }

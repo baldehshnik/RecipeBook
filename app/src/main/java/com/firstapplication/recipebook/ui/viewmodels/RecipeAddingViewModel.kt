@@ -1,12 +1,15 @@
 package com.firstapplication.recipebook.ui.viewmodels
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.*
 import com.firstapplication.recipebook.data.interfaces.RecipeRepository
+import com.firstapplication.recipebook.data.models.RecipeEntity
+import com.firstapplication.recipebook.extensions.migrateFromRecipeEntityToRecipeModel
+import com.firstapplication.recipebook.extensions.migrateFromRecipeModelToRecipeEntity
 import com.firstapplication.recipebook.sealed.Error
 import com.firstapplication.recipebook.ui.models.RecipeModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class RecipeAddingViewModel(application: Application, private val repository: RecipeRepository) :
     AndroidViewModel(application) {
@@ -32,23 +35,27 @@ class RecipeAddingViewModel(application: Application, private val repository: Re
         recipeCategory = categoryName
     }
 
-    fun createRecipe(title: String, recipeInfo: String, time: Double, timeType: String) {
-        var newRecipe = RecipeModel(
-            title = title,
-            recipeInfo = recipeInfo,
-            cookingTime = time,
-            timeType = timeType,
-            ingredients = ingredientsMap,
-            category = recipeCategory
+    fun createRecipe(title: String, recipeInfo: String, time: Double, timeType: String) =
+        insertRecipeToDB(
+            RecipeModel(
+                title = title,
+                recipeInfo = recipeInfo,
+                cookingTime = time,
+                timeType = timeType,
+                ingredients = ingredientsMap,
+                category = recipeCategory
+            )
         )
+
+    private fun insertRecipeToDB(recipeModel: RecipeModel) = viewModelScope.launch(Dispatchers.IO) {
+        repository.insertRecipe(recipeModel.migrateFromRecipeModelToRecipeEntity())
     }
 
-    fun checkTime(time: String): Error {
-        try {
-            time.toDouble()
-            return Error.CorrectResult
-        } catch (e: Exception) {
-            return Error.ErrorResult
-        }
+    fun checkTime(time: String): Error = try {
+        time.toDouble()
+        Error.CorrectResult
+    } catch (e: Exception) {
+        Error.ErrorResult
     }
+
 }

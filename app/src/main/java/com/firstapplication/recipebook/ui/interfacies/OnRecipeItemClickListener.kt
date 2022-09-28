@@ -5,4 +5,5 @@ import com.firstapplication.recipebook.ui.models.RecipeModel
 
 interface OnRecipeItemClickListener {
     fun onItemClick(view: View, recipeModel: RecipeModel)
+    fun onItemLongClick(view: View, recipeModel: RecipeModel): Boolean
 }

@@ -3,10 +3,13 @@ package com.firstapplication.recipebook.ui.fragments
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import android.widget.RadioButton
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.firstapplication.recipebook.App
 import com.firstapplication.recipebook.R
 import com.firstapplication.recipebook.databinding.FragmentHomeBinding
@@ -19,6 +22,8 @@ import com.firstapplication.recipebook.ui.viewmodels.factories.OnlyRecipeReposit
 import javax.inject.Inject
 
 class HomeFragment : Fragment(R.layout.fragment_home), OnRecipeItemClickListener {
+
+    private var deleteKey = 0
 
     private lateinit var binding: FragmentHomeBinding
 
@@ -44,13 +49,18 @@ class HomeFragment : Fragment(R.layout.fragment_home), OnRecipeItemClickListener
 
         val adapter = RecipeAdapter(this)
 
-//        adapter.submitList(listOf(
+        binding.rwRecipes.layoutManager = LinearLayoutManager(
+            requireContext(), LinearLayoutManager.VERTICAL, true
+        )
+
+//        val list = mutableListOf(
 //            RecipeModel(
 //                id = 1,
 //                imageId = 1,
 //                title = "My first title",
 //                recipeInfo = "Information about my first recipe",
 //                cookingTime = 1.4,
+//                timeType = "h",
 //                ingredients = mapOf(),
 //                isSaved = false
 //            ),
@@ -61,6 +71,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), OnRecipeItemClickListener
 //                recipeInfo = "Information about my first recipe",
 //                cookingTime = 1.4,
 //                ingredients = mapOf(),
+//                timeType = "h",
 //                isSaved = false
 //            ),
 //            RecipeModel(
@@ -69,12 +80,14 @@ class HomeFragment : Fragment(R.layout.fragment_home), OnRecipeItemClickListener
 //                title = "My first title",
 //                recipeInfo = "Information about my first recipe",
 //                cookingTime = 1.4,
+//                timeType = "h",
 //                ingredients = mapOf(),
 //                isSaved = false
 //            ),
 //            RecipeModel(
 //                id = 4,
 //                imageId = 1,
+//                timeType = "h",
 //                title = "My first title",
 //                recipeInfo = "Information about my first recipe",
 //                cookingTime = 1.4,
@@ -84,6 +97,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), OnRecipeItemClickListener
 //            RecipeModel(
 //                id = 5,
 //                imageId = 1,
+//                timeType = "h",
 //                title = "My first title",
 //                recipeInfo = "Information about my first recipe",
 //                cookingTime = 1.4,
@@ -96,16 +110,32 @@ class HomeFragment : Fragment(R.layout.fragment_home), OnRecipeItemClickListener
 //                title = "My first title",
 //                recipeInfo = "Information about my first recipe",
 //                cookingTime = 1.4,
+//                timeType = "h",
 //                ingredients = mapOf(),
 //                isSaved = false
 //            )
-//        ))
+//        )
+
+        viewModel.recipesList.observe(viewLifecycleOwner) {
+            adapter.submitList(it)
+        }
 
         binding.rwRecipes.adapter = adapter
+
     }
 
-    override fun onItemClick(view: View, recipeModel: RecipeModel) = when(view.id) {
-        R.id.btnMarker -> Toast.makeText(requireContext(), "changed", Toast.LENGTH_SHORT).show()
+    override fun onItemClick(view: View, recipeModel: RecipeModel) = when {
+        view.id == R.id.btnMarker -> Toast.makeText(requireContext(), "changed", Toast.LENGTH_SHORT)
+            .show()
         else -> findNavController().navigate(R.id.navRecipeInfo)
+    }
+
+    override fun onItemLongClick(view: View, recipeModel: RecipeModel): Boolean {
+        val btnRadioButton = view.findViewById<RadioButton>(R.id.btnRadioDelete)
+
+        btnRadioButton.visibility = View.VISIBLE
+        btnRadioButton.isChecked = true
+
+        return true
     }
 }

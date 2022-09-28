@@ -11,7 +11,9 @@ import com.firstapplication.recipebook.ui.adapters.RecipeAdapter.RecipeViewHolde
 import com.firstapplication.recipebook.ui.interfacies.OnRecipeItemClickListener
 import com.firstapplication.recipebook.ui.models.RecipeModel
 
-class RecipeAdapter(private val listener: OnRecipeItemClickListener) :
+class RecipeAdapter(
+    private val listener: OnRecipeItemClickListener
+) :
     ListAdapter<RecipeModel, RecipeViewHolder>(RecipeDiffUtil()) {
 
     class RecipeViewHolder(private val binding: RecipeItemBinding) :
@@ -26,10 +28,6 @@ class RecipeAdapter(private val listener: OnRecipeItemClickListener) :
             if (recipeModel.isSaved) btnMarker.setImageResource(R.drawable.ic_baseline_bookmark_24)
             else btnMarker.setImageResource(R.drawable.ic_baseline_bookmark_border_36)
 
-            itemView.setOnClickListener { view ->
-                listener.onItemClick(view = view, recipeModel = recipeModel)
-            }
-
             btnMarker.setOnClickListener { view ->
                 listener.onItemClick(view = view, recipeModel = recipeModel)
             }
@@ -42,8 +40,18 @@ class RecipeAdapter(private val listener: OnRecipeItemClickListener) :
         return RecipeViewHolder(RecipeItemBinding.inflate(layoutInflater))
     }
 
-    override fun onBindViewHolder(holder: RecipeViewHolder, position: Int) {
-        holder.bind(getItem(position), listener)
+    override fun onBindViewHolder(holder: RecipeViewHolder, position: Int) = with(holder) {
+        val item = getItem(position)
+
+        bind(item, listener)
+
+        itemView.setOnClickListener { view ->
+            listener.onItemClick(view = view, recipeModel = item)
+        }
+
+        itemView.setOnLongClickListener { view ->
+            listener.onItemLongClick(view = view, recipeModel = item)
+        }
     }
 
 }
