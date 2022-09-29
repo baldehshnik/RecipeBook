@@ -16,9 +16,36 @@ import kotlinx.coroutines.*
 class HomeViewModel(application: Application, private val repository: RecipeRepository) :
     AndroidViewModel(application) {
 
-    fun deleteRecipeFromDB(recipeModel: RecipeModel) = viewModelScope.launch(Dispatchers.IO) {
-        repository.deleteRecipe(recipeModel.migrateFromRecipeModelToRecipeEntity())
+    private val selectedRecipes = mutableListOf<RecipeModel>()
+
+    fun addNewSelectedRecipes(recipeModel: RecipeModel) {
+        selectedRecipes.add(recipeModel)
+        _selectedRecipesCount.value = selectedRecipes.size
     }
+
+    fun deleteSelectedRecipe(recipeModel: RecipeModel) {
+        selectedRecipes.remove(recipeModel)
+        _selectedRecipesCount.value = selectedRecipes.size
+    }
+
+    fun clearSelectedRecipe() {
+        selectedRecipes.clear()
+        _selectedRecipesCount.value = selectedRecipes.size
+    }
+
+    fun deleteSelectedRecipesFromDB() {
+        viewModelScope.launch(Dispatchers.IO) {
+            selectedRecipes.forEach { item ->
+                repository.deleteRecipe(item.migrateFromRecipeModelToRecipeEntity())
+            }
+
+            selectedRecipes.clear()
+        }
+    }
+
+    private val _selectedRecipesCount = MutableLiveData(selectedRecipes.size)
+    val selectedRecipesCount: LiveData<Int> get() = _selectedRecipesCount
+
 
     private val _recipesList = MutableLiveData<List<RecipeModel>>()
     val recipesList: LiveData<List<RecipeModel>>
@@ -51,6 +78,14 @@ class HomeViewModel(application: Application, private val repository: RecipeRepo
         coroutineResult.await()
 
         return list
+    }
+
+    fun updateRecipeInDB(recipeModel: RecipeModel) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.updateRecipe(
+                recipeEntity = recipeModel.migrateFromRecipeModelToRecipeEntity()
+            )
+        }
     }
 
     init {

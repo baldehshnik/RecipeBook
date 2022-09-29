@@ -9,14 +9,17 @@ import javax.inject.Singleton
 
 @Singleton
 class RecipeRepositoryImpl @Inject constructor(private val database: RecipeDao) : RecipeRepository {
+    override suspend fun updateRecipe(recipeEntity: RecipeEntity) {
+        database.update(recipeEntity = recipeEntity)
+    }
 
     override suspend fun insertRecipe(recipeEntity: RecipeEntity) {
         database.insert(recipeEntity = recipeEntity)
     }
 
     override suspend fun deleteRecipe(recipeEntity: RecipeEntity) {
-        database.delete(recipeEntity)
+        database.delete(recipeEntity = recipeEntity)
     }
 
-    override val allRecipes: LiveData<List<RecipeEntity>> = database.readAllRecipes()
+    override val allRecipes: LiveData<List<RecipeEntity>> = database.readAllRecipesReversed()
 }

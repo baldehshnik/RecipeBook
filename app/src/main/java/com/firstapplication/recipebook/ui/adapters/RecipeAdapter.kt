@@ -1,13 +1,16 @@
 package com.firstapplication.recipebook.ui.adapters
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.firstapplication.recipebook.R
 import com.firstapplication.recipebook.databinding.RecipeItemBinding
+import com.firstapplication.recipebook.sealed.RecipeListItemClick
 import com.firstapplication.recipebook.ui.adapters.RecipeAdapter.RecipeViewHolder
+import com.firstapplication.recipebook.ui.fragments.DeleteMode
 import com.firstapplication.recipebook.ui.interfacies.OnRecipeItemClickListener
 import com.firstapplication.recipebook.ui.models.RecipeModel
 
@@ -25,12 +28,15 @@ class RecipeAdapter(
             twHours.text = recipeModel.cookingTime.toString()
             twDescription.text = recipeModel.recipeInfo
 
-            if (recipeModel.isSaved) btnMarker.setImageResource(R.drawable.ic_baseline_bookmark_24)
+            if (recipeModel.isSaved) btnMarker.setImageResource(R.drawable.ic_baseline_bookmark_36)
             else btnMarker.setImageResource(R.drawable.ic_baseline_bookmark_border_36)
 
-            btnMarker.setOnClickListener { view ->
-                listener.onItemClick(view = view, recipeModel = recipeModel)
+            btnMarker.setOnClickListener {
+                listener.onItemClick(view = itemView, recipeModel = recipeModel, RecipeListItemClick.OnMarkerClick)
             }
+
+            if (!DeleteMode.isDeleteMode)
+                btnRadioDelete.visibility = View.GONE
 
         }
     }
@@ -46,7 +52,7 @@ class RecipeAdapter(
         bind(item, listener)
 
         itemView.setOnClickListener { view ->
-            listener.onItemClick(view = view, recipeModel = item)
+            listener.onItemClick(view = view, recipeModel = item, RecipeListItemClick.OnFullItemClick)
         }
 
         itemView.setOnLongClickListener { view ->

@@ -2,12 +2,12 @@ package com.firstapplication.recipebook.ui.models
 
 data class RecipeModel(
     val id: Long = 0L,
-    val imageId: Int = -1,
-    val title: String,
-    val recipeInfo: String,
-    val cookingTime: Double,
-    val timeType: String,
-    val ingredients: Map<String, String>,
-    val isSaved: Boolean = false,
-    val category: String = "Горячее блюдо"
+    var imageId: Int = -1,
+    var title: String,
+    var recipeInfo: String,
+    var cookingTime: Double,
+    var timeType: String,
+    var ingredients: Map<String, String>,
+    var isSaved: Boolean = false,
+    var category: String = "Горячее блюдо"
 )

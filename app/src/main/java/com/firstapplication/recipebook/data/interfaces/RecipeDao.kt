@@ -1,14 +1,14 @@
 package com.firstapplication.recipebook.data.interfaces
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 import com.firstapplication.recipebook.data.models.RecipeEntity
 
 @Dao
 interface RecipeDao {
+
+    @Update
+    suspend fun update(recipeEntity: RecipeEntity)
 
     @Insert
     suspend fun insert(recipeEntity: RecipeEntity)
@@ -16,7 +16,7 @@ interface RecipeDao {
     @Delete
     suspend fun delete(recipeEntity: RecipeEntity)
 
-    @Query("SELECT * FROM recipes")
-    fun readAllRecipes(): LiveData<List<RecipeEntity>>
+    @Query("SELECT * FROM recipes ORDER BY id DESC")
+    fun readAllRecipesReversed(): LiveData<List<RecipeEntity>>
 
 }

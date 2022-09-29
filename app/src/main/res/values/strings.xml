@@ -26,6 +26,10 @@
     <string name="count">Count</string>
     <string name="new_ingredient">New Ingredient</string>
     <string name="fill_ingredient_name">Fill ingredient name</string>
+    <string name="delete_selected_recipe">delete selected recipe</string>
+    <string name="close_delete_window">close deleted window</string>
+    <string name="delete">Delete</string>
+    <string name="count_item_selected"> item selected</string>
 
     <string-array name="dish_categories">
         <item name="all">Все</item>

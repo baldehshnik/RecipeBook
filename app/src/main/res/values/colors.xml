@@ -14,4 +14,5 @@
     <color name="grey_text">#656565</color>
     <color name="light_grey">#DFDFDF</color>
     <color name="dark_grey">#303030</color>
+    <color name="delete">#C60000</color>
 </resources>
