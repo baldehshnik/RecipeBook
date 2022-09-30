@@ -30,6 +30,7 @@
     <string name="close_delete_window">close deleted window</string>
     <string name="delete">Delete</string>
     <string name="count_item_selected"> item selected</string>
+    <string name="search">Search</string>
 
     <string-array name="dish_categories">
         <item name="all">Все</item>

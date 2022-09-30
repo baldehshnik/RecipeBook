@@ -7,5 +7,7 @@ interface RecipeRepository {
     suspend fun updateRecipe(recipeEntity: RecipeEntity)
     suspend fun insertRecipe(recipeEntity: RecipeEntity)
     suspend fun deleteRecipe(recipeEntity: RecipeEntity)
+
     val allRecipes : LiveData<List<RecipeEntity>>
+    val allSavedRecipe : LiveData<List<RecipeEntity>>
 }

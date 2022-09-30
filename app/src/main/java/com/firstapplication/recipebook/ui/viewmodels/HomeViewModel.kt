@@ -8,6 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.viewModelScope
 import com.firstapplication.recipebook.data.interfaces.RecipeRepository
 import com.firstapplication.recipebook.data.models.RecipeEntity
+import com.firstapplication.recipebook.extensions.getMigratedToRecipeModelList
 import com.firstapplication.recipebook.extensions.migrateFromRecipeEntityToRecipeModel
 import com.firstapplication.recipebook.extensions.migrateFromRecipeModelToRecipeEntity
 import com.firstapplication.recipebook.ui.models.RecipeModel
@@ -63,22 +64,10 @@ class HomeViewModel(application: Application, private val repository: RecipeRepo
 
     private fun setReadRecipes(entitiesList: List<RecipeEntity>) =
         viewModelScope.launch {
-            recipeModels.value = getMigratedToRecipeModelList(entitiesList = entitiesList)
+            recipeModels.value = this@HomeViewModel.getMigratedToRecipeModelList(
+                entitiesList = entitiesList
+            )
         }
-
-    private suspend fun getMigratedToRecipeModelList(entitiesList: List<RecipeEntity>): List<RecipeModel> {
-        val list = mutableListOf<RecipeModel>()
-
-        val coroutineResult = viewModelScope.async {
-            entitiesList.forEach { item ->
-                list.add(item.migrateFromRecipeEntityToRecipeModel())
-            }
-        }
-
-        coroutineResult.await()
-
-        return list
-    }
 
     fun updateRecipeInDB(recipeModel: RecipeModel) {
         viewModelScope.launch(Dispatchers.IO) {

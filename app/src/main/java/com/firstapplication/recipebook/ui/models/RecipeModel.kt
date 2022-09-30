@@ -5,8 +5,10 @@ data class RecipeModel(
     var imageId: Int = -1,
     var title: String,
     var recipeInfo: String,
+
     var cookingTime: Double,
     var timeType: String,
+
     var ingredients: Map<String, String>,
     var isSaved: Boolean = false,
     var category: String = "Горячее блюдо"

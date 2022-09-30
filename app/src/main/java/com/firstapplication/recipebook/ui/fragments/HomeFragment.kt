@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.view.View
 import android.widget.RadioButton
 import androidx.appcompat.widget.Toolbar
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.marginEnd
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -15,7 +17,9 @@ import com.firstapplication.recipebook.R
 import com.firstapplication.recipebook.databinding.FragmentHomeBinding
 import com.firstapplication.recipebook.extensions.appComponent
 import com.firstapplication.recipebook.sealed.RecipeListItemClick
+import com.firstapplication.recipebook.ui.adapters.DishCategoryAdapter
 import com.firstapplication.recipebook.ui.adapters.RecipeAdapter
+import com.firstapplication.recipebook.ui.interfacies.OnCategoryItemClickListener
 import com.firstapplication.recipebook.ui.interfacies.OnRecipeItemClickListener
 import com.firstapplication.recipebook.ui.models.RecipeModel
 import com.firstapplication.recipebook.ui.viewmodels.HomeViewModel
@@ -23,7 +27,10 @@ import com.firstapplication.recipebook.ui.viewmodels.factories.OnlyRecipeReposit
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import javax.inject.Inject
 
-class HomeFragment : Fragment(R.layout.fragment_home), OnRecipeItemClickListener {
+class HomeFragment : Fragment(R.layout.fragment_home), OnRecipeItemClickListener,
+    OnCategoryItemClickListener {
+
+    private var actionBarSize = 0
 
     private lateinit var binding: FragmentHomeBinding
 
@@ -34,7 +41,8 @@ class HomeFragment : Fragment(R.layout.fragment_home), OnRecipeItemClickListener
         onlyRecipeRepositoryViewModelFactory.create(activity?.application as App)
     }
 
-    private lateinit var adapter: RecipeAdapter
+    private lateinit var recipeAdapter: RecipeAdapter
+    private lateinit var categoryAdapter: DishCategoryAdapter
 
     override fun onAttach(context: Context) {
         context.applicationContext.appComponent.inject(this)
@@ -46,9 +54,12 @@ class HomeFragment : Fragment(R.layout.fragment_home), OnRecipeItemClickListener
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentHomeBinding.bind(view)
 
-        adapter = RecipeAdapter(this@HomeFragment)
+        recipeAdapter = RecipeAdapter(this@HomeFragment)
+        categoryAdapter = DishCategoryAdapter(getCategoryList(), this)
 
         with(binding) {
+            actionBarSize = rwRecipes.marginEnd
+
             btnSearch.setOnClickListener {
                 findNavController().navigate(R.id.navSearch)
             }
@@ -57,7 +68,12 @@ class HomeFragment : Fragment(R.layout.fragment_home), OnRecipeItemClickListener
                 requireContext(), LinearLayoutManager.VERTICAL, false
             )
 
-            rwRecipes.adapter = adapter
+            rwCategories.layoutManager = LinearLayoutManager(
+                requireContext(), LinearLayoutManager.HORIZONTAL, false
+            )
+
+            rwRecipes.adapter = recipeAdapter
+            rwCategories.adapter = categoryAdapter
 
             btnCloseDeletedWindow.setOnClickListener {
                 disableDeleteWindow()
@@ -74,7 +90,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), OnRecipeItemClickListener
         }
 
         viewModel.recipesList.observe(viewLifecycleOwner) { recipeModels ->
-            adapter.submitList(recipeModels)
+            recipeAdapter.submitList(recipeModels)
         }
 
         viewModel.selectedRecipesCount.observe(viewLifecycleOwner) { count ->
@@ -93,6 +109,8 @@ class HomeFragment : Fragment(R.layout.fragment_home), OnRecipeItemClickListener
         }
     }
 
+    private fun getCategoryList() = resources.getStringArray(R.array.dish_categories).toList()
+
     private fun getBottomNavView(): BottomNavigationView? =
         activity?.findViewById(R.id.bottomNavView)
 
@@ -109,10 +127,11 @@ class HomeFragment : Fragment(R.layout.fragment_home), OnRecipeItemClickListener
         DeleteMode.isDeleteMode = false
         takeAwayDeletedWindow()
         notifyAdapterDataSetChanged()
+        setNewMarginEndToRecyclerView(marginEnd = actionBarSize)
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    private fun notifyAdapterDataSetChanged() = adapter.notifyDataSetChanged()
+    private fun notifyAdapterDataSetChanged() = recipeAdapter.notifyDataSetChanged()
 
     private fun clearToolBarText() {
         activity?.findViewById<Toolbar>(R.id.toolbar)?.title = ""
@@ -173,8 +192,26 @@ class HomeFragment : Fragment(R.layout.fragment_home), OnRecipeItemClickListener
             DeleteMode.isDeleteMode = true
 
             viewModel.addNewSelectedRecipes(recipeModel = recipeModel)
+
+            setNewMarginEndToRecyclerView()
         }
 
-        return true
+        return super.onItemLongClick(view, recipeModel)
     }
+
+    private fun setNewMarginEndToRecyclerView(marginEnd: Int = 0) {
+        val params = ConstraintLayout.LayoutParams(
+            ConstraintLayout.LayoutParams.MATCH_PARENT,
+            ConstraintLayout.LayoutParams.MATCH_PARENT
+        )
+
+        params.marginEnd = marginEnd
+
+        binding.rwRecipes.layoutParams = params
+    }
+
+    override fun onCategoryItemClick(categoryName: String) {
+
+    }
+
 }

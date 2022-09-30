@@ -1,6 +1,7 @@
 package com.firstapplication.recipebook.di
 
 import android.content.Context
+import android.view.inputmethod.InputMethodManager
 import androidx.room.Room
 import com.firstapplication.recipebook.data.interfaces.RecipeDao
 import com.firstapplication.recipebook.data.local.RecipeBookDatabase
@@ -25,6 +26,13 @@ object AppModule {
     @Provides
     fun provideRecipeDao(recipeBookDatabase: RecipeBookDatabase): RecipeDao {
         return recipeBookDatabase.recipeDatabase
+    }
+
+    @Singleton
+    @Provides
+    fun provideInputMethodManager(context: Context): InputMethodManager {
+        return context
+            .getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
     }
 
 }

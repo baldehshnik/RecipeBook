@@ -6,63 +6,73 @@
     android:layout_height="match_parent"
     tools:context="ui.fragments.HomeFragment">
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rwCategories"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="?attr/actionBarSize"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ImageButton
         android:id="@+id/btnSearch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_baseline_search_36"
         android:backgroundTint="@color/white"
-        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/search_image"
+        android:src="@drawable/ic_baseline_search_36"
         app:layout_constraintEnd_toEndOf="parent"
-        android:contentDescription="@string/search_image" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/twDelete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="22sp"
-        android:visibility="gone"
         android:layout_marginTop="12dp"
-        android:textStyle="bold"
-        android:textColor="@color/dark_grey"
         android:text="@string/count_item_selected"
-        app:layout_constraintTop_toTopOf="parent"
+        android:textColor="@color/dark_grey"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:visibility="gone"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"/>
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/btnDeleteSelectedRecipe"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/delete"
-        android:textSize="16sp"
-        android:textColor="@color/dark_grey"
-        android:layout_marginEnd="15dp"
         android:layout_marginTop="5dp"
-        android:visibility="gone"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="15dp"
         android:contentDescription="@string/delete_selected_recipe"
-        app:drawableTopCompat="@drawable/ic_baseline_delete_outline_24" />
+        android:text="@string/delete"
+        android:textColor="@color/dark_grey"
+        android:textSize="16sp"
+        android:visibility="gone"
+        app:drawableTopCompat="@drawable/ic_baseline_delete_outline_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
         android:id="@+id/btnCloseDeletedWindow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_baseline_close_24"
-        android:backgroundTint="@color/white"
         android:layout_marginStart="8dp"
+        android:backgroundTint="@color/white"
+        android:contentDescription="@string/close_delete_window"
+        android:src="@drawable/ic_baseline_close_24"
         android:visibility="gone"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:contentDescription="@string/close_delete_window" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rwRecipes"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginVertical="?attr/actionBarSize"
+        android:layout_marginTop="100dp"
+        android:layout_marginBottom="?attr/actionBarSize"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/rwCategories" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

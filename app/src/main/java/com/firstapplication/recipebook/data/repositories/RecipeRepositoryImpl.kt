@@ -22,4 +22,6 @@ class RecipeRepositoryImpl @Inject constructor(private val database: RecipeDao) 
     }
 
     override val allRecipes: LiveData<List<RecipeEntity>> = database.readAllRecipesReversed()
+
+    override val allSavedRecipe: LiveData<List<RecipeEntity>> = database.readAllSavedRecipesReversed()
 }

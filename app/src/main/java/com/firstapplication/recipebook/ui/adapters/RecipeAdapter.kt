@@ -28,16 +28,22 @@ class RecipeAdapter(
             twHours.text = recipeModel.cookingTime.toString()
             twDescription.text = recipeModel.recipeInfo
 
-            if (recipeModel.isSaved) btnMarker.setImageResource(R.drawable.ic_baseline_bookmark_36)
-            else btnMarker.setImageResource(R.drawable.ic_baseline_bookmark_border_36)
-
             btnMarker.setOnClickListener {
-                listener.onItemClick(view = itemView, recipeModel = recipeModel, RecipeListItemClick.OnMarkerClick)
+                listener.onItemClick(
+                    view = itemView,
+                    recipeModel = recipeModel,
+                    RecipeListItemClick.OnMarkerClick
+                )
             }
 
             if (!DeleteMode.isDeleteMode)
                 btnRadioDelete.visibility = View.GONE
 
+        }
+
+        fun setImageResource(key: Boolean) = with(binding) {
+            if (key) btnMarker.setImageResource(R.drawable.ic_baseline_bookmark_36)
+            else btnMarker.setImageResource(R.drawable.ic_baseline_bookmark_border_36)
         }
     }
 
@@ -52,12 +58,18 @@ class RecipeAdapter(
         bind(item, listener)
 
         itemView.setOnClickListener { view ->
-            listener.onItemClick(view = view, recipeModel = item, RecipeListItemClick.OnFullItemClick)
+            listener.onItemClick(
+                view = view,
+                recipeModel = item,
+                RecipeListItemClick.OnFullItemClick
+            )
         }
 
         itemView.setOnLongClickListener { view ->
             listener.onItemLongClick(view = view, recipeModel = item)
         }
+
+        setImageResource(item.isSaved)
     }
 
 }

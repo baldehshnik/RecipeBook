@@ -20,8 +20,11 @@ import com.firstapplication.recipebook.sealed.Error
 import com.firstapplication.recipebook.ui.adapters.DishCategoryAdapter
 import com.firstapplication.recipebook.ui.adapters.IngredientAdapter
 import com.firstapplication.recipebook.enums.IngredientsKeys
+import com.firstapplication.recipebook.extensions.closeKeyboard
 import com.firstapplication.recipebook.ui.interfacies.OnCategoryItemClickListener
+import com.firstapplication.recipebook.ui.interfacies.OnEditTextFocusChangeListener
 import com.firstapplication.recipebook.ui.interfacies.OnIngredientDeleteItemClickListener
+import com.firstapplication.recipebook.ui.listeners.OnEditTextFocusChangeListenerImpl
 import com.firstapplication.recipebook.ui.viewmodels.RecipeAddingViewModel
 import com.firstapplication.recipebook.ui.viewmodels.factories.OnlyRecipeRepositoryViewModelFactory
 import javax.inject.Inject
@@ -38,7 +41,11 @@ class RecipeAddingFragment : Fragment(R.layout.fragment_recipe_adding),
         onlyRecipeRepositoryViewModelFactory.create(activity?.application as App)
     }
 
-    private lateinit var inputMethodManager: InputMethodManager
+    @Inject
+    lateinit var inputMethodManager: InputMethodManager
+
+    @Inject
+    lateinit var onEditTextFocusChangeListener: OnEditTextFocusChangeListenerImpl
 
     override fun onAttach(context: Context) {
         context.applicationContext.appComponent.inject(this)
@@ -58,9 +65,6 @@ class RecipeAddingFragment : Fragment(R.layout.fragment_recipe_adding),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentRecipeAddingBinding.bind(view)
-
-        inputMethodManager = requireContext()
-            .getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 
         val categoriesList = getCategoriesList().toList()
 
@@ -91,7 +95,6 @@ class RecipeAddingFragment : Fragment(R.layout.fragment_recipe_adding),
                     etTimeType.length() == 0 -> etTimeType.requestFocus()
                     else -> {
                         createNewRecipe()
-                        // check it
                         findNavController().popBackStack()
                     }
                 }
@@ -106,35 +109,25 @@ class RecipeAddingFragment : Fragment(R.layout.fragment_recipe_adding),
 
     override fun onPause() {
         super.onPause()
-        inputMethodManager.hideSoftInputFromWindow(
-            activity?.window?.decorView?.windowToken, 0
-        )
+        inputMethodManager.closeKeyboard(activity = activity)
     }
 
     private fun setOnFocusChangeListener() = with(binding) {
         etTitle.setOnFocusChangeListener { _, hasFocus ->
-            onFocusChangeListener(hasFocus = hasFocus, etTitle)
+            onEditTextFocusChangeListener.setOnFocusChangeListener(
+                hasFocus = hasFocus, editText = etTitle
+            )
         }
 
         etTime.setOnFocusChangeListener { _, hasFocus ->
-            onFocusChangeListener(hasFocus = hasFocus, etTitle)
+            onEditTextFocusChangeListener.setOnFocusChangeListener(
+                hasFocus = hasFocus, editText = etTime
+            )
         }
 
         etTimeType.setOnFocusChangeListener { _, hasFocus ->
-            onFocusChangeListener(hasFocus = hasFocus, etTitle)
-        }
-    }
-
-    private fun onFocusChangeListener(hasFocus: Boolean, editText: EditText) {
-        if (hasFocus) {
-            inputMethodManager.showSoftInput(
-                editText,
-                InputMethodManager.SHOW_FORCED
-            )
-        } else {
-            inputMethodManager.hideSoftInputFromWindow(
-                editText.windowToken,
-                0
+            onEditTextFocusChangeListener.setOnFocusChangeListener(
+                hasFocus = hasFocus, editText = etTimeType
             )
         }
     }
@@ -162,20 +155,16 @@ class RecipeAddingFragment : Fragment(R.layout.fragment_recipe_adding),
         val time = binding.etTime.text.toString()
 
         when (viewModel.checkTime(time)) {
-            is Error.CorrectResult -> {
-                viewModel.createRecipe(
-                    title = title,
-                    recipeInfo = recipeInfo,
-                    timeType = timeType,
-                    time = time.toDouble()
-                )
-                Toast.makeText(requireContext(), "Made", Toast.LENGTH_SHORT).show()
-            }
-            is Error.ErrorResult -> {
-                Toast.makeText(requireContext(), "Time isn't correctly", Toast.LENGTH_LONG).show()
-            }
+            is Error.CorrectResult -> viewModel.createRecipe(
+                title = title,
+                recipeInfo = recipeInfo,
+                timeType = timeType,
+                time = time.toDouble()
+            )
+            is Error.ErrorResult -> Toast.makeText(
+                requireContext(), "Time isn't correctly", Toast.LENGTH_LONG
+            ).show()
         }
-
     }
 
 }
