@@ -3,11 +3,12 @@ package com.firstapplication.recipebook.ui.fragments
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.View
 import android.widget.RadioButton
 import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.view.marginEnd
+import androidx.core.view.marginBottom
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -31,6 +32,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), OnRecipeItemClickListener
     OnCategoryItemClickListener {
 
     private var actionBarSize = 0
+    private var selectedCategory = "Все"
 
     private lateinit var binding: FragmentHomeBinding
 
@@ -58,7 +60,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), OnRecipeItemClickListener
         categoryAdapter = DishCategoryAdapter(getCategoryList(), this)
 
         with(binding) {
-            actionBarSize = rwRecipes.marginEnd
+            actionBarSize = rwRecipes.marginBottom
 
             btnSearch.setOnClickListener {
                 findNavController().navigate(R.id.navSearch)
@@ -79,6 +81,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), OnRecipeItemClickListener
                 disableDeleteWindow()
                 setToolBarText()
                 viewModel.clearSelectedRecipe()
+                rwCategories.visibility = View.VISIBLE
             }
 
             btnDeleteSelectedRecipe.setOnClickListener {
@@ -127,7 +130,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), OnRecipeItemClickListener
         DeleteMode.isDeleteMode = false
         takeAwayDeletedWindow()
         notifyAdapterDataSetChanged()
-        setNewMarginEndToRecyclerView(marginEnd = actionBarSize)
+        setNewMarginsToRecyclerView(marginBottom = actionBarSize, marginTop = 100f)
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -183,6 +186,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), OnRecipeItemClickListener
                 btnDeleteSelectedRecipe.visibility = View.VISIBLE
                 btnCloseDeletedWindow.visibility = View.VISIBLE
                 twDelete.visibility = View.VISIBLE
+                rwCategories.visibility = View.GONE
             }
 
             getBottomNavView()?.visibility = View.GONE
@@ -193,25 +197,36 @@ class HomeFragment : Fragment(R.layout.fragment_home), OnRecipeItemClickListener
 
             viewModel.addNewSelectedRecipes(recipeModel = recipeModel)
 
-            setNewMarginEndToRecyclerView()
+            setNewMarginsToRecyclerView()
         }
 
         return super.onItemLongClick(view, recipeModel)
     }
 
-    private fun setNewMarginEndToRecyclerView(marginEnd: Int = 0) {
+    private fun setNewMarginsToRecyclerView(marginBottom: Int = 0, marginTop: Float = 50f) {
         val params = ConstraintLayout.LayoutParams(
             ConstraintLayout.LayoutParams.MATCH_PARENT,
             ConstraintLayout.LayoutParams.MATCH_PARENT
         )
 
-        params.marginEnd = marginEnd
+        params.bottomMargin = marginBottom
+
+        params.topMargin = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP, marginTop, resources.displayMetrics
+        ).toInt()
 
         binding.rwRecipes.layoutParams = params
     }
 
     override fun onCategoryItemClick(categoryName: String) {
+        if (selectedCategory != categoryName) {
+            binding.rwRecipes.removeAllViewsInLayout()
 
+            selectedCategory = categoryName
+
+            if (categoryName == getCategoryList()[0]) viewModel.changeRecipeList(category = "")
+            else viewModel.changeRecipeList(category = categoryName)
+        }
     }
 
 }

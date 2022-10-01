@@ -21,7 +21,13 @@ class RecipeRepositoryImpl @Inject constructor(private val database: RecipeDao) 
         database.delete(recipeEntity = recipeEntity)
     }
 
-    override val allRecipes: LiveData<List<RecipeEntity>> = database.readAllRecipesReversed()
+    override fun allRecipesInCategory(category: String): LiveData<List<RecipeEntity>> {
+        if (category == "") return database.readAllRecipesReversed()
+        else return database.readAllRecipesInCategoryReversed(category = category)
+    }
 
-    override val allSavedRecipe: LiveData<List<RecipeEntity>> = database.readAllSavedRecipesReversed()
+    override fun allSavedRecipe(category: String): LiveData<List<RecipeEntity>> {
+        return if (category == "") database.readAllSavedRecipesReversed()
+        else database.readAllSavedRecipesInCategoryReversed(category = category)
+    }
 }

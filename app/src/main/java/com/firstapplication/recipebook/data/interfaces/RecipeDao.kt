@@ -19,7 +19,13 @@ interface RecipeDao {
     @Query("SELECT * FROM recipes ORDER BY id DESC")
     fun readAllRecipesReversed(): LiveData<List<RecipeEntity>>
 
+    @Query("SELECT * FROM recipes WHERE category = :category ORDER BY id DESC")
+    fun readAllRecipesInCategoryReversed(category: String): LiveData<List<RecipeEntity>>
+
     @Query("SELECT * FROM recipes WHERE is_saved = 1")
     fun readAllSavedRecipesReversed(): LiveData<List<RecipeEntity>>
+
+    @Query("SELECT * FROM recipes WHERE is_saved = 1 AND category = :category")
+    fun readAllSavedRecipesInCategoryReversed(category: String): LiveData<List<RecipeEntity>>
 
 }

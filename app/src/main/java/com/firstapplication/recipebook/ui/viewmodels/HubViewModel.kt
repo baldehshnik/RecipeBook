@@ -39,7 +39,7 @@ class HubViewModel(application: Application, private val repository: RecipeRepos
         }
 
     init {
-        repository.allSavedRecipe.observeForever(savedRecipeListObserver)
+        repository.allSavedRecipe("").observeForever(savedRecipeListObserver)
         recipeSavedModels.observeForever(savedRecipeModelsListObserver)
     }
 
@@ -52,7 +52,7 @@ class HubViewModel(application: Application, private val repository: RecipeRepos
     }
 
     override fun onCleared() {
-        repository.allSavedRecipe.removeObserver(savedRecipeListObserver)
+        repository.allSavedRecipe("").removeObserver(savedRecipeListObserver)
         recipeSavedModels.removeObserver(savedRecipeModelsListObserver)
         super.onCleared()
     }
