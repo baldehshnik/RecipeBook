@@ -89,6 +89,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), OnRecipeItemClickListener
                 DeleteMode.isDeleteMode = false
                 disableDeleteWindow()
                 setToolBarText()
+                rwCategories.visibility = View.VISIBLE
             }
         }
 
@@ -220,7 +221,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), OnRecipeItemClickListener
 
     override fun onCategoryItemClick(categoryName: String) {
         if (selectedCategory != categoryName) {
-            binding.rwRecipes.removeAllViewsInLayout()
+            binding.rwRecipes.recycledViewPool.clear()
 
             selectedCategory = categoryName
 

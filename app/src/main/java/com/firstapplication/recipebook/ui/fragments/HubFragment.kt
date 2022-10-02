@@ -71,10 +71,9 @@ class HubFragment : Fragment(R.layout.fragment_hub), OnRecipeItemClickListener {
             rwRecipes.adapter = adapter
 
             etSearchItem.setOnTouchListener { _, motionEvent ->
+                if (motionEvent.action != MotionEvent.ACTION_UP) return@setOnTouchListener false
 
                 val drawable = etSearchItem.compoundDrawables[2]
-
-                if (motionEvent.action != MotionEvent.ACTION_UP) return@setOnTouchListener false
 
                 if (motionEvent.x > etSearchItem.width
                     - etSearchItem.paddingRight

@@ -38,11 +38,6 @@ class HubViewModel(application: Application, private val repository: RecipeRepos
             )
         }
 
-    init {
-        repository.allSavedRecipe("").observeForever(savedRecipeListObserver)
-        recipeSavedModels.observeForever(savedRecipeModelsListObserver)
-    }
-
     fun updateRecipeInDB(recipeModel: RecipeModel) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.updateRecipe(
@@ -51,8 +46,13 @@ class HubViewModel(application: Application, private val repository: RecipeRepos
         }
     }
 
+    init {
+        repository.allSavedRecipes("").observeForever(savedRecipeListObserver)
+        recipeSavedModels.observeForever(savedRecipeModelsListObserver)
+    }
+
     override fun onCleared() {
-        repository.allSavedRecipe("").removeObserver(savedRecipeListObserver)
+        repository.allSavedRecipes("").removeObserver(savedRecipeListObserver)
         recipeSavedModels.removeObserver(savedRecipeModelsListObserver)
         super.onCleared()
     }

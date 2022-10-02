@@ -7,6 +7,7 @@ import com.firstapplication.recipebook.data.interfaces.RecipeRepository
 import com.firstapplication.recipebook.ui.viewmodels.HomeViewModel
 import com.firstapplication.recipebook.ui.viewmodels.HubViewModel
 import com.firstapplication.recipebook.ui.viewmodels.RecipeAddingViewModel
+import com.firstapplication.recipebook.ui.viewmodels.RecipeSearchingViewModel
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -27,6 +28,7 @@ class OnlyRecipeRepositoryViewModelFactory @AssistedInject constructor(
         modelClass.isAssignableFrom(HomeViewModel::class.java) -> getHomeViewModelAsT()
         modelClass.isAssignableFrom(RecipeAddingViewModel::class.java) -> getRecipeAddingViewModelAsT()
         modelClass.isAssignableFrom(HubViewModel::class.java) -> getHubViewModeAsT()
+        modelClass.isAssignableFrom(RecipeSearchingViewModel::class.java) -> getRecipeSearchingViewModelAsT()
         else -> throw IllegalArgumentException("ViewModel not found")
     }
 
@@ -41,4 +43,8 @@ class OnlyRecipeRepositoryViewModelFactory @AssistedInject constructor(
     @Suppress("UNCHECKED_CAST")
     private fun <T : ViewModel> getHubViewModeAsT(): T =
         HubViewModel(application = application, repository = repository) as T
+
+    @Suppress("UNCHECKED_CAST")
+    private fun <T : ViewModel> getRecipeSearchingViewModelAsT(): T =
+        RecipeSearchingViewModel(application = application, repository = repository) as T
 }

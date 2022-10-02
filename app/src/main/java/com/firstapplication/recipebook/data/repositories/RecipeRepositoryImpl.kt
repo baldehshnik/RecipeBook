@@ -22,12 +22,16 @@ class RecipeRepositoryImpl @Inject constructor(private val database: RecipeDao) 
     }
 
     override fun allRecipesInCategory(category: String): LiveData<List<RecipeEntity>> {
-        if (category == "") return database.readAllRecipesReversed()
-        else return database.readAllRecipesInCategoryReversed(category = category)
+        return if (category == "") database.readAllRecipesReversed()
+        else database.readAllRecipesInCategoryReversed(category = category)
     }
 
-    override fun allSavedRecipe(category: String): LiveData<List<RecipeEntity>> {
+    override fun allSavedRecipes(category: String): LiveData<List<RecipeEntity>> {
         return if (category == "") database.readAllSavedRecipesReversed()
         else database.readAllSavedRecipesInCategoryReversed(category = category)
+    }
+
+    override fun readRecipesMatchFormat(string: String): LiveData<List<RecipeEntity>> {
+        return database.readAllRecipesThatMatchFormat("%$string%")
     }
 }

@@ -29,7 +29,7 @@ class RecipeAddingViewModel(application: Application, private val repository: Re
         _ingredients.value = ingredientsMap
     }
 
-    private var recipeCategory = "Горячее блюдо"
+    private var recipeCategory = "Горячие блюда"
 
     fun setNewRecipeCategory(categoryName: String) {
         recipeCategory = categoryName

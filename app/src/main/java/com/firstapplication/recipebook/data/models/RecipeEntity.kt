@@ -31,5 +31,5 @@ data class RecipeEntity(
     val isSaved: Boolean = false,
 
     @ColumnInfo(name = "category")
-    val category: String = "Горячее блюдо"
+    val category: String = "Горячие блюда"
 )

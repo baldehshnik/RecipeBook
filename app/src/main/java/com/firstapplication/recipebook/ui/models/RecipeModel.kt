@@ -11,5 +11,5 @@ data class RecipeModel(
 
     var ingredients: Map<String, String>,
     var isSaved: Boolean = false,
-    var category: String = "Горячее блюдо"
+    var category: String = "Горячие блюда"
 )
