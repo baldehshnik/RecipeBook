@@ -1,5 +1,6 @@
 package com.firstapplication.recipebook.ui.adapters
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,10 +23,11 @@ class RecipeAdapter(
     class RecipeViewHolder(private val binding: RecipeItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
+        @SuppressLint("SetTextI18n")
         fun bind(recipeModel: RecipeModel, listener: OnRecipeItemClickListener) = with(binding) {
             twTitle.text = recipeModel.title
             twCategory.text = recipeModel.category
-            twHours.text = recipeModel.cookingTime.toString()
+            twHours.text = recipeModel.cookingTime.toString() + " " + recipeModel.timeType
             twDescription.text = recipeModel.recipeInfo
 
             btnMarker.setOnClickListener {

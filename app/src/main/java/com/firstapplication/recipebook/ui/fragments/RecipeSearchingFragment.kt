@@ -8,6 +8,7 @@ import android.view.View
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.firstapplication.recipebook.App
 import com.firstapplication.recipebook.R
@@ -49,7 +50,7 @@ class RecipeSearchingFragment : Fragment(R.layout.fragment_recipe_searching),
 
         with(binding) {
             btnOut.setOnClickListener {
-                parentFragmentManager.popBackStack()
+                findNavController().popBackStack()
             }
 
             rwRecipes.layoutManager = LinearLayoutManager(

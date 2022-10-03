@@ -12,8 +12,8 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="15dp"
         android:layout_marginTop="10dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -31,15 +31,15 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="15dp"
         android:layout_marginTop="10dp"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/etIngredientAddingLayout">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etIngredientCount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/count"
             android:drawableStart="@drawable/ic_baseline_count_add_24"
+            android:hint="@string/count"
             android:inputType="numberDecimal" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -50,7 +50,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="15dp"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/etIngredientAddingLayout">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -67,12 +67,12 @@
         android:id="@+id/btnCancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginVertical="10dp"
         android:layout_marginStart="80dp"
-        android:layout_marginTop="10dp"
         android:background="@drawable/button_style"
         android:text="@string/cancel"
         android:textColor="@color/white"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/etIngredientCountLayout" />
 
     <Button
@@ -80,12 +80,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end"
-        android:layout_marginTop="10dp"
+        android:layout_marginVertical="10dp"
         android:layout_marginEnd="15dp"
         android:background="@drawable/button_style"
         android:text="@string/confirm"
         android:textColor="@color/white"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/etIngredientCountTypeLayout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

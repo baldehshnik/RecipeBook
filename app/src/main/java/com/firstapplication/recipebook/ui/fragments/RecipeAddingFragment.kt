@@ -1,16 +1,18 @@
 package com.firstapplication.recipebook.ui.fragments
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.firstapplication.recipebook.App
 import com.firstapplication.recipebook.R
@@ -22,7 +24,6 @@ import com.firstapplication.recipebook.ui.adapters.IngredientAdapter
 import com.firstapplication.recipebook.enums.IngredientsKeys
 import com.firstapplication.recipebook.extensions.closeKeyboard
 import com.firstapplication.recipebook.ui.interfacies.OnCategoryItemClickListener
-import com.firstapplication.recipebook.ui.interfacies.OnEditTextFocusChangeListener
 import com.firstapplication.recipebook.ui.interfacies.OnIngredientDeleteItemClickListener
 import com.firstapplication.recipebook.ui.listeners.OnEditTextFocusChangeListenerImpl
 import com.firstapplication.recipebook.ui.viewmodels.RecipeAddingViewModel
@@ -31,6 +32,10 @@ import javax.inject.Inject
 
 class RecipeAddingFragment : Fragment(R.layout.fragment_recipe_adding),
     OnCategoryItemClickListener, OnIngredientDeleteItemClickListener {
+
+    private var isSaved = false
+
+    private val recipeArgs: RecipeAddingFragmentArgs by navArgs()
 
     private lateinit var binding: FragmentRecipeAddingBinding
 
@@ -62,6 +67,7 @@ class RecipeAddingFragment : Fragment(R.layout.fragment_recipe_adding),
         }
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentRecipeAddingBinding.bind(view)
@@ -105,6 +111,27 @@ class RecipeAddingFragment : Fragment(R.layout.fragment_recipe_adding),
             ingredientAdapter.submitList(ingredientsMap.toList())
         }
 
+        if (recipeArgs.currentRecipe != null) {
+
+            val recipe = recipeArgs.currentRecipe!!
+
+            with(binding) {
+                etTitle.setText(recipe.title, TextView.BufferType.EDITABLE)
+                etTime.setText(recipe.cookingTime.toString(), TextView.BufferType.EDITABLE)
+                etTimeType.setText(recipe.timeType, TextView.BufferType.EDITABLE)
+                etCookingInfo.setText(recipe.recipeInfo, TextView.BufferType.EDITABLE)
+
+                viewModel.setCurrentRecipeIngredients(recipe.ingredients)
+
+                btnBack.visibility = View.VISIBLE
+
+                btnBack.setOnClickListener {
+                    findNavController().popBackStack()
+                }
+            }
+
+            isSaved = true
+        }
     }
 
     override fun onPause() {
@@ -154,14 +181,19 @@ class RecipeAddingFragment : Fragment(R.layout.fragment_recipe_adding),
         val timeType = binding.etTimeType.text.toString()
         val time = binding.etTime.text.toString()
 
-        when (viewModel.checkTime(time)) {
-            is Error.CorrectResult -> viewModel.createRecipe(
+        val checkTimeRes = viewModel.checkTime(time)
+        when {
+            checkTimeRes is Error.CorrectResult && !isSaved -> viewModel.createRecipe(
                 title = title,
                 recipeInfo = recipeInfo,
                 timeType = timeType,
                 time = time.toDouble()
             )
-            is Error.ErrorResult -> Toast.makeText(
+            checkTimeRes is Error.CorrectResult && isSaved -> viewModel.updateRecipeInDB(
+                recipeArgs.currentRecipe!!, title = title, recipeInfo = recipeInfo,
+                timeType = timeType, time = time.toDouble()
+            )
+            checkTimeRes is Error.ErrorResult -> Toast.makeText(
                 requireContext(), "Time isn't correctly", Toast.LENGTH_LONG
             ).show()
         }

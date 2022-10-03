@@ -149,7 +149,9 @@ class HomeFragment : Fragment(R.layout.fragment_home), OnRecipeItemClickListener
     override fun onItemClick(view: View, recipeModel: RecipeModel, recipeKey: RecipeListItemClick) =
         when (if (DeleteMode.isDeleteMode) RecipeListItemClick.OnItemClickInDeleteMode else recipeKey) {
             is RecipeListItemClick.OnMarkerClick -> updateRecipe(recipeModel = recipeModel)
-            is RecipeListItemClick.OnFullItemClick -> findNavController().navigate(R.id.navRecipeInfo)
+            is RecipeListItemClick.OnFullItemClick -> findNavController().navigate(
+                HomeFragmentDirections.actionNavHomeToNavRecipeInfo(recipeModel)
+            )
             is RecipeListItemClick.OnItemClickInDeleteMode -> setRadioButtonVisibility(
                 view.findViewById(
                     R.id.btnRadioDelete

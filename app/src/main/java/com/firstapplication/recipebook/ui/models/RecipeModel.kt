@@ -1,5 +1,9 @@
 package com.firstapplication.recipebook.ui.models
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class RecipeModel(
     val id: Long = 0L,
     var imageId: Int = -1,
@@ -12,4 +16,4 @@ data class RecipeModel(
     var ingredients: Map<String, String>,
     var isSaved: Boolean = false,
     var category: String = "Горячие блюда"
-)
+) : Parcelable

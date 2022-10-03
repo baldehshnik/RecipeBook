@@ -8,14 +8,24 @@
     <fragment
         android:id="@+id/navHome"
         android:name="com.firstapplication.recipebook.ui.fragments.HomeFragment"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_navHome_to_navRecipeInfo"
+            app:destination="@id/navRecipeInfo" />
+    </fragment>
     <fragment
         android:id="@+id/navHub"
         android:name="com.firstapplication.recipebook.ui.fragments.HubFragment"
         tools:layout="@layout/fragment_hub" />
     <fragment
         android:id="@+id/navAdding"
-        android:name="com.firstapplication.recipebook.ui.fragments.RecipeAddingFragment" />
+        android:name="com.firstapplication.recipebook.ui.fragments.RecipeAddingFragment" >
+        <argument
+            android:name="currentRecipe"
+            app:argType="com.firstapplication.recipebook.ui.models.RecipeModel"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
     <fragment
         android:id="@+id/navSearch"
         android:name="com.firstapplication.recipebook.ui.fragments.RecipeSearchingFragment"
@@ -23,8 +33,18 @@
     <fragment
         android:id="@+id/navRecipeInfo"
         android:name="com.firstapplication.recipebook.ui.fragments.RecipeInfoFragment"
-        tools:layout="@layout/fragment_recipe_info" />
+        tools:layout="@layout/fragment_recipe_info" >
+        <argument
+            android:name="selectedRecipe"
+            app:argType="com.firstapplication.recipebook.ui.models.RecipeModel"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <action
+            android:id="@+id/action_navRecipeInfo_to_navAdding"
+            app:destination="@id/navAdding" />
+    </fragment>
     <dialog
         android:id="@+id/navAddingIngredient"
-        android:name="com.firstapplication.recipebook.ui.fragments.IngredientsAddingDialogFragment" />
+        android:name="com.firstapplication.recipebook.ui.fragments.IngredientsAddingDialogFragment">
+    </dialog>
 </navigation>

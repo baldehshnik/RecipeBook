@@ -29,6 +29,11 @@ class RecipeAddingViewModel(application: Application, private val repository: Re
         _ingredients.value = ingredientsMap
     }
 
+    fun setCurrentRecipeIngredients(ingredients: Map<String, String>) {
+        ingredientsMap.putAll(ingredients)
+        _ingredients.value = ingredientsMap
+    }
+
     private var recipeCategory = "Горячие блюда"
 
     fun setNewRecipeCategory(categoryName: String) {
@@ -46,6 +51,24 @@ class RecipeAddingViewModel(application: Application, private val repository: Re
                 category = recipeCategory
             )
         )
+
+
+    fun updateRecipeInDB(
+        recipeModel: RecipeModel, title: String, recipeInfo: String,
+        time: Double, timeType: String
+    ) {
+
+        recipeModel.title = title
+        recipeModel.recipeInfo = recipeInfo
+        recipeModel.cookingTime = time
+        recipeModel.timeType = timeType
+        recipeModel.ingredients = ingredientsMap
+        recipeModel.category = recipeCategory
+
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.updateRecipe(recipeModel.migrateFromRecipeModelToRecipeEntity())
+        }
+    }
 
     private fun insertRecipeToDB(recipeModel: RecipeModel) = viewModelScope.launch(Dispatchers.IO) {
         repository.insertRecipe(recipeModel.migrateFromRecipeModelToRecipeEntity())

@@ -2,7 +2,6 @@ package com.firstapplication.recipebook.ui.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.firstapplication.recipebook.databinding.IngredientItemBinding
@@ -42,24 +41,6 @@ class IngredientAdapter(private val listenerDelete: OnIngredientDeleteItemClickL
 
     override fun onBindViewHolder(holder: IngredientViewHolder, position: Int) {
         holder.bind(getItem(position), listenerDelete)
-    }
-
-}
-
-class IngredientDiffUtil : DiffUtil.ItemCallback<Pair<String, String>>() {
-
-    override fun areItemsTheSame(
-        oldItem: Pair<String, String>,
-        newItem: Pair<String, String>
-    ): Boolean {
-        return oldItem == newItem
-    }
-
-    override fun areContentsTheSame(
-        oldItem: Pair<String, String>,
-        newItem: Pair<String, String>
-    ): Boolean {
-        return oldItem.first == newItem.first
     }
 
 }
