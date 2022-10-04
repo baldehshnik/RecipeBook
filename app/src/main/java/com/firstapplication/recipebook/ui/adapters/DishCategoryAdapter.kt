@@ -1,5 +1,6 @@
 package com.firstapplication.recipebook.ui.adapters
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
@@ -15,8 +16,10 @@ class DishCategoryAdapter(
 ) :
     RecyclerView.Adapter<DishCategoryAdapter.DishCategoryViewHolder>() {
 
-    companion object {
-        var lastPressedItem = 0
+    private var lastPressedItem = 0
+
+    fun setNewSelectedItem(id: Int) {
+        lastPressedItem = id
     }
 
     class DishCategoryViewHolder(private val binding: DishCategoryItemBinding) :
@@ -32,7 +35,10 @@ class DishCategoryAdapter(
         return DishCategoryViewHolder(DishCategoryItemBinding.inflate(layoutInflater))
     }
 
-    override fun onBindViewHolder(holder: DishCategoryViewHolder, position: Int) {
+    override fun onBindViewHolder(
+        holder: DishCategoryViewHolder,
+        @SuppressLint("RecyclerView") position: Int
+    ) {
         holder.bind(categoryList[position])
 
         with(holder.itemView) {

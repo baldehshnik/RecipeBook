@@ -26,6 +26,7 @@ import com.firstapplication.recipebook.extensions.closeKeyboard
 import com.firstapplication.recipebook.ui.interfacies.OnCategoryItemClickListener
 import com.firstapplication.recipebook.ui.interfacies.OnIngredientDeleteItemClickListener
 import com.firstapplication.recipebook.ui.listeners.OnEditTextFocusChangeListenerImpl
+import com.firstapplication.recipebook.ui.models.RecipeModel
 import com.firstapplication.recipebook.ui.viewmodels.RecipeAddingViewModel
 import com.firstapplication.recipebook.ui.viewmodels.factories.OnlyRecipeRepositoryViewModelFactory
 import javax.inject.Inject
@@ -72,12 +73,24 @@ class RecipeAddingFragment : Fragment(R.layout.fragment_recipe_adding),
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentRecipeAddingBinding.bind(view)
 
-        val categoriesList = getCategoriesList().toList()
+        val categoriesList = getCategoriesArray().toList()
 
         val dishCategoryAdapter =
             DishCategoryAdapter(categoriesList.subList(1, categoriesList.size), this)
 
         val ingredientAdapter = IngredientAdapter(this)
+
+        if (recipeArgs.currentRecipe != null) {
+            val recipe = recipeArgs.currentRecipe!!
+            setCurrentRecipeData(recipe = recipe)
+            dishCategoryAdapter.setNewSelectedItem(
+                getCurrentRecipeCategoryID(
+                    recipe = recipe,
+                    categoriesList = categoriesList
+                )
+            )
+            isSaved = true
+        }
 
         with(binding) {
             rwCategory.layoutManager = LinearLayoutManager(
@@ -87,50 +100,51 @@ class RecipeAddingFragment : Fragment(R.layout.fragment_recipe_adding),
             )
 
             rwIngredients.adapter = ingredientAdapter
-
             rwCategory.adapter = dishCategoryAdapter
 
             btnAddIngredient.setOnClickListener { openAddingIngredientsFragment() }
+            btnSave.setOnClickListener { btnSaveOnClick() }
 
             setOnFocusChangeListener()
-
-            btnSave.setOnClickListener {
-                when {
-                    etTitle.length() == 0 -> etTitle.requestFocus()
-                    etTime.length() == 0 -> etTime.requestFocus()
-                    etTimeType.length() == 0 -> etTimeType.requestFocus()
-                    else -> {
-                        createNewRecipe()
-                        findNavController().popBackStack()
-                    }
-                }
-            }
         }
 
         viewModel.ingredients.observe(viewLifecycleOwner) { ingredientsMap ->
             ingredientAdapter.submitList(ingredientsMap.toList())
         }
 
-        if (recipeArgs.currentRecipe != null) {
+    }
 
-            val recipe = recipeArgs.currentRecipe!!
-
-            with(binding) {
-                etTitle.setText(recipe.title, TextView.BufferType.EDITABLE)
-                etTime.setText(recipe.cookingTime.toString(), TextView.BufferType.EDITABLE)
-                etTimeType.setText(recipe.timeType, TextView.BufferType.EDITABLE)
-                etCookingInfo.setText(recipe.recipeInfo, TextView.BufferType.EDITABLE)
-
-                viewModel.setCurrentRecipeIngredients(recipe.ingredients)
-
-                btnBack.visibility = View.VISIBLE
-
-                btnBack.setOnClickListener {
-                    findNavController().popBackStack()
-                }
+    private fun btnSaveOnClick() = with(binding) {
+        when {
+            etTitle.length() == 0 -> etTitle.requestFocus()
+            etTime.length() == 0 -> etTime.requestFocus()
+            etTimeType.length() == 0 -> etTimeType.requestFocus()
+            else -> {
+                createNewRecipe()
+                findNavController().popBackStack()
             }
+        }
+    }
 
-            isSaved = true
+    private fun getCurrentRecipeCategoryID(recipe: RecipeModel, categoriesList: List<String>): Int {
+        for ((i, item) in categoriesList.subList(1, categoriesList.size).withIndex())
+            if (item == recipe.category)
+                return i
+        return 0
+    }
+
+    private fun setCurrentRecipeData(recipe: RecipeModel) = with(binding) {
+        etTitle.setText(recipe.title, TextView.BufferType.EDITABLE)
+        etTime.setText(recipe.cookingTime.toString(), TextView.BufferType.EDITABLE)
+        etTimeType.setText(recipe.timeType, TextView.BufferType.EDITABLE)
+        etCookingInfo.setText(recipe.recipeInfo, TextView.BufferType.EDITABLE)
+
+        viewModel.setCurrentRecipeIngredients(recipe.ingredients)
+
+        btnBack.visibility = View.VISIBLE
+
+        btnBack.setOnClickListener {
+            findNavController().popBackStack()
         }
     }
 
@@ -159,7 +173,7 @@ class RecipeAddingFragment : Fragment(R.layout.fragment_recipe_adding),
         }
     }
 
-    private fun getCategoriesList() = resources.getStringArray(
+    private fun getCategoriesArray() = resources.getStringArray(
         R.array.dish_categories
     )
 

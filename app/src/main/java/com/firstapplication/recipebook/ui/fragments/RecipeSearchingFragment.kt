@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -84,7 +85,19 @@ class RecipeSearchingFragment : Fragment(R.layout.fragment_recipe_searching),
         })
 
     override fun onItemClick(view: View, recipeModel: RecipeModel, recipeKey: RecipeListItemClick) {
+        when (recipeKey) {
+            is RecipeListItemClick.OnMarkerClick -> updateRecipe(recipeModel)
+            is RecipeListItemClick.OnFullItemClick -> findNavController().navigate(
+                RecipeSearchingFragmentDirections.actionNavSearchToNavRecipeInfo(recipeModel)
+            )
+            is RecipeListItemClick.OnItemClickInDeleteMode ->
+                Toast.makeText(requireContext(), "Error!", Toast.LENGTH_LONG).show()
+        }
+    }
 
+    private fun updateRecipe(recipeModel: RecipeModel) {
+        recipeModel.isSaved = !recipeModel.isSaved
+        viewModel.updateRecipeInDB(recipeModel)
     }
 
     override fun onDestroy() {

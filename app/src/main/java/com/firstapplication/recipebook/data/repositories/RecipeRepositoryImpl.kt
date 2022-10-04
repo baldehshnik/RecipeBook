@@ -9,6 +9,7 @@ import javax.inject.Singleton
 
 @Singleton
 class RecipeRepositoryImpl @Inject constructor(private val database: RecipeDao) : RecipeRepository {
+
     override suspend fun updateRecipe(recipeEntity: RecipeEntity) {
         database.update(recipeEntity = recipeEntity)
     }
@@ -27,11 +28,16 @@ class RecipeRepositoryImpl @Inject constructor(private val database: RecipeDao) 
     }
 
     override fun allSavedRecipes(category: String): LiveData<List<RecipeEntity>> {
-        return if (category == "") database.readAllSavedRecipesReversed()
+        return if (category == "") database.readAllSavedRecipes()
         else database.readAllSavedRecipesInCategoryReversed(category = category)
     }
 
     override fun readRecipesMatchFormat(string: String): LiveData<List<RecipeEntity>> {
         return database.readAllRecipesThatMatchFormat("%$string%")
+    }
+
+    override fun readSavedRecipesMatchFormat(string: String): LiveData<List<RecipeEntity>> {
+        return if (string == "") database.readAllSavedRecipes()
+        else database.readAllSavedRecipesThatMatchFormat("%$string%")
     }
 }

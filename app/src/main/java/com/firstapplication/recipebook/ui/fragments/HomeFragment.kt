@@ -118,7 +118,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), OnRecipeItemClickListener
     private fun getBottomNavView(): BottomNavigationView? =
         activity?.findViewById(R.id.bottomNavView)
 
-    private fun takeAwayDeletedWindow() = with(binding) {
+    private fun disableDeletedWindowView() = with(binding) {
         btnSearch.visibility = View.VISIBLE
         btnDeleteSelectedRecipe.visibility = View.GONE
         btnCloseDeletedWindow.visibility = View.GONE
@@ -129,7 +129,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), OnRecipeItemClickListener
 
     private fun disableDeleteWindow() {
         DeleteMode.isDeleteMode = false
-        takeAwayDeletedWindow()
+        disableDeletedWindowView()
         notifyAdapterDataSetChanged()
         setNewMarginsToRecyclerView(marginBottom = actionBarSize, marginTop = 100f)
     }

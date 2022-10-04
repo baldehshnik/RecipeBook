@@ -9,13 +9,14 @@ import androidx.lifecycle.viewModelScope
 import com.firstapplication.recipebook.data.interfaces.RecipeRepository
 import com.firstapplication.recipebook.data.models.RecipeEntity
 import com.firstapplication.recipebook.extensions.getMigratedToRecipeModelList
-import com.firstapplication.recipebook.extensions.migrateFromRecipeModelToRecipeEntity
+import com.firstapplication.recipebook.extensions.updateRecipeInDB
 import com.firstapplication.recipebook.ui.models.RecipeModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class HubViewModel(application: Application, private val repository: RecipeRepository) :
     AndroidViewModel(application) {
+
+    private var observeFormat = ""
 
     private val _savedRecipeList = MutableLiveData<List<RecipeModel>>()
     val savedRecipeList: LiveData<List<RecipeModel>>
@@ -38,21 +39,27 @@ class HubViewModel(application: Application, private val repository: RecipeRepos
             )
         }
 
-    fun updateRecipeInDB(recipeModel: RecipeModel) {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.updateRecipe(
-                recipeEntity = recipeModel.migrateFromRecipeModelToRecipeEntity()
-            )
-        }
+    fun updateRecipeInDB(recipeModel: RecipeModel) =
+        updateRecipeInDB(recipeModel = recipeModel, repository = repository)
+
+    fun setObserve(string: String) {
+        removeObserve()
+        observeFormat = string
+        repository.readSavedRecipesMatchFormat(string).observeForever(savedRecipeListObserver)
+    }
+
+    private fun removeObserve() {
+        repository.readSavedRecipesMatchFormat(observeFormat).removeObserver(savedRecipeListObserver)
+        _savedRecipeList.value = listOf()
     }
 
     init {
-        repository.allSavedRecipes("").observeForever(savedRecipeListObserver)
+        repository.readSavedRecipesMatchFormat("").observeForever(savedRecipeListObserver)
         recipeSavedModels.observeForever(savedRecipeModelsListObserver)
     }
 
     override fun onCleared() {
-        repository.allSavedRecipes("").removeObserver(savedRecipeListObserver)
+        repository.allSavedRecipes(observeFormat).removeObserver(savedRecipeListObserver)
         recipeSavedModels.removeObserver(savedRecipeModelsListObserver)
         super.onCleared()
     }

@@ -23,7 +23,7 @@ interface RecipeDao {
     fun readAllRecipesInCategoryReversed(category: String): LiveData<List<RecipeEntity>>
 
     @Query("SELECT * FROM recipes WHERE is_saved = 1")
-    fun readAllSavedRecipesReversed(): LiveData<List<RecipeEntity>>
+    fun readAllSavedRecipes(): LiveData<List<RecipeEntity>>
 
     @Query("SELECT * FROM recipes WHERE is_saved = 1 AND category = :category")
     fun readAllSavedRecipesInCategoryReversed(category: String): LiveData<List<RecipeEntity>>
@@ -32,5 +32,8 @@ interface RecipeDao {
 
     @Query("SELECT * FROM recipes WHERE lower(title) LIKE :string")
     fun readAllRecipesThatMatchFormat(string: String): LiveData<List<RecipeEntity>>
+
+    @Query("SELECT * FROM recipes WHERE lower(title) LIKE :string AND is_saved = 1")
+    fun readAllSavedRecipesThatMatchFormat(string: String): LiveData<List<RecipeEntity>>
 
 }

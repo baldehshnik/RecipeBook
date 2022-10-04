@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.firstapplication.recipebook.data.interfaces.RecipeRepository
 import com.firstapplication.recipebook.data.models.RecipeEntity
 import com.firstapplication.recipebook.extensions.getMigratedToRecipeModelList
+import com.firstapplication.recipebook.extensions.updateRecipeInDB
 import com.firstapplication.recipebook.ui.models.RecipeModel
 import kotlinx.coroutines.launch
 
@@ -50,6 +51,9 @@ class RecipeSearchingViewModel(
         observeFormat = ""
         _searchRecipesList.value = listOf()
     }
+
+    fun updateRecipeInDB(recipeModel: RecipeModel) =
+        updateRecipeInDB(recipeModel = recipeModel, repository = repository)
 
     init {
         recipeModels.observeForever(recipeModelsListObserver)

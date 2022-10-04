@@ -10,6 +10,7 @@ import com.firstapplication.recipebook.data.interfaces.RecipeRepository
 import com.firstapplication.recipebook.data.models.RecipeEntity
 import com.firstapplication.recipebook.extensions.getMigratedToRecipeModelList
 import com.firstapplication.recipebook.extensions.migrateFromRecipeModelToRecipeEntity
+import com.firstapplication.recipebook.extensions.updateRecipeInDB
 import com.firstapplication.recipebook.ui.models.RecipeModel
 import kotlinx.coroutines.*
 
@@ -70,13 +71,8 @@ class HomeViewModel(application: Application, private val repository: RecipeRepo
             )
         }
 
-    fun updateRecipeInDB(recipeModel: RecipeModel) {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.updateRecipe(
-                recipeEntity = recipeModel.migrateFromRecipeModelToRecipeEntity()
-            )
-        }
-    }
+    fun updateRecipeInDB(recipeModel: RecipeModel) =
+        updateRecipeInDB(recipeModel = recipeModel, repository = repository)
 
     fun changeRecipeList(category: String) {
         observableRecipes.removeObserver(recipeListObserver)

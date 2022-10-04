@@ -16,7 +16,11 @@
     <fragment
         android:id="@+id/navHub"
         android:name="com.firstapplication.recipebook.ui.fragments.HubFragment"
-        tools:layout="@layout/fragment_hub" />
+        tools:layout="@layout/fragment_hub" >
+        <action
+            android:id="@+id/action_navHub_to_navRecipeInfo"
+            app:destination="@id/navRecipeInfo" />
+    </fragment>
     <fragment
         android:id="@+id/navAdding"
         android:name="com.firstapplication.recipebook.ui.fragments.RecipeAddingFragment" >
@@ -29,7 +33,11 @@
     <fragment
         android:id="@+id/navSearch"
         android:name="com.firstapplication.recipebook.ui.fragments.RecipeSearchingFragment"
-        tools:layout="@layout/fragment_recipe_searching" />
+        tools:layout="@layout/fragment_recipe_searching" >
+        <action
+            android:id="@+id/action_navSearch_to_navRecipeInfo"
+            app:destination="@id/navRecipeInfo" />
+    </fragment>
     <fragment
         android:id="@+id/navRecipeInfo"
         android:name="com.firstapplication.recipebook.ui.fragments.RecipeInfoFragment"

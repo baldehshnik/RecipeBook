@@ -9,6 +9,7 @@ import android.view.MotionEvent
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -56,11 +57,7 @@ class HubFragment : Fragment(R.layout.fragment_hub), OnRecipeItemClickListener {
         val adapter = RecipeAdapter(this)
 
         with(binding) {
-            btnSearch.setOnClickListener {
-                etSearchItem.visibility = View.VISIBLE
-                btnSearch.visibility = View.GONE
-                etSearchItem.requestFocus()
-            }
+            btnSearch.setOnClickListener { setSearchMode() }
 
             rwRecipes.layoutManager = LinearLayoutManager(
                 requireContext(),
@@ -73,15 +70,10 @@ class HubFragment : Fragment(R.layout.fragment_hub), OnRecipeItemClickListener {
             etSearchItem.setOnTouchListener { _, motionEvent ->
                 if (motionEvent.action != MotionEvent.ACTION_UP) return@setOnTouchListener false
 
-                val drawable = etSearchItem.compoundDrawables[2]
-
-                if (motionEvent.x > etSearchItem.width
-                    - etSearchItem.paddingRight
-                    - drawable.intrinsicWidth
-                ) {
-                    btnSearch.visibility = View.VISIBLE
-                    etSearchItem.visibility = View.GONE
-                    etSearchItem.text.clear()
+                etSearchItem.apply {
+                    val intrinsicWidth = compoundDrawables[2].intrinsicWidth
+                    if (motionEvent.x > width - paddingRight - intrinsicWidth)
+                        disableSearchMode()
                 }
 
                 return@setOnTouchListener false
@@ -94,17 +86,16 @@ class HubFragment : Fragment(R.layout.fragment_hub), OnRecipeItemClickListener {
             }
 
             etSearchItem.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
-                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
-                }
-
-                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-                }
-
-                override fun afterTextChanged(p0: Editable?) {
-
+                override fun afterTextChanged(inputText: Editable?) {
+                    when (inputText?.length) {
+                        0 -> viewModel.setObserve("")
+                        else -> viewModel.setObserve(inputText.toString())
+                    }
+                    binding.rwRecipes.recycledViewPool.clear()
                 }
 
             })
@@ -121,17 +112,36 @@ class HubFragment : Fragment(R.layout.fragment_hub), OnRecipeItemClickListener {
         inputMethodManager.closeKeyboard(activity)
     }
 
-    override fun onItemClick(
-        view: View,
-        recipeModel: RecipeModel,
-        recipeKey: RecipeListItemClick
-    ) {
+    private fun setSearchMode() = with(binding) {
+        etSearchItem.visibility = View.VISIBLE
+        btnSearch.visibility = View.GONE
+        etSearchItem.requestFocus()
+    }
+
+    private fun disableSearchMode() = with(binding) {
+        btnSearch.visibility = View.VISIBLE
+        etSearchItem.visibility = View.GONE
+        etSearchItem.text.clear()
+    }
+
+    override fun onItemClick(view: View, recipeModel: RecipeModel, recipeKey: RecipeListItemClick) {
         when (recipeKey) {
-            is RecipeListItemClick.OnFullItemClick -> findNavController().navigate(R.id.navRecipeInfo)
-            else -> {
-                recipeModel.isSaved = !recipeModel.isSaved
-                viewModel.updateRecipeInDB(recipeModel = recipeModel)
-            }
+            is RecipeListItemClick.OnMarkerClick -> updateRecipeMarker(recipeModel)
+            is RecipeListItemClick.OnFullItemClick -> onFullItemClick(recipeModel)
+            is RecipeListItemClick.OnItemClickInDeleteMode ->
+                Toast.makeText(requireContext(), "Error!", Toast.LENGTH_LONG).show()
         }
+    }
+
+    private fun onFullItemClick(recipeModel: RecipeModel) {
+        findNavController()
+            .navigate(HubFragmentDirections.actionNavHubToNavRecipeInfo(recipeModel))
+
+        binding.etSearchItem.setText("")
+    }
+
+    private fun updateRecipeMarker(recipeModel: RecipeModel) {
+        recipeModel.isSaved = !recipeModel.isSaved
+        viewModel.updateRecipeInDB(recipeModel = recipeModel)
     }
 }
