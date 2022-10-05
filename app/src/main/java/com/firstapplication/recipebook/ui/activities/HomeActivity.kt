@@ -1,6 +1,5 @@
 package com.firstapplication.recipebook.ui.activities
 
-import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MotionEvent
@@ -11,20 +10,22 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.firstapplication.recipebook.R
 import com.firstapplication.recipebook.databinding.ActivityHomeBinding
+import com.firstapplication.recipebook.extensions.appComponent
+import javax.inject.Inject
 
 class HomeActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityHomeBinding
 
-    private lateinit var inputMethodManager: InputMethodManager
+    @Inject
+    lateinit var inputMethodManager: InputMethodManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        applicationContext.appComponent.inject(this)
         super.onCreate(savedInstanceState)
+
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        inputMethodManager =
-            baseContext.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 
         setSupportActionBar(binding.appBarMain.toolbar)
 

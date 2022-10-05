@@ -27,7 +27,7 @@ class IngredientDisplayAdapter :
     }
 
     override fun onBindViewHolder(holder: IngredientDisplayViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        holder.bind(pair = getItem(position))
     }
 
 }

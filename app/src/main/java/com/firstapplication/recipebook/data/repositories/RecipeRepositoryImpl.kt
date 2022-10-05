@@ -11,33 +11,33 @@ import javax.inject.Singleton
 class RecipeRepositoryImpl @Inject constructor(private val database: RecipeDao) : RecipeRepository {
 
     override suspend fun updateRecipe(recipeEntity: RecipeEntity) {
-        database.update(recipeEntity = recipeEntity)
+        database.update(recipeEntity)
     }
 
     override suspend fun insertRecipe(recipeEntity: RecipeEntity) {
-        database.insert(recipeEntity = recipeEntity)
+        database.insert(recipeEntity)
     }
 
     override suspend fun deleteRecipe(recipeEntity: RecipeEntity) {
-        database.delete(recipeEntity = recipeEntity)
+        database.delete(recipeEntity)
     }
 
     override fun allRecipesInCategory(category: String): LiveData<List<RecipeEntity>> {
         return if (category == "") database.readAllRecipesReversed()
-        else database.readAllRecipesInCategoryReversed(category = category)
+        else database.readAllRecipesInCategoryReversed(category)
     }
 
     override fun allSavedRecipes(category: String): LiveData<List<RecipeEntity>> {
         return if (category == "") database.readAllSavedRecipes()
-        else database.readAllSavedRecipesInCategoryReversed(category = category)
+        else database.readAllSavedRecipesInCategoryReversed(category)
     }
 
-    override fun readRecipesMatchFormat(string: String): LiveData<List<RecipeEntity>> {
-        return database.readAllRecipesThatMatchFormat("%$string%")
+    override fun readRecipesMatchFormat(format: String): LiveData<List<RecipeEntity>> {
+        return database.readAllRecipesThatMatchFormat("%$format%")
     }
 
-    override fun readSavedRecipesMatchFormat(string: String): LiveData<List<RecipeEntity>> {
-        return if (string == "") database.readAllSavedRecipes()
-        else database.readAllSavedRecipesThatMatchFormat("%$string%")
+    override fun readSavedRecipesMatchFormat(format: String): LiveData<List<RecipeEntity>> {
+        return if (format == "") database.readAllSavedRecipes()
+        else database.readAllSavedRecipesThatMatchFormat("%$format%")
     }
 }

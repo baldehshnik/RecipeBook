@@ -96,11 +96,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="15dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="8dp"
             app:cardCornerRadius="20dp"
             app:cardElevation="3dp"
-            app:layout_constraintLeft_toRightOf="@id/cwTime"
-            app:layout_constraintTop_toBottomOf="@id/cwTitle">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cwTime">
 
             <TextView
                 android:id="@+id/twCategory"
@@ -122,7 +122,7 @@
             app:cardCornerRadius="20dp"
             app:cardElevation="3dp"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cwTime">
+            app:layout_constraintTop_toBottomOf="@id/cwCategory">
 
             <TextView
                 android:id="@+id/twRecipeInfo"

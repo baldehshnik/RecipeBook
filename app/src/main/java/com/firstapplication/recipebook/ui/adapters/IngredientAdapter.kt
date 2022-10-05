@@ -6,25 +6,27 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.firstapplication.recipebook.databinding.IngredientItemBinding
 import android.text.method.ScrollingMovementMethod
+import android.widget.TextView
 import com.firstapplication.recipebook.ui.interfacies.OnIngredientDeleteItemClickListener
 
 class IngredientAdapter(private val listenerDelete: OnIngredientDeleteItemClickListener) :
     ListAdapter<Pair<String, String>, IngredientAdapter.IngredientViewHolder>(IngredientDiffUtil()) {
 
-    class IngredientViewHolder(private val binding: IngredientItemBinding) :
+    class IngredientViewHolder(
+        private val binding: IngredientItemBinding,
+        private val listenerDelete: OnIngredientDeleteItemClickListener
+    ) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(pair: Pair<String, String>, listenerDelete: OnIngredientDeleteItemClickListener) = with(binding) {
+        fun bind(pair: Pair<String, String>) = with(binding) {
             twIngredientName.apply {
                 twIngredientName.text = pair.first
-                twIngredientName.setHorizontallyScrolling(true)
-                twIngredientName.movementMethod = ScrollingMovementMethod()
+                setHorizontalScrolling(this)
             }
 
             twIngredientCount.apply {
                 twIngredientCount.text = pair.second
-                twIngredientCount.setHorizontallyScrolling(true)
-                twIngredientCount.movementMethod = ScrollingMovementMethod()
+                setHorizontalScrolling(this)
             }
 
             btnDeleteIngredient.setOnClickListener { view ->
@@ -32,15 +34,23 @@ class IngredientAdapter(private val listenerDelete: OnIngredientDeleteItemClickL
             }
         }
 
+        private fun setHorizontalScrolling(textView: TextView) {
+            textView.setHorizontallyScrolling(true)
+            textView.movementMethod = ScrollingMovementMethod()
+        }
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IngredientViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        return IngredientViewHolder(IngredientItemBinding.inflate(layoutInflater))
+        return IngredientViewHolder(
+            IngredientItemBinding.inflate(layoutInflater),
+            listenerDelete = listenerDelete
+        )
     }
 
     override fun onBindViewHolder(holder: IngredientViewHolder, position: Int) {
-        holder.bind(getItem(position), listenerDelete)
+        holder.bind(pair = getItem(position))
     }
 
 }

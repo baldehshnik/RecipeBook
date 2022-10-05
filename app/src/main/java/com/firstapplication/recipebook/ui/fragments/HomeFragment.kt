@@ -104,6 +104,12 @@ class HomeFragment : Fragment(R.layout.fragment_home), OnRecipeItemClickListener
 
     }
 
+    override fun onStart() {
+        super.onStart()
+        if (selectedCategory != "Все")
+            categoryAdapter.setNewSelectedItem(getCurrentRecipeCategoryID(getCategoryList()) + 1)
+    }
+
     override fun onPause() {
         super.onPause()
 
@@ -111,6 +117,13 @@ class HomeFragment : Fragment(R.layout.fragment_home), OnRecipeItemClickListener
             disableDeleteWindow()
             viewModel.clearSelectedRecipe()
         }
+    }
+
+    private fun getCurrentRecipeCategoryID(categoriesList: List<String>): Int {
+        for ((i, item) in categoriesList.subList(1, categoriesList.size).withIndex())
+            if (item == selectedCategory)
+                return i
+        return 0
     }
 
     private fun getCategoryList() = resources.getStringArray(R.array.dish_categories).toList()
@@ -193,14 +206,12 @@ class HomeFragment : Fragment(R.layout.fragment_home), OnRecipeItemClickListener
             }
 
             getBottomNavView()?.visibility = View.GONE
-
+            setNewMarginsToRecyclerView()
             clearToolBarText()
-
-            DeleteMode.isDeleteMode = true
 
             viewModel.addNewSelectedRecipes(recipeModel = recipeModel)
 
-            setNewMarginsToRecyclerView()
+            DeleteMode.isDeleteMode = true
         }
 
         return super.onItemLongClick(view, recipeModel)
@@ -230,6 +241,10 @@ class HomeFragment : Fragment(R.layout.fragment_home), OnRecipeItemClickListener
             if (categoryName == getCategoryList()[0]) viewModel.changeRecipeList(category = "")
             else viewModel.changeRecipeList(category = categoryName)
         }
+    }
+
+    override fun notifyItemThatMarkerClicked(position: Int) {
+        recipeAdapter.notifyItemChanged(position)
     }
 
 }

@@ -17,7 +17,7 @@ class RecipeSearchingViewModel(
     application: Application, private val repository: RecipeRepository
 ) : AndroidViewModel(application) {
 
-    private var observeFormat = ""
+    private var observableRecipes = repository.readRecipesMatchFormat("")
 
     private val _searchRecipesList = MutableLiveData<List<RecipeModel>>()
     val searchRecipesList: LiveData<List<RecipeModel>>
@@ -42,13 +42,13 @@ class RecipeSearchingViewModel(
 
     fun setObserve(string: String) {
         removeObserve()
-        observeFormat = string
-        repository.readRecipesMatchFormat(string).observeForever(searchRecipeListObserver)
+        observableRecipes = repository.readRecipesMatchFormat(string)
+        observableRecipes.observeForever(searchRecipeListObserver)
     }
 
     fun removeObserve() {
-        repository.readRecipesMatchFormat(observeFormat).removeObserver(searchRecipeListObserver)
-        observeFormat = ""
+        observableRecipes.removeObserver(searchRecipeListObserver)
+        observableRecipes = repository.readRecipesMatchFormat("")
         _searchRecipesList.value = listOf()
     }
 
@@ -60,7 +60,7 @@ class RecipeSearchingViewModel(
     }
 
     override fun onCleared() {
-        repository.readRecipesMatchFormat(observeFormat).removeObserver(searchRecipeListObserver)
+        observableRecipes.removeObserver(searchRecipeListObserver)
         recipeModels.removeObserver(recipeModelsListObserver)
         super.onCleared()
     }

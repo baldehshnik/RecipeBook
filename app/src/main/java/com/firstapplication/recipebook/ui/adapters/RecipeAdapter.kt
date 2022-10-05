@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -20,27 +21,29 @@ class RecipeAdapter(
 ) :
     ListAdapter<RecipeModel, RecipeViewHolder>(RecipeDiffUtil()) {
 
-    class RecipeViewHolder(private val binding: RecipeItemBinding) :
+    class RecipeViewHolder(
+        private val binding: RecipeItemBinding
+    ) :
         RecyclerView.ViewHolder(binding.root) {
 
         @SuppressLint("SetTextI18n")
-        fun bind(recipeModel: RecipeModel, listener: OnRecipeItemClickListener) = with(binding) {
-            twTitle.text = recipeModel.title
+        fun bind(recipeModel: RecipeModel) = with(binding) {
+
+            twTitle.text = getTitleText(recipeModel.title)
             twCategory.text = recipeModel.category
             twHours.text = recipeModel.cookingTime.toString() + " " + recipeModel.timeType
-            twDescription.text = recipeModel.recipeInfo
-
-            btnMarker.setOnClickListener {
-                listener.onItemClick(
-                    view = itemView,
-                    recipeModel = recipeModel,
-                    RecipeListItemClick.OnMarkerClick
-                )
-            }
+            twDescription.text = getRecipeInfoText(recipeModel.recipeInfo)
 
             if (!DeleteMode.isDeleteMode)
                 btnRadioDelete.visibility = View.GONE
+        }
 
+        private fun getRecipeInfoText(text: String): String {
+            return if (text.length > 52) text.substring(0, 52) + "..." else text
+        }
+
+        private fun getTitleText(text: String): String {
+            return if (text.length > 11) text.substring(0, 11) + "..." else text
         }
 
         fun setImageResource(key: Boolean) = with(binding) {
@@ -57,7 +60,7 @@ class RecipeAdapter(
     override fun onBindViewHolder(holder: RecipeViewHolder, position: Int) = with(holder) {
         val item = getItem(position)
 
-        bind(item, listener)
+        bind(item)
 
         itemView.setOnClickListener { view ->
             listener.onItemClick(
@@ -69,6 +72,16 @@ class RecipeAdapter(
 
         itemView.setOnLongClickListener { view ->
             listener.onItemLongClick(view = view, recipeModel = item)
+        }
+
+        itemView.findViewById<ImageButton>(R.id.btnMarker).setOnClickListener {
+            listener.onItemClick(
+                view = itemView,
+                recipeModel = item,
+                RecipeListItemClick.OnMarkerClick
+            )
+
+            listener.notifyItemThatMarkerClicked(position = position)
         }
 
         setImageResource(item.isSaved)

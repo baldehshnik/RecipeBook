@@ -15,7 +15,7 @@ suspend fun AndroidViewModel.getMigratedToRecipeModelList(
 
     val list = mutableListOf<RecipeModel>()
 
-    val coroutineResult = this.viewModelScope.async {
+    val coroutineResult = viewModelScope.async {
         entitiesList.forEach { item ->
             list.add(item.migrateFromRecipeEntityToRecipeModel())
         }

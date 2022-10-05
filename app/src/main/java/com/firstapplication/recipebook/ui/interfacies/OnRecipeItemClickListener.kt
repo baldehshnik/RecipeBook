@@ -6,7 +6,10 @@ import com.firstapplication.recipebook.ui.models.RecipeModel
 
 interface OnRecipeItemClickListener {
     fun onItemClick(view: View, recipeModel: RecipeModel, recipeKey: RecipeListItemClick)
+
     fun onItemLongClick(view: View, recipeModel: RecipeModel): Boolean {
         return true
     }
+
+    fun notifyItemThatMarkerClicked(position: Int)
 }

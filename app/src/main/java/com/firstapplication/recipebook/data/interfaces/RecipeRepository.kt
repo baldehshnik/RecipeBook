@@ -12,7 +12,7 @@ interface RecipeRepository {
 
     fun allSavedRecipes(category: String) : LiveData<List<RecipeEntity>>
 
-    fun readRecipesMatchFormat(string: String) : LiveData<List<RecipeEntity>>
+    fun readRecipesMatchFormat(format: String) : LiveData<List<RecipeEntity>>
 
-    fun readSavedRecipesMatchFormat(string: String) : LiveData<List<RecipeEntity>>
+    fun readSavedRecipesMatchFormat(format: String) : LiveData<List<RecipeEntity>>
 }

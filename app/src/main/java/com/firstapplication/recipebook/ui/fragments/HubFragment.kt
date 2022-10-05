@@ -44,6 +44,8 @@ class HubFragment : Fragment(R.layout.fragment_hub), OnRecipeItemClickListener {
     @Inject
     lateinit var onEditTextFocusChangeListener: OnEditTextFocusChangeListener
 
+    private lateinit var recipeAdapter: RecipeAdapter
+
     override fun onAttach(context: Context) {
         context.applicationContext.appComponent.inject(this)
         super.onAttach(context)
@@ -54,7 +56,7 @@ class HubFragment : Fragment(R.layout.fragment_hub), OnRecipeItemClickListener {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentHubBinding.bind(view)
 
-        val adapter = RecipeAdapter(this)
+        recipeAdapter = RecipeAdapter(this)
 
         with(binding) {
             btnSearch.setOnClickListener { setSearchMode() }
@@ -65,7 +67,7 @@ class HubFragment : Fragment(R.layout.fragment_hub), OnRecipeItemClickListener {
                 false
             )
 
-            rwRecipes.adapter = adapter
+            rwRecipes.adapter = recipeAdapter
 
             etSearchItem.setOnTouchListener { _, motionEvent ->
                 if (motionEvent.action != MotionEvent.ACTION_UP) return@setOnTouchListener false
@@ -102,7 +104,7 @@ class HubFragment : Fragment(R.layout.fragment_hub), OnRecipeItemClickListener {
         }
 
         viewModel.savedRecipeList.observe(viewLifecycleOwner) { recipeModel ->
-            adapter.submitList(recipeModel)
+            recipeAdapter.submitList(recipeModel)
         }
 
     }
@@ -131,6 +133,10 @@ class HubFragment : Fragment(R.layout.fragment_hub), OnRecipeItemClickListener {
             is RecipeListItemClick.OnItemClickInDeleteMode ->
                 Toast.makeText(requireContext(), "Error!", Toast.LENGTH_LONG).show()
         }
+    }
+
+    override fun notifyItemThatMarkerClicked(position: Int) {
+        recipeAdapter.notifyItemChanged(position)
     }
 
     private fun onFullItemClick(recipeModel: RecipeModel) {

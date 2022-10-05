@@ -49,7 +49,6 @@ class HomeViewModel(application: Application, private val repository: RecipeRepo
     private val _selectedRecipesCount = MutableLiveData(selectedRecipes.size)
     val selectedRecipesCount: LiveData<Int> get() = _selectedRecipesCount
 
-
     private val _recipesList = MutableLiveData<List<RecipeModel>>()
     val recipesList: LiveData<List<RecipeModel>>
         get() = _recipesList

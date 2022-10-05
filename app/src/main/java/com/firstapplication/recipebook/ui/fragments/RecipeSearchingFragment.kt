@@ -35,7 +35,7 @@ class RecipeSearchingFragment : Fragment(R.layout.fragment_recipe_searching),
         onlyRecipeRepositoryViewModelFactory.create(activity?.application as App)
     }
 
-    private lateinit var adapter: RecipeAdapter
+    private lateinit var recipeAdapter: RecipeAdapter
 
     override fun onAttach(context: Context) {
         context.applicationContext.appComponent.inject(this)
@@ -47,7 +47,7 @@ class RecipeSearchingFragment : Fragment(R.layout.fragment_recipe_searching),
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentRecipeSearchingBinding.bind(view)
 
-        adapter = RecipeAdapter(this)
+        recipeAdapter = RecipeAdapter(this)
 
         with(binding) {
             btnOut.setOnClickListener {
@@ -58,11 +58,11 @@ class RecipeSearchingFragment : Fragment(R.layout.fragment_recipe_searching),
                 requireContext(), LinearLayoutManager.VERTICAL, false
             )
 
-            rwRecipes.adapter = adapter
+            rwRecipes.adapter = recipeAdapter
         }
 
         viewModel.searchRecipesList.observe(viewLifecycleOwner) { recipesList ->
-            adapter.submitList(recipesList)
+            recipeAdapter.submitList(recipesList)
         }
 
         addTextChangedListener()
@@ -93,6 +93,10 @@ class RecipeSearchingFragment : Fragment(R.layout.fragment_recipe_searching),
             is RecipeListItemClick.OnItemClickInDeleteMode ->
                 Toast.makeText(requireContext(), "Error!", Toast.LENGTH_LONG).show()
         }
+    }
+
+    override fun notifyItemThatMarkerClicked(position: Int) {
+        recipeAdapter.notifyItemChanged(position)
     }
 
     private fun updateRecipe(recipeModel: RecipeModel) {

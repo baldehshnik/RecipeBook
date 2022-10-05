@@ -25,5 +25,4 @@ class IngredientsConverter {
 
         return map
     }
-
 }
