@@ -3,10 +3,7 @@ package com.firstapplication.recipebook.ui.viewmodels
 import android.app.Application
 import androidx.lifecycle.*
 import com.firstapplication.recipebook.data.interfaces.RecipeRepository
-import com.firstapplication.recipebook.data.models.RecipeEntity
-import com.firstapplication.recipebook.extensions.migrateFromRecipeEntityToRecipeModel
 import com.firstapplication.recipebook.extensions.migrateFromRecipeModelToRecipeEntity
-import com.firstapplication.recipebook.sealed.Error
 import com.firstapplication.recipebook.ui.models.RecipeModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -40,13 +37,12 @@ class RecipeAddingViewModel(application: Application, private val repository: Re
         recipeCategory = categoryName
     }
 
-    fun createRecipe(title: String, recipeInfo: String, time: Double, timeType: String) =
+    fun createRecipe(title: String, recipeInfo: String, time: String) =
         insertRecipeToDB(
             RecipeModel(
                 title = title,
                 recipeInfo = recipeInfo,
-                cookingTime = time,
-                timeType = timeType,
+                time = time,
                 ingredients = ingredientsMap,
                 category = recipeCategory
             )
@@ -55,13 +51,12 @@ class RecipeAddingViewModel(application: Application, private val repository: Re
 
     fun updateRecipeInDB(
         recipeModel: RecipeModel, title: String, recipeInfo: String,
-        time: Double, timeType: String
+        time: String
     ) {
 
         recipeModel.title = title
         recipeModel.recipeInfo = recipeInfo
-        recipeModel.cookingTime = time
-        recipeModel.timeType = timeType
+        recipeModel.time = time
         recipeModel.ingredients = ingredientsMap
         recipeModel.category = recipeCategory
 
@@ -74,11 +69,13 @@ class RecipeAddingViewModel(application: Application, private val repository: Re
         repository.insertRecipe(recipeModel.migrateFromRecipeModelToRecipeEntity())
     }
 
-    fun checkTime(time: String): Error = try {
-        time.toDouble()
-        Error.CorrectResult
-    } catch (e: Exception) {
-        Error.ErrorResult
+    fun getCookingTime(hours: String, minutes: String): String {
+        var resTime = ""
+
+        if (hours != "0") resTime = "$hours часов"
+        if (minutes != "0") resTime += " $minutes минут"
+
+        return resTime.trim()
     }
 
 }

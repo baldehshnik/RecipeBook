@@ -18,11 +18,8 @@ data class RecipeEntity(
     @ColumnInfo(name = "recipe_info")
     val recipeInfo: String,
 
-    @ColumnInfo(name = "cooking_time")
-    val cookingTime: Double,
-
-    @ColumnInfo(name = "time_type")
-    val timeType: String,
+    @ColumnInfo(name = "time")
+    val time: String,
 
     @ColumnInfo(name = "ingredients")
     val ingredients: Map<String, String>,

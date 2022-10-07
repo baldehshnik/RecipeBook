@@ -8,7 +8,6 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageButton
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -18,10 +17,10 @@ import com.firstapplication.recipebook.App
 import com.firstapplication.recipebook.R
 import com.firstapplication.recipebook.databinding.FragmentRecipeAddingBinding
 import com.firstapplication.recipebook.extensions.appComponent
-import com.firstapplication.recipebook.sealed.Error
 import com.firstapplication.recipebook.ui.adapters.DishCategoryAdapter
 import com.firstapplication.recipebook.ui.adapters.IngredientAdapter
 import com.firstapplication.recipebook.enums.IngredientsKeys
+import com.firstapplication.recipebook.enums.TimePickerKeys
 import com.firstapplication.recipebook.extensions.closeKeyboard
 import com.firstapplication.recipebook.ui.interfacies.OnCategoryItemClickListener
 import com.firstapplication.recipebook.ui.interfacies.OnIngredientDeleteItemClickListener
@@ -35,6 +34,7 @@ class RecipeAddingFragment : Fragment(R.layout.fragment_recipe_adding),
     OnCategoryItemClickListener, OnIngredientDeleteItemClickListener {
 
     private var isSaved = false
+    private var time = ""
 
     private val recipeArgs: RecipeAddingFragmentArgs by navArgs()
 
@@ -66,9 +66,19 @@ class RecipeAddingFragment : Fragment(R.layout.fragment_recipe_adding),
                 bundle.getString(IngredientsKeys.COUNT_FULL_NAME_KEY.key).toString()
             )
         }
+
+        setFragmentResultListener(TimePickerKeys.CONNECT_KEY.id) { _, bundle ->
+            bundle.apply {
+                time = viewModel.getCookingTime(
+                    getString(TimePickerKeys.HOURS_KEY.id).toString(),
+                    getString(TimePickerKeys.MINUTES_KEY.id).toString()
+                )
+                binding.twTime.text = time
+            }
+        }
     }
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint("SetTextI18n", "ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentRecipeAddingBinding.bind(view)
@@ -102,7 +112,12 @@ class RecipeAddingFragment : Fragment(R.layout.fragment_recipe_adding),
             rwIngredients.adapter = ingredientAdapter
             rwCategory.adapter = dishCategoryAdapter
 
-            btnAddIngredient.setOnClickListener { openAddingIngredientsFragment() }
+            btnEditTime.setOnClickListener { findNavController().navigate(R.id.navTimePick) }
+
+            btnAddIngredient.setOnClickListener {
+                openAddingIngredientsFragment()
+            }
+
             btnSave.setOnClickListener { btnSaveOnClick() }
 
             setOnFocusChangeListener()
@@ -118,8 +133,7 @@ class RecipeAddingFragment : Fragment(R.layout.fragment_recipe_adding),
     private fun btnSaveOnClick() = with(binding) {
         when {
             etTitle.length() == 0 -> etTitle.requestFocus()
-            etTime.length() == 0 -> etTime.requestFocus()
-            etTimeType.length() == 0 -> etTimeType.requestFocus()
+            time.isEmpty() -> findNavController().navigate(R.id.navTimePick)
             else -> {
                 createNewRecipe()
                 findNavController().popBackStack()
@@ -134,10 +148,13 @@ class RecipeAddingFragment : Fragment(R.layout.fragment_recipe_adding),
         return 0
     }
 
+    @SuppressLint("SetTextI18n")
     private fun setCurrentRecipeData(recipe: RecipeModel) = with(binding) {
         etTitle.setText(recipe.title, TextView.BufferType.EDITABLE)
-        etTime.setText(recipe.cookingTime.toString(), TextView.BufferType.EDITABLE)
-        etTimeType.setText(recipe.timeType, TextView.BufferType.EDITABLE)
+
+        twTime.text = recipe.time
+        time = recipe.time
+
         etCookingInfo.setText(recipe.recipeInfo, TextView.BufferType.EDITABLE)
 
         viewModel.setCurrentRecipeIngredients(recipe.ingredients)
@@ -158,18 +175,6 @@ class RecipeAddingFragment : Fragment(R.layout.fragment_recipe_adding),
         etTitle.setOnFocusChangeListener { _, hasFocus ->
             onEditTextFocusChangeListener.setOnFocusChangeListener(
                 hasFocus = hasFocus, editText = etTitle
-            )
-        }
-
-        etTime.setOnFocusChangeListener { _, hasFocus ->
-            onEditTextFocusChangeListener.setOnFocusChangeListener(
-                hasFocus = hasFocus, editText = etTime
-            )
-        }
-
-        etTimeType.setOnFocusChangeListener { _, hasFocus ->
-            onEditTextFocusChangeListener.setOnFocusChangeListener(
-                hasFocus = hasFocus, editText = etTimeType
             )
         }
     }
@@ -193,24 +198,17 @@ class RecipeAddingFragment : Fragment(R.layout.fragment_recipe_adding),
     private fun createNewRecipe() {
         val title = binding.etTitle.text.toString().trim()
         val recipeInfo = binding.etCookingInfo.text.toString()
-        val timeType = binding.etTimeType.text.toString().trim()
-        val time = binding.etTime.text.toString().trim()
 
-        val checkTimeRes = viewModel.checkTime(time)
         when {
-            checkTimeRes is Error.CorrectResult && !isSaved -> viewModel.createRecipe(
+            !isSaved -> viewModel.createRecipe(
                 title = title,
                 recipeInfo = recipeInfo,
-                timeType = timeType,
-                time = time.toDouble()
+                time = time
             )
-            checkTimeRes is Error.CorrectResult && isSaved -> viewModel.updateRecipeInDB(
+            isSaved -> viewModel.updateRecipeInDB(
                 recipeArgs.currentRecipe!!, title = title, recipeInfo = recipeInfo,
-                timeType = timeType, time = time.toDouble()
+                time = time
             )
-            checkTimeRes is Error.ErrorResult -> Toast.makeText(
-                requireContext(), "Time isn't correctly", Toast.LENGTH_LONG
-            ).show()
         }
     }
 

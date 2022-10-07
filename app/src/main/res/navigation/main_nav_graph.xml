@@ -55,4 +55,9 @@
         android:id="@+id/navAddingIngredient"
         android:name="com.firstapplication.recipebook.ui.fragments.IngredientsAddingDialogFragment">
     </dialog>
+    <dialog
+        android:id="@+id/navTimePick"
+        android:name="com.firstapplication.recipebook.ui.fragments.CookTimePickerDialogFragment"
+        android:label="fragment_cook_time_picker_dialog"
+        tools:layout="@layout/fragment_cook_time_picker_dialog" />
 </navigation>

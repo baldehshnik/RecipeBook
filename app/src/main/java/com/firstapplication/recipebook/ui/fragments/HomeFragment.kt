@@ -2,6 +2,7 @@ package com.firstapplication.recipebook.ui.fragments
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.View
@@ -26,6 +27,7 @@ import com.firstapplication.recipebook.ui.models.RecipeModel
 import com.firstapplication.recipebook.ui.viewmodels.HomeViewModel
 import com.firstapplication.recipebook.ui.viewmodels.factories.OnlyRecipeRepositoryViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.card.MaterialCardView
 import javax.inject.Inject
 
 class HomeFragment : Fragment(R.layout.fragment_home), OnRecipeItemClickListener,

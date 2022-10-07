@@ -31,7 +31,7 @@ class RecipeAdapter(
 
             twTitle.text = getTitleText(recipeModel.title)
             twCategory.text = recipeModel.category
-            twHours.text = recipeModel.cookingTime.toString() + " " + recipeModel.timeType
+            twHours.text = recipeModel.time
             twDescription.text = getRecipeInfoText(recipeModel.recipeInfo)
 
             if (!DeleteMode.isDeleteMode)

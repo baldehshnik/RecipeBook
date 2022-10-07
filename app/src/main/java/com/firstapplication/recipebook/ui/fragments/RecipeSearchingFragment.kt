@@ -1,5 +1,6 @@
 package com.firstapplication.recipebook.ui.fragments
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.text.Editable
@@ -45,6 +46,7 @@ class RecipeSearchingFragment : Fragment(R.layout.fragment_recipe_searching),
         super.onAttach(context)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentRecipeSearchingBinding.bind(view)

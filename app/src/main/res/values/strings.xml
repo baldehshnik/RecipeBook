@@ -54,7 +54,9 @@
     <string name="time_type_ru">Тип времени</string>
     <string name="time_ru">Время</string>
     <string name="name_ru">Название</string>
-    <string name="cooking_info_ru">Информация по готовке</string>
+    <string name="cooking_info_ru">Описание</string>
+    <string name="time_did_not_in">Время не указано</string>
+    <string name="edit_time">edit time</string>
 
 
     <string-array name="dish_categories">

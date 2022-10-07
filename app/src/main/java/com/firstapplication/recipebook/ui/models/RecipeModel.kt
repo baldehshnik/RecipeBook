@@ -10,8 +10,7 @@ data class RecipeModel(
     var title: String,
     var recipeInfo: String,
 
-    var cookingTime: Double,
-    var timeType: String,
+    var time: String,
 
     var ingredients: Map<String, String>,
     var isSaved: Boolean = false,

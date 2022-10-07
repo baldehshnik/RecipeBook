@@ -60,11 +60,11 @@ class RecipeInfoFragment : Fragment(R.layout.fragment_recipe_info) {
             rwIngredients.adapter = adapter
 
             twTitle.text = recipe.title
-            twTime.text =
-                "${getStringFromResources(R.string.time_display)} ${recipe.cookingTime} ${recipe.timeType}"
 
-            if (recipe.recipeInfo.isEmpty()) twRecipeInfo.text =
-                getStringFromResources(R.string.no_info_display)
+            twTime.text =
+                "${getStringFromResources(R.string.time_display)} ${recipe.time}"
+
+            if (recipe.recipeInfo.isEmpty()) twRecipeInfo.visibility = View.GONE
             else twRecipeInfo.text = recipe.recipeInfo
 
             twCategory.text =
