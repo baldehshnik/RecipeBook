@@ -23,9 +23,11 @@
         android:id="@+id/btnSearch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="4dp"
         android:backgroundTint="@color/white"
         android:contentDescription="@string/search_image"
-        android:src="@drawable/ic_baseline_search_36"
+        android:src="@drawable/ic_baseline_search_28"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -65,7 +67,7 @@
         android:layout_marginStart="8dp"
         android:backgroundTint="@color/white"
         android:contentDescription="@string/close_delete_window"
-        android:src="@drawable/ic_baseline_close_24"
+        android:src="@drawable/ic_baseline_close_28"
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

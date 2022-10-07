@@ -191,10 +191,10 @@ class RecipeAddingFragment : Fragment(R.layout.fragment_recipe_adding),
     }
 
     private fun createNewRecipe() {
-        val title = binding.etTitle.text.toString()
+        val title = binding.etTitle.text.toString().trim()
         val recipeInfo = binding.etCookingInfo.text.toString()
-        val timeType = binding.etTimeType.text.toString()
-        val time = binding.etTime.text.toString()
+        val timeType = binding.etTimeType.text.toString().trim()
+        val time = binding.etTime.text.toString().trim()
 
         val checkTimeRes = viewModel.checkTime(time)
         when {

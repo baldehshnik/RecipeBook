@@ -23,7 +23,7 @@ class IngredientsAddingDialogFragment :
         with(binding) {
             btnConfirmIngredientAdding.setOnClickListener {
                 if (etIngredientAdding.length() != 0 && etIngredientCount.length() != 0) {
-                    setFragmentResult(etIngredientAdding.text.toString())
+                    setFragmentResult(etIngredientAdding.text.toString().trim())
                     dismiss()
                 } else {
                     Toast.makeText(
@@ -51,8 +51,8 @@ class IngredientsAddingDialogFragment :
     }
 
     private fun getIngredientCount(): String = with(binding) {
-        val ingredientCount = etIngredientCount.text.toString()
-        val ingredientType = etIngredientTypeCount.text.toString()
+        val ingredientCount = etIngredientCount.text.toString().trim()
+        val ingredientType = etIngredientTypeCount.text.toString().trim()
 
         return@with if (ingredientType != "") "$ingredientCount $ingredientType"
         else ingredientCount

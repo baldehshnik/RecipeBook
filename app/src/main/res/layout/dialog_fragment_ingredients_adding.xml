@@ -16,7 +16,7 @@
             android:id="@+id/etIngredientAdding"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:maxLength="14"
+            android:maxLength="24"
             android:hint="@string/new_ingredient_ru"
             android:inputType="textCapSentences" />
 

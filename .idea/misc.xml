@@ -15,8 +15,10 @@
         <entry key="..\:/RecipeBook/app/src/main/res/drawable/ic_baseline_add_circle_24.xml" value="0.2703125" />
         <entry key="..\:/RecipeBook/app/src/main/res/drawable/ic_baseline_arrow_back_ios_24.xml" value="0.2703125" />
         <entry key="..\:/RecipeBook/app/src/main/res/drawable/ic_baseline_bookmark_24.xml" value="0.2703125" />
+        <entry key="..\:/RecipeBook/app/src/main/res/drawable/ic_baseline_bookmark_36.xml" value="0.2703125" />
         <entry key="..\:/RecipeBook/app/src/main/res/drawable/ic_baseline_bookmark_border_24.xml" value="0.2703125" />
         <entry key="..\:/RecipeBook/app/src/main/res/drawable/ic_baseline_bookmark_border_36.xml" value="0.2703125" />
+        <entry key="..\:/RecipeBook/app/src/main/res/drawable/ic_baseline_check_24.xml" value="0.2703125" />
         <entry key="..\:/RecipeBook/app/src/main/res/drawable/ic_baseline_close_24.xml" value="0.2703125" />
         <entry key="..\:/RecipeBook/app/src/main/res/drawable/ic_baseline_count_add_24.xml" value="0.2703125" />
         <entry key="..\:/RecipeBook/app/src/main/res/drawable/ic_baseline_delete_outline_24.xml" value="0.2703125" />
@@ -28,6 +30,7 @@
         <entry key="..\:/RecipeBook/app/src/main/res/drawable/ic_baseline_search_36.xml" value="0.2703125" />
         <entry key="..\:/RecipeBook/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2703125" />
         <entry key="..\:/RecipeBook/app/src/main/res/drawable/ic_outline_home_24.xml" value="0.2703125" />
+        <entry key="..\:/RecipeBook/app/src/main/res/drawable/ic_outline_library_add_24.xml" value="0.2703125" />
         <entry key="..\:/RecipeBook/app/src/main/res/drawable/line.xml" value="0.2703125" />
         <entry key="..\:/RecipeBook/app/src/main/res/drawable/new_some.xml" value="0.2703125" />
         <entry key="..\:/RecipeBook/app/src/main/res/drawable/rounded_button.xml" value="0.2703125" />

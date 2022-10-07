@@ -25,7 +25,7 @@
     <string name="category">Category</string>
     <string name="count">Count</string>
     <string name="new_ingredient">New Ingredient</string>
-    <string name="fill_ingredient_name">Fill ingredient name</string>
+    <string name="fill_ingredient_name">Fill all fields</string>
     <string name="delete_selected_recipe">delete selected recipe</string>
     <string name="close_delete_window">close deleted window</string>
     <string name="delete">Delete</string>
@@ -46,11 +46,15 @@
     <string name="cancel_ru">Назад</string>
     <string name="save_ru">Сохранить</string>
     <string name="new_ingredient_ru">Новый ингредиент</string>
-    <string name="fill_ingredient_name_ru">Заполните название ингредиента</string>
+    <string name="fill_ingredient_name_ru">Заполните все поля</string>
     <string name="confirm_ru">Подтвердить</string>
     <string name="count_ru">Количество</string>
     <string name="search_ru">Поиск</string>
     <string name="count_item_selected_ru"> выбрано</string>
+    <string name="time_type_ru">Тип времени</string>
+    <string name="time_ru">Время</string>
+    <string name="name_ru">Название</string>
+    <string name="cooking_info_ru">Информация по готовке</string>
 
 
     <string-array name="dish_categories">
