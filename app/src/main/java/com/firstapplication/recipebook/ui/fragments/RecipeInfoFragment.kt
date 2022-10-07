@@ -60,16 +60,27 @@ class RecipeInfoFragment : Fragment(R.layout.fragment_recipe_info) {
             rwIngredients.adapter = adapter
 
             twTitle.text = recipe.title
-            twTime.text = "Время: ${recipe.cookingTime} ${recipe.timeType}"
+            twTime.text =
+                "${getStringFromResources(R.string.time_display)} ${recipe.cookingTime} ${recipe.timeType}"
 
-            if (recipe.recipeInfo.isEmpty()) twRecipeInfo.text = "Информация по готовке не указана."
+            if (recipe.recipeInfo.isEmpty()) twRecipeInfo.text =
+                getStringFromResources(R.string.no_info_display)
             else twRecipeInfo.text = recipe.recipeInfo
 
-            twCategory.text = "Категория: ${recipe.category}"
+            twCategory.text =
+                "${getStringFromResources(R.string.category_display)} ${recipe.category}"
 
-            adapter.submitList(recipe.ingredients.toList())
+            val ingredients = recipe.ingredients.toMutableMap()
+            if (ingredients.containsKey(""))
+                ingredients.remove("")
+
+            adapter.submitList(ingredients.toList())
 
         }
+    }
+
+    private fun getStringFromResources(id: Int): String {
+        return resources.getString(id)
     }
 
     private fun dataTransferError() {
@@ -84,7 +95,6 @@ class RecipeInfoFragment : Fragment(R.layout.fragment_recipe_info) {
     override fun onDestroy() {
         activity?.findViewById<Toolbar>(R.id.toolbar)?.visibility = View.VISIBLE
         activity?.findViewById<BottomNavigationView>(R.id.bottomNavView)?.visibility = View.VISIBLE
-
         super.onDestroy()
     }
 

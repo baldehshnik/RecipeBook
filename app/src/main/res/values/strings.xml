@@ -36,6 +36,23 @@
     <string name="recipe_cooking_info">Recipe cooking info</string>
     <string name="close_adding_fragment">Close adding fragment</string>
 
+
+    <string name="time_display">Время приготовления:</string>
+    <string name="category_display">Категория:</string>
+    <string name="no_info_display">Информация по готовке не указана.</string>
+    <string name="ingredients_ru">Ингредиенты:</string>
+    <string name="category_ru">Категория</string>
+    <string name="delete_ru">Удалить</string>
+    <string name="cancel_ru">Назад</string>
+    <string name="save_ru">Сохранить</string>
+    <string name="new_ingredient_ru">Новый ингредиент</string>
+    <string name="fill_ingredient_name_ru">Заполните название ингредиента</string>
+    <string name="confirm_ru">Подтвердить</string>
+    <string name="count_ru">Количество</string>
+    <string name="search_ru">Поиск</string>
+    <string name="count_item_selected_ru"> выбрано</string>
+
+
     <string-array name="dish_categories">
         <item name="all">Все</item>
         <item name="hot_dish">Горячие блюда</item>

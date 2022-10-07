@@ -15,9 +15,10 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etIngredientAdding"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/new_ingredient"
-            android:inputType="text" />
+            android:layout_height="48dp"
+            android:maxLength="14"
+            android:hint="@string/new_ingredient_ru"
+            android:inputType="textCapSentences" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -36,10 +37,11 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etIngredientCount"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="48dp"
                 android:drawableStart="@drawable/ic_baseline_count_add_24"
                 android:drawablePadding="5dp"
-                android:hint="@string/count"
+                android:maxLength="4"
+                android:hint="@string/count_ru"
                 android:inputType="numberDecimal" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -55,11 +57,12 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etIngredientTypeCount"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="48dp"
                 android:drawableStart="@drawable/ic_baseline_extension_24"
                 android:drawablePadding="5dp"
-                android:hint="@string/category"
-                android:inputType="text" />
+                android:hint="@string/category_ru"
+                android:inputType="text"
+                android:maxLength="6" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -75,9 +78,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginVertical="10dp"
-            android:layout_marginStart="80dp"
+            android:layout_marginStart="60dp"
             android:background="@drawable/button_style"
-            android:text="@string/cancel"
+            android:text="@string/cancel_ru"
             android:textColor="@color/white"
             style="?android:attr/buttonBarButtonStyle" />
 
@@ -85,11 +88,10 @@
             android:id="@+id/btnConfirmIngredientAdding"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="28dp"
+            android:layout_marginStart="18dp"
             android:layout_marginTop="10dp"
-            android:layout_marginEnd="15dp"
             android:background="@drawable/button_style"
-            android:text="@string/confirm"
+            android:text="@string/confirm_ru"
             android:textColor="@color/white"
             style="?android:attr/buttonBarButtonStyle" />
 

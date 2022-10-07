@@ -16,7 +16,7 @@ import kotlinx.coroutines.launch
 class HubViewModel(application: Application, private val repository: RecipeRepository) :
     AndroidViewModel(application) {
 
-    private var observeFormat = ""
+    private var observeSavedRecipes = repository.allSavedRecipes("")
 
     private val _savedRecipeList = MutableLiveData<List<RecipeModel>>()
     val savedRecipeList: LiveData<List<RecipeModel>>
@@ -44,22 +44,22 @@ class HubViewModel(application: Application, private val repository: RecipeRepos
 
     fun setObserve(string: String) {
         removeObserve()
-        observeFormat = string
-        repository.readSavedRecipesMatchFormat(string).observeForever(savedRecipeListObserver)
+        observeSavedRecipes = repository.readSavedRecipesMatchFormat(string)
+        observeSavedRecipes.observeForever(savedRecipeListObserver)
     }
 
     private fun removeObserve() {
-        repository.readSavedRecipesMatchFormat(observeFormat).removeObserver(savedRecipeListObserver)
+        observeSavedRecipes.removeObserver(savedRecipeListObserver)
         _savedRecipeList.value = listOf()
     }
 
     init {
-        repository.readSavedRecipesMatchFormat("").observeForever(savedRecipeListObserver)
+        observeSavedRecipes.observeForever(savedRecipeListObserver)
         recipeSavedModels.observeForever(savedRecipeModelsListObserver)
     }
 
     override fun onCleared() {
-        repository.allSavedRecipes(observeFormat).removeObserver(savedRecipeListObserver)
+        observeSavedRecipes.removeObserver(savedRecipeListObserver)
         recipeSavedModels.removeObserver(savedRecipeModelsListObserver)
         super.onCleared()
     }

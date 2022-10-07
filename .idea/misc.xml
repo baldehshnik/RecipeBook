@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/RecipeBook/app/src/main/res/drawable/button_style.xml" value="0.2703125" />
+        <entry key="..\:/RecipeBook/app/src/main/res/drawable/card_edge.xml" value="1.090625" />
         <entry key="..\:/RecipeBook/app/src/main/res/drawable/category_default.xml" value="0.2703125" />
         <entry key="..\:/RecipeBook/app/src/main/res/drawable/category_selected.xml" value="0.2703125" />
         <entry key="..\:/RecipeBook/app/src/main/res/drawable/category_selector.xml" value="0.2703125" />

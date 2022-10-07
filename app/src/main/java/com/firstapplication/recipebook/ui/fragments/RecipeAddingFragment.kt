@@ -109,6 +109,7 @@ class RecipeAddingFragment : Fragment(R.layout.fragment_recipe_adding),
         }
 
         viewModel.ingredients.observe(viewLifecycleOwner) { ingredientsMap ->
+            if (ingredientsMap.containsKey("")) ingredientsMap.remove("")
             ingredientAdapter.submitList(ingredientsMap.toList())
         }
 

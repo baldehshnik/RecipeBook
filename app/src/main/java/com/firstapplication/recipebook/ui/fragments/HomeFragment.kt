@@ -217,7 +217,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), OnRecipeItemClickListener
         return super.onItemLongClick(view, recipeModel)
     }
 
-    private fun setNewMarginsToRecyclerView(marginBottom: Int = 0, marginTop: Float = 50f) {
+    private fun setNewMarginsToRecyclerView(marginBottom: Int = 0, marginTop: Float = 58f) {
         val params = ConstraintLayout.LayoutParams(
             ConstraintLayout.LayoutParams.MATCH_PARENT,
             ConstraintLayout.LayoutParams.MATCH_PARENT

@@ -21,6 +21,7 @@ import com.firstapplication.recipebook.ui.interfacies.OnRecipeItemClickListener
 import com.firstapplication.recipebook.ui.models.RecipeModel
 import com.firstapplication.recipebook.ui.viewmodels.RecipeSearchingViewModel
 import com.firstapplication.recipebook.ui.viewmodels.factories.OnlyRecipeRepositoryViewModelFactory
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import javax.inject.Inject
 
 class RecipeSearchingFragment : Fragment(R.layout.fragment_recipe_searching),
@@ -40,6 +41,7 @@ class RecipeSearchingFragment : Fragment(R.layout.fragment_recipe_searching),
     override fun onAttach(context: Context) {
         context.applicationContext.appComponent.inject(this)
         activity?.findViewById<Toolbar>(R.id.toolbar)?.title = ""
+        activity?.findViewById<BottomNavigationView>(R.id.bottomNavView)?.visibility = View.GONE
         super.onAttach(context)
     }
 
@@ -106,6 +108,7 @@ class RecipeSearchingFragment : Fragment(R.layout.fragment_recipe_searching),
 
     override fun onDestroy() {
         super.onDestroy()
+        activity?.findViewById<BottomNavigationView>(R.id.bottomNavView)?.visibility = View.VISIBLE
         activity?.findViewById<Toolbar>(R.id.toolbar)?.title =
             resources.getString(R.string.app_name)
     }
