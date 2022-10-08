@@ -6,23 +6,45 @@
     android:orientation="vertical"
     tools:context=".ui.fragments.CookTimePickerDialogFragment">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/btnClose"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/white"
+            android:layout_weight="1"
+            android:src="@drawable/ic_baseline_close_28"
+            android:contentDescription="@string/close_time_picker_fragment" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_weight="2"
+            android:text="@string/cooking_time"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+        <ImageButton
+            android:id="@+id/btnConfirm"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/white"
+            android:src="@drawable/ic_baseline_check_28"
+            android:contentDescription="@string/save_time" />
+
+    </LinearLayout>
+
     <TimePicker
         android:id="@+id/tpTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:timePickerMode="spinner" />
-
-    <Button
-        android:id="@+id/btnConfirm"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/white"
-        android:layout_marginVertical="10dp"
-        android:layout_marginEnd="10dp"
-        android:backgroundTint="@color/bottom_nav_view"
-        android:layout_gravity="end"
-        android:text="@string/confirm_ru"
-        />
 
 </LinearLayout>

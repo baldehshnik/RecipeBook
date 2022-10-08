@@ -1,6 +1,7 @@
 package com.firstapplication.recipebook.ui.adapters
 
 import android.annotation.SuppressLint
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.firstapplication.recipebook.R
 import com.firstapplication.recipebook.databinding.RecipeItemBinding
+import com.firstapplication.recipebook.enums.Colors
 import com.firstapplication.recipebook.sealed.RecipeListItemClick
 import com.firstapplication.recipebook.ui.adapters.RecipeAdapter.RecipeViewHolder
 import com.firstapplication.recipebook.ui.fragments.DeleteMode
@@ -34,8 +36,10 @@ class RecipeAdapter(
             twHours.text = recipeModel.time
             twDescription.text = getRecipeInfoText(recipeModel.recipeInfo)
 
-            if (!DeleteMode.isDeleteMode)
+            if (!DeleteMode.isDeleteMode) {
                 btnRadioDelete.visibility = View.GONE
+                cardView.strokeColor = Color.parseColor(Colors.WHITE.color)
+            }
         }
 
         private fun getRecipeInfoText(text: String): String {

@@ -8,6 +8,7 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageButton
 import android.widget.TextView
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -55,6 +56,7 @@ class RecipeAddingFragment : Fragment(R.layout.fragment_recipe_adding),
 
     override fun onAttach(context: Context) {
         context.applicationContext.appComponent.inject(this)
+        activity?.findViewById<Toolbar>(R.id.toolbar)?.title = ""
         super.onAttach(context)
     }
 
@@ -99,6 +101,8 @@ class RecipeAddingFragment : Fragment(R.layout.fragment_recipe_adding),
                     categoriesList = categoriesList
                 )
             )
+
+            binding.twAppName.visibility = View.GONE
             isSaved = true
         }
 
@@ -210,6 +214,12 @@ class RecipeAddingFragment : Fragment(R.layout.fragment_recipe_adding),
                 time = time
             )
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        activity?.findViewById<Toolbar>(R.id.toolbar)?.title =
+            resources.getString(R.string.app_name)
     }
 
 }

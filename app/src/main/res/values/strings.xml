@@ -57,6 +57,11 @@
     <string name="cooking_info_ru">Описание</string>
     <string name="time_did_not_in">Время не указано</string>
     <string name="edit_time">edit time</string>
+    <string name="close_time_picker_fragment">close_time_picker_fragment</string>
+    <string name="cooking_time">Время готовки</string>
+    <string name="save_time">save time</string>
+    <string name="weight_ru">Масса</string>
+    <string name="add_recipe_ru">Добавить рецепт</string>
 
 
     <string-array name="dish_categories">

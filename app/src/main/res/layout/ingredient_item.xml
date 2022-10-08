@@ -17,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <TextView
@@ -40,15 +40,15 @@
 
             <TextView
                 android:id="@+id/twIngredientCount"
-                android:layout_width="110dp"
+                android:layout_width="130dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="40dp"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="5dp"
                 android:background="@drawable/category_selected"
                 android:maxLines="1"
                 android:scrollHorizontally="true"
                 android:textColor="#F4511E"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintLeft_toRightOf="@id/twIngredientName"
                 app:layout_constraintRight_toLeftOf="@id/btnDeleteIngredient"
@@ -59,7 +59,6 @@
                 android:id="@+id/btnDeleteIngredient"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="10dp"
                 android:backgroundTint="@color/white"
                 android:contentDescription="@string/delete_ingredient"
                 android:src="@drawable/ic_baseline_delete_outline_24"

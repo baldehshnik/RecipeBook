@@ -2,13 +2,13 @@ package com.firstapplication.recipebook.ui.fragments
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Color
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.View
 import android.widget.RadioButton
 import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.core.view.marginBottom
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -101,7 +101,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), OnRecipeItemClickListener
 
         viewModel.selectedRecipesCount.observe(viewLifecycleOwner) { count ->
             binding.twDelete.text =
-                "$count ${resources.getString(R.string.count_item_selected)}"
+                "$count ${resources.getString(R.string.count_item_selected_ru)}"
         }
 
     }
@@ -114,7 +114,6 @@ class HomeFragment : Fragment(R.layout.fragment_home), OnRecipeItemClickListener
 
     override fun onPause() {
         super.onPause()
-
         if (DeleteMode.isDeleteMode) {
             disableDeleteWindow()
             viewModel.clearSelectedRecipe()
@@ -167,34 +166,59 @@ class HomeFragment : Fragment(R.layout.fragment_home), OnRecipeItemClickListener
             is RecipeListItemClick.OnFullItemClick -> findNavController().navigate(
                 HomeFragmentDirections.actionNavHomeToNavRecipeInfo(recipeModel)
             )
-            is RecipeListItemClick.OnItemClickInDeleteMode -> setRadioButtonVisibility(
-                view.findViewById(
+            is RecipeListItemClick.OnItemClickInDeleteMode -> {
+                val radioButton = view.findViewById<RadioButton>(
                     R.id.btnRadioDelete
-                ), recipeModel = recipeModel
-            )
+                )
+
+                setRadioButtonVisibility(
+                    view = view,
+                    radioButton = radioButton,
+                    recipeModel = recipeModel
+                )
+            }
         }
+
+    private fun setStrokeColor(view: View) {
+        view.findViewById<MaterialCardView>(R.id.cardView).strokeColor =
+            ContextCompat.getColor(requireContext(), R.color.bottom_nav_view)
+    }
+
+    private fun deleteStrokeColor(view: View) {
+        view.findViewById<MaterialCardView>(R.id.cardView).strokeColor =
+            ContextCompat.getColor(requireContext(), R.color.white)
+    }
 
     private fun updateRecipe(recipeModel: RecipeModel) {
         recipeModel.isSaved = !recipeModel.isSaved
         viewModel.updateRecipeInDB(recipeModel = recipeModel)
     }
 
-    private fun setRadioButtonVisibility(radioButton: RadioButton, recipeModel: RecipeModel) =
+    private fun setRadioButtonVisibility(
+        view: View,
+        radioButton: RadioButton,
+        recipeModel: RecipeModel
+    ) =
         when (radioButton.visibility) {
             View.VISIBLE -> {
                 viewModel.deleteSelectedRecipe(recipeModel = recipeModel)
                 radioButton.visibility = View.GONE
+                deleteStrokeColor(view = view)
             }
             else -> {
                 viewModel.addNewSelectedRecipes(recipeModel = recipeModel)
                 radioButton.isChecked = true
                 radioButton.visibility = View.VISIBLE
+                setStrokeColor(view = view)
             }
         }
 
     override fun onItemLongClick(view: View, recipeModel: RecipeModel): Boolean {
         if (!DeleteMode.isDeleteMode) {
             val btnRadioButton = view.findViewById<RadioButton>(R.id.btnRadioDelete)
+
+            view.findViewById<MaterialCardView>(R.id.cardView).strokeColor =
+                ContextCompat.getColor(requireContext(), R.color.bottom_nav_view)
 
             btnRadioButton.visibility = View.VISIBLE
             btnRadioButton.isChecked = true

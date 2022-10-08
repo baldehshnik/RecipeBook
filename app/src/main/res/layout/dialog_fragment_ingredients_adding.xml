@@ -60,7 +60,7 @@
                 android:layout_height="48dp"
                 android:drawableStart="@drawable/ic_baseline_extension_24"
                 android:drawablePadding="5dp"
-                android:hint="@string/category_ru"
+                android:hint="@string/weight_ru"
                 android:inputType="text"
                 android:maxLength="6" />
 

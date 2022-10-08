@@ -28,7 +28,7 @@ class IngredientsAddingDialogFragment :
                 } else {
                     Toast.makeText(
                         requireContext(),
-                        resources.getString(R.string.fill_ingredient_name),
+                        resources.getString(R.string.fill_ingredient_name_ru),
                         Toast.LENGTH_LONG
                     ).show()
                 }

@@ -8,7 +8,6 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import com.firstapplication.recipebook.R
 import com.firstapplication.recipebook.databinding.FragmentCookTimePickerDialogBinding
-import com.firstapplication.recipebook.enums.IngredientsKeys
 import com.firstapplication.recipebook.enums.TimePickerKeys
 
 class CookTimePickerDialogFragment : DialogFragment(R.layout.fragment_cook_time_picker_dialog) {
@@ -22,17 +21,23 @@ class CookTimePickerDialogFragment : DialogFragment(R.layout.fragment_cook_time_
 
         with(binding) {
             tpTime.setIs24HourView(true)
+
+            tpTime.hour = 0
+            tpTime.minute = 0
+
             btnConfirm.setOnClickListener {
                 parentFragmentManager.setFragmentResult(
                     TimePickerKeys.CONNECT_KEY.id, bundleOf(
-                        TimePickerKeys.HOURS_KEY.id to binding.tpTime.hour.toString(),
-                        TimePickerKeys.MINUTES_KEY.id to binding.tpTime.minute.toString(),
+                        TimePickerKeys.HOURS_KEY.id to tpTime.hour.toString(),
+                        TimePickerKeys.MINUTES_KEY.id to tpTime.minute.toString(),
                     )
                 )
+
                 dismiss()
             }
-        }
 
+            btnClose.setOnClickListener { dismiss() }
+        }
     }
 
 }

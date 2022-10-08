@@ -22,6 +22,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            android:id="@+id/twAppName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="@string/app_name"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="15dp"/>
+
         <ImageButton
             android:id="@+id/btnSave"
             android:layout_width="wrap_content"
@@ -77,10 +89,10 @@
                 android:id="@+id/twTime"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingVertical="8dp"
+                android:layout_marginStart="5dp"
                 android:layout_marginEnd="5dp"
                 android:drawablePadding="10dp"
-                android:layout_marginStart="5dp"
+                android:paddingVertical="8dp"
                 android:text="@string/time_did_not_in"
                 android:textSize="20sp"
                 app:drawableStartCompat="@drawable/ic_baseline_access_time_24" />
@@ -89,10 +101,10 @@
                 android:id="@+id/btnEditTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_baseline_edit_24"
-                android:backgroundTint="@color/white"
                 android:layout_gravity="end"
-                android:contentDescription="@string/edit_time" />
+                android:backgroundTint="@color/white"
+                android:contentDescription="@string/edit_time"
+                android:src="@drawable/ic_baseline_edit_24" />
 
         </com.google.android.material.card.MaterialCardView>
 
