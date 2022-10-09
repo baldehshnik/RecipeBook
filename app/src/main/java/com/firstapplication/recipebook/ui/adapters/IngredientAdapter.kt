@@ -1,16 +1,24 @@
 package com.firstapplication.recipebook.ui.adapters
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.firstapplication.recipebook.databinding.IngredientItemBinding
 import android.text.method.ScrollingMovementMethod
+import android.view.MotionEvent
 import android.widget.TextView
+import com.firstapplication.recipebook.ui.interfacies.ItemTouchMoveListener
 import com.firstapplication.recipebook.ui.interfacies.OnIngredientDeleteItemClickListener
+import com.firstapplication.recipebook.ui.interfacies.OnItemMoveListener
 
-class IngredientAdapter(private val listenerDelete: OnIngredientDeleteItemClickListener) :
-    ListAdapter<Pair<String, String>, IngredientAdapter.IngredientViewHolder>(IngredientDiffUtil()) {
+class IngredientAdapter(
+    private val listenerDelete: OnIngredientDeleteItemClickListener,
+    private val onItemMoveListener: OnItemMoveListener
+) :
+    ListAdapter<Pair<String, String>, IngredientAdapter.IngredientViewHolder>(IngredientDiffUtil()),
+    ItemTouchMoveListener {
 
     class IngredientViewHolder(
         private val binding: IngredientItemBinding,
@@ -49,8 +57,20 @@ class IngredientAdapter(private val listenerDelete: OnIngredientDeleteItemClickL
         )
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onBindViewHolder(holder: IngredientViewHolder, position: Int) {
         holder.bind(pair = getItem(position))
+        holder.itemView.setOnTouchListener { _, motionEvent ->
+            if(motionEvent.action == MotionEvent.ACTION_DOWN)
+                onItemMoveListener.onStartDrag(holder)
+            return@setOnTouchListener false
+        }
+    }
+
+    override fun onMove(fromPosition: Int, toPosition: Int): Boolean {
+        onItemMoveListener.onMove(fromPosition, toPosition)
+        notifyItemMoved(fromPosition, toPosition)
+        return true
     }
 
 }

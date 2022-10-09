@@ -13,7 +13,9 @@ import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.firstapplication.recipebook.App
 import com.firstapplication.recipebook.R
 import com.firstapplication.recipebook.databinding.FragmentRecipeAddingBinding
@@ -23,8 +25,10 @@ import com.firstapplication.recipebook.ui.adapters.IngredientAdapter
 import com.firstapplication.recipebook.enums.IngredientsKeys
 import com.firstapplication.recipebook.enums.TimePickerKeys
 import com.firstapplication.recipebook.extensions.closeKeyboard
+import com.firstapplication.recipebook.ui.adapters.IngredientCallback
 import com.firstapplication.recipebook.ui.interfacies.OnCategoryItemClickListener
 import com.firstapplication.recipebook.ui.interfacies.OnIngredientDeleteItemClickListener
+import com.firstapplication.recipebook.ui.interfacies.OnItemMoveListener
 import com.firstapplication.recipebook.ui.listeners.OnEditTextFocusChangeListenerImpl
 import com.firstapplication.recipebook.ui.models.RecipeModel
 import com.firstapplication.recipebook.ui.viewmodels.RecipeAddingViewModel
@@ -32,7 +36,7 @@ import com.firstapplication.recipebook.ui.viewmodels.factories.OnlyRecipeReposit
 import javax.inject.Inject
 
 class RecipeAddingFragment : Fragment(R.layout.fragment_recipe_adding),
-    OnCategoryItemClickListener, OnIngredientDeleteItemClickListener {
+    OnCategoryItemClickListener, OnIngredientDeleteItemClickListener, OnItemMoveListener {
 
     private var isSaved = false
     private var time = ""
@@ -53,6 +57,8 @@ class RecipeAddingFragment : Fragment(R.layout.fragment_recipe_adding),
 
     @Inject
     lateinit var onEditTextFocusChangeListener: OnEditTextFocusChangeListenerImpl
+
+    private lateinit var itemTouchHelper: ItemTouchHelper
 
     override fun onAttach(context: Context) {
         context.applicationContext.appComponent.inject(this)
@@ -90,7 +96,11 @@ class RecipeAddingFragment : Fragment(R.layout.fragment_recipe_adding),
         val dishCategoryAdapter =
             DishCategoryAdapter(categoriesList.subList(1, categoriesList.size), this)
 
-        val ingredientAdapter = IngredientAdapter(this)
+        val ingredientAdapter = IngredientAdapter(this, this)
+
+        val callback = IngredientCallback(ingredientAdapter)
+        itemTouchHelper = ItemTouchHelper(callback)
+        itemTouchHelper.attachToRecyclerView(binding.rwIngredients)
 
         if (recipeArgs.currentRecipe != null) {
             val recipe = recipeArgs.currentRecipe!!
@@ -220,6 +230,14 @@ class RecipeAddingFragment : Fragment(R.layout.fragment_recipe_adding),
         super.onDestroy()
         activity?.findViewById<Toolbar>(R.id.toolbar)?.title =
             resources.getString(R.string.app_name)
+    }
+
+    override fun onMove(fromPosition: Int, toPosition: Int) {
+        viewModel.changeIngredientsPosition(fromPosition, toPosition)
+    }
+
+    override fun onStartDrag(viewHolder: RecyclerView.ViewHolder) {
+        itemTouchHelper.startDrag(viewHolder)
     }
 
 }

@@ -9,6 +9,7 @@ import com.firstapplication.recipebook.extensions.migrateFromRecipeModelToRecipe
 import com.firstapplication.recipebook.ui.models.RecipeModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.*
 
 class RecipeAddingViewModel(application: Application, private val repository: RecipeRepository) :
     AndroidViewModel(application) {
@@ -26,6 +27,13 @@ class RecipeAddingViewModel(application: Application, private val repository: Re
     fun deleteIngredient(key: String) {
         ingredientsMap.remove(key)
         _ingredients.value = ingredientsMap
+    }
+
+    fun changeIngredientsPosition(fromPosition: Int, toPosition: Int) {
+        val ingredientsList = ingredientsMap.toList()
+        Collections.swap(ingredientsList, fromPosition, toPosition)
+        ingredientsMap.clear()
+        ingredientsMap.putAll(ingredientsList.toMap())
     }
 
     fun setCurrentRecipeIngredients(ingredients: Map<String, String>) {
