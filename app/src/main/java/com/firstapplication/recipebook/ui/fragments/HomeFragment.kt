@@ -102,6 +102,12 @@ class HomeFragment : Fragment(R.layout.fragment_home), OnRecipeItemClickListener
         viewModel.selectedRecipesCount.observe(viewLifecycleOwner) { count ->
             binding.twDelete.text =
                 "$count ${resources.getString(R.string.count_item_selected_ru)}"
+
+            if (count == 0) {
+                disableDeleteWindow()
+                setToolBarText()
+                binding.rwCategories.visibility = View.VISIBLE
+            }
         }
 
     }

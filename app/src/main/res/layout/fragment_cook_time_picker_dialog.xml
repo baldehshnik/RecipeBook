@@ -15,7 +15,7 @@
             android:id="@+id/btnClose"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/white"
+            android:backgroundTint="@android:color/transparent"
             android:layout_weight="1"
             android:src="@drawable/ic_baseline_close_28"
             android:contentDescription="@string/close_time_picker_fragment" />
@@ -34,7 +34,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/white"
+            android:backgroundTint="@android:color/transparent"
             android:src="@drawable/ic_baseline_check_28"
             android:contentDescription="@string/save_time" />
 
