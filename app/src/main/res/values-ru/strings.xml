@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Книга рецептов</string>
+    <string name="ingredients">Ингредиенты</string>
+    <string name="name">Название</string>
+    <string name="time">Время</string>
+    <string name="save">Сохранить</string>
+    <string name="add_new_ingredient">Добавить ингредиент</string>
+    <string name="confirm">Подтвердить</string>
+    <string name="cancel">Назад</string>
+    <string name="category">Категория</string>
+    <string name="count">Количество</string>
+    <string name="new_ingredient">Новый ингредиент</string>
+    <string name="fill_ingredient_name">Заполните все поля</string>
+    <string name="delete">Удалить</string>
+    <string name="search">Поиск</string>
+    <string name="add">Добавить</string>
+    <string name="cooking_info">Описание</string>
+    <string name="weight">Вес</string>
+    <string name="save_new_ingredient">Сохранить ингредиент</string>
+    <string name="delete_ingredient">Удалить ингредиент</string>
+    <string name="count_item_selected">" выбрано"</string>
+    <string name="category_display">Категория:</string>
+    <string name="error">Ошибка</string>
+
+    <string-array name="dish_categories">
+        <item name="all">Все</item>
+        <item name="hot_dish">Горячие блюда</item>
+        <item name="bakery_products">Выпечка</item>
+        <item name="salads">Салаты</item>
+        <item name="cold_dish">Холодные блюда</item>
+        <item name="beverages">Напитки</item>
+        <item name="snacks">Закуски</item>
+        <item name="seaming">Закатки</item>
+        <item name="others">Другое</item>
+    </string-array>
+    <string name="time_display">Время приготовления:</string>
+    <string name="no_info_display">Информация по готовке не указана.</string>
+    <string name="time_did_not_in">Время не указано</string>
+    <string name="cooking_time">Время готовки</string>
+
+</resources>

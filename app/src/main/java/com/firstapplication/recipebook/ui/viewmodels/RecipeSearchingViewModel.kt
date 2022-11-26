@@ -8,14 +8,12 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.viewModelScope
 import com.firstapplication.recipebook.data.interfaces.RecipeRepository
 import com.firstapplication.recipebook.data.models.RecipeEntity
-import com.firstapplication.recipebook.extensions.getMigratedToRecipeModelList
-import com.firstapplication.recipebook.extensions.updateRecipeInDB
 import com.firstapplication.recipebook.ui.models.RecipeModel
 import kotlinx.coroutines.launch
 
 class RecipeSearchingViewModel(
     application: Application, private val repository: RecipeRepository
-) : AndroidViewModel(application) {
+) : BasicAndroidViewModel(application = application) {
 
     private var observableRecipes = repository.readRecipesMatchFormat("")
 

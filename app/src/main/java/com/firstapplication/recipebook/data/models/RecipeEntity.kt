@@ -2,6 +2,7 @@ package com.firstapplication.recipebook.data.models
 
 import androidx.room.*
 import com.firstapplication.recipebook.data.local.IngredientsConverter
+import com.firstapplication.recipebook.ui.models.RecipeModel
 
 @Entity(tableName = "recipes")
 @TypeConverters(IngredientsConverter::class)
@@ -29,4 +30,17 @@ data class RecipeEntity(
 
     @ColumnInfo(name = "category")
     val category: String = "Горячие блюда"
-)
+) {
+
+    fun migrateFromRecipeEntityToRecipeModel() = RecipeModel(
+        id = id,
+        imageId = imageId,
+        title = title,
+        recipeInfo = recipeInfo,
+        time = time,
+        ingredients = ingredients,
+        isSaved = isSaved,
+        category = category
+    )
+
+}

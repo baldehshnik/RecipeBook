@@ -1,24 +1,22 @@
 <resources>
     <string name="app_name">Recipe Book</string>
 
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="home">Home</string>
-    <string name="hub">Hub</string>
-    <string name="recipe_adding">recipe adding</string>
-    <string name="cocking_time_image">cocking time image</string>
-    <string name="ingredients_count_image">ingredients count image</string>
-    <string name="bookmark">bookmark</string>
-    <string name="add">Add</string>
-    <string name="search_image">search image</string>
-    <string name="way_out_to_homefragment">way out to HomeFragment</string>
+    <string name="home" translatable="false">Home</string>
+    <string name="hub" translatable="false">Hub</string>
+    <string name="recipe_adding" translatable="false">recipe adding</string>
+    <string name="cocking_time_image" translatable="false">cocking time image</string>
+    <string name="ingredients_count_image" translatable="false">ingredients count image</string>
+    <string name="bookmark" translatable="false">bookmark</string>
+    <string name="search_image" translatable="false">search image</string>
+    <string name="way_out_to_home_fragment" translatable="false">way out to HomeFragment</string>
     <string name="ingredients">Ingredients</string>
     <string name="name">Name</string>
     <string name="cooking_info">Cooking info</string>
     <string name="time">Time</string>
     <string name="save">Save</string>
+    <string name="weight">Weight</string>
     <string name="add_new_ingredient">add new ingredient</string>
     <string name="confirm">Confirm</string>
-    <string name="time_type">Time type</string>
     <string name="cancel">Cancel</string>
     <string name="delete_ingredient">delete ingredient</string>
     <string name="save_new_ingredient">save new ingredient</string>
@@ -26,54 +24,37 @@
     <string name="count">Count</string>
     <string name="new_ingredient">New Ingredient</string>
     <string name="fill_ingredient_name">Fill all fields</string>
-    <string name="delete_selected_recipe">delete selected recipe</string>
-    <string name="close_delete_window">close deleted window</string>
+    <string name="delete_selected_recipe" translatable="false">delete selected recipe</string>
+    <string name="close_delete_window" translatable="false">close deleted window</string>
     <string name="delete">Delete</string>
     <string name="count_item_selected"> item selected</string>
     <string name="search">Search</string>
-    <string name="default_recipe_info_image">default recipe info image</string>
-    <string name="data_transfer_error">Data transfer error</string>
-    <string name="recipe_cooking_info">Recipe cooking info</string>
-    <string name="close_adding_fragment">Close adding fragment</string>
-
-
-    <string name="time_display">Время приготовления:</string>
-    <string name="category_display">Категория:</string>
-    <string name="no_info_display">Информация по готовке не указана.</string>
-    <string name="ingredients_ru">Ингредиенты:</string>
-    <string name="category_ru">Категория</string>
-    <string name="delete_ru">Удалить</string>
-    <string name="cancel_ru">Назад</string>
-    <string name="save_ru">Сохранить</string>
-    <string name="new_ingredient_ru">Новый ингредиент</string>
-    <string name="fill_ingredient_name_ru">Заполните все поля</string>
-    <string name="confirm_ru">Подтвердить</string>
-    <string name="count_ru">Количество</string>
-    <string name="search_ru">Поиск</string>
-    <string name="count_item_selected_ru"> выбрано</string>
-    <string name="time_type_ru">Тип времени</string>
-    <string name="time_ru">Время</string>
-    <string name="name_ru">Название</string>
-    <string name="cooking_info_ru">Описание</string>
-    <string name="time_did_not_in">Время не указано</string>
-    <string name="edit_time">edit time</string>
-    <string name="close_time_picker_fragment">close_time_picker_fragment</string>
-    <string name="cooking_time">Время готовки</string>
-    <string name="save_time">save time</string>
-    <string name="weight_ru">Масса</string>
-    <string name="add_recipe_ru">Добавить рецепт</string>
+    <string name="default_recipe_info_image" translatable="false">default recipe info image</string>
+    <string name="data_transfer_error" translatable="false">Data transfer error</string>
+    <string name="recipe_cooking_info" translatable="false">Recipe cooking info</string>
+    <string name="close_adding_fragment" translatable="false">Close adding fragment</string>
+    <string name="time_display">Cooking time:</string>
+    <string name="category_display">Category:</string>
+    <string name="no_info_display">No information</string>
+    <string name="time_did_not_in">No time</string>
+    <string name="edit_time" translatable="false">edit time</string>
+    <string name="close_time_picker_fragment" translatable="false">close_time_picker_fragment</string>
+    <string name="cooking_time">Cooking time</string>
+    <string name="save_time" translatable="false">save time</string>
+    <string name="add">Add</string>
+    <string name="error">Error</string>
 
 
     <string-array name="dish_categories">
-        <item name="all">Все</item>
-        <item name="hot_dish">Горячие блюда</item>
-        <item name="bakery_products">Выпечка</item>
-        <item name="salads">Салаты</item>
-        <item name="cold_dish">Холодные блюда</item>
-        <item name="beverages">Напитки</item>
-        <item name="snacks">Закуски</item>
-        <item name="seaming">Закатки</item>
-        <item name="others">Другое</item>
+        <item name="all">All</item>
+        <item name="hot_dish">Hot dishes</item>
+        <item name="bakery_products">Bakery products</item>
+        <item name="salads">Salads</item>
+        <item name="cold_dish">Cold dishes</item>
+        <item name="beverages">Beverages</item>
+        <item name="snacks">Snacks</item>
+        <item name="seaming">Seaming</item>
+        <item name="others">Other</item>
     </string-array>
 
 </resources>

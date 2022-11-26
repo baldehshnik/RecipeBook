@@ -20,34 +20,23 @@ import com.firstapplication.recipebook.ui.models.RecipeModel
 
 class RecipeAdapter(
     private val listener: OnRecipeItemClickListener
-) :
-    ListAdapter<RecipeModel, RecipeViewHolder>(RecipeDiffUtil()) {
+) : ListAdapter<RecipeModel, RecipeViewHolder>(RecipeDiffUtil()) {
 
     class RecipeViewHolder(
         private val binding: RecipeItemBinding
-    ) :
-        RecyclerView.ViewHolder(binding.root) {
+    ) : RecyclerView.ViewHolder(binding.root) {
 
         @SuppressLint("SetTextI18n")
         fun bind(recipeModel: RecipeModel) = with(binding) {
-
-            twTitle.text = getTitleText(recipeModel.title)
+            twTitle.text = recipeModel.title
             twCategory.text = recipeModel.category
             twHours.text = recipeModel.time
-            twDescription.text = getRecipeInfoText(recipeModel.recipeInfo)
+            twDescription.text = recipeModel.recipeInfo
 
             if (!DeleteMode.isDeleteMode) {
                 btnRadioDelete.visibility = View.GONE
                 cardView.strokeColor = Color.parseColor(Colors.WHITE.color)
             }
-        }
-
-        private fun getRecipeInfoText(text: String): String {
-            return if (text.length > 52) text.substring(0, 52) + "..." else text
-        }
-
-        private fun getTitleText(text: String): String {
-            return if (text.length > 11) text.substring(0, 11) + "..." else text
         }
 
         fun setImageResource(key: Boolean) = with(binding) {
@@ -63,7 +52,6 @@ class RecipeAdapter(
 
     override fun onBindViewHolder(holder: RecipeViewHolder, position: Int) = with(holder) {
         val item = getItem(position)
-
         bind(item)
 
         itemView.setOnClickListener { view ->
@@ -85,12 +73,13 @@ class RecipeAdapter(
                 RecipeListItemClick.OnMarkerClick
             )
 
+//            notifyItemChanged(position)
+
             listener.notifyItemThatMarkerClicked(position = position)
         }
 
         setImageResource(item.isSaved)
     }
-
 }
 
 class RecipeDiffUtil : DiffUtil.ItemCallback<RecipeModel>() {

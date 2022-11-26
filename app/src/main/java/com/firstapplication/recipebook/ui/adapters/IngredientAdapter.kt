@@ -16,37 +16,27 @@ import com.firstapplication.recipebook.ui.interfacies.OnItemMoveListener
 class IngredientAdapter(
     private val listenerDelete: OnIngredientDeleteItemClickListener,
     private val onItemMoveListener: OnItemMoveListener
-) :
-    ListAdapter<Pair<String, String>, IngredientAdapter.IngredientViewHolder>(IngredientDiffUtil()),
-    ItemTouchMoveListener {
+) : ListAdapter<Pair<String, String>, IngredientAdapter.IngredientViewHolder>(IngredientDiffUtil()), ItemTouchMoveListener {
 
     class IngredientViewHolder(
         private val binding: IngredientItemBinding,
         private val listenerDelete: OnIngredientDeleteItemClickListener
-    ) :
-        RecyclerView.ViewHolder(binding.root) {
+    ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(pair: Pair<String, String>) = with(binding) {
-            twIngredientName.apply {
-                twIngredientName.text = pair.first
-                setHorizontalScrolling(this)
-            }
-
-            twIngredientCount.apply {
-                twIngredientCount.text = pair.second
-                setHorizontalScrolling(this)
-            }
+            setHorizontalScrolling(twIngredientName, pair.first)
+            setHorizontalScrolling(twIngredientCount, pair.second)
 
             btnDeleteIngredient.setOnClickListener { view ->
                 listenerDelete.onIngredientDeleteItemClick(view = view, ingredient = pair)
             }
         }
 
-        private fun setHorizontalScrolling(textView: TextView) {
+        private fun setHorizontalScrolling(textView: TextView, text: String) {
+            textView.text = text
             textView.setHorizontallyScrolling(true)
             textView.movementMethod = ScrollingMovementMethod()
         }
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IngredientViewHolder {
@@ -72,5 +62,4 @@ class IngredientAdapter(
         notifyItemMoved(fromPosition, toPosition)
         return true
     }
-
 }

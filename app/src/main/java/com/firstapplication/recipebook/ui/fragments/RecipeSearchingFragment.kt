@@ -1,14 +1,14 @@
 package com.firstapplication.recipebook.ui.fragments
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.LayoutInflater
 import android.view.View
-import android.widget.Toast
+import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
-import androidx.fragment.app.Fragment
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,10 +25,9 @@ import com.firstapplication.recipebook.ui.viewmodels.factories.OnlyRecipeReposit
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import javax.inject.Inject
 
-class RecipeSearchingFragment : Fragment(R.layout.fragment_recipe_searching),
-    OnRecipeItemClickListener {
-
+class RecipeSearchingFragment : BasicFragment(), OnRecipeItemClickListener {
     private lateinit var binding: FragmentRecipeSearchingBinding
+    private lateinit var recipeAdapter: RecipeAdapter
 
     @Inject
     lateinit var onlyRecipeRepositoryViewModelFactory: OnlyRecipeRepositoryViewModelFactory.Factory
@@ -37,20 +36,21 @@ class RecipeSearchingFragment : Fragment(R.layout.fragment_recipe_searching),
         onlyRecipeRepositoryViewModelFactory.create(activity?.application as App)
     }
 
-    private lateinit var recipeAdapter: RecipeAdapter
-
     override fun onAttach(context: Context) {
         context.applicationContext.appComponent.inject(this)
         activity?.findViewById<Toolbar>(R.id.toolbar)?.title = ""
         activity?.findViewById<BottomNavigationView>(R.id.bottomNavView)?.visibility = View.GONE
+
+        setNewBottomMarginToBottomNavView()
         super.onAttach(context)
     }
 
-    @SuppressLint("SetTextI18n")
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        binding = FragmentRecipeSearchingBinding.bind(view)
-
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = FragmentRecipeSearchingBinding.inflate(layoutInflater, container, false)
         recipeAdapter = RecipeAdapter(this)
 
         with(binding) {
@@ -70,10 +70,40 @@ class RecipeSearchingFragment : Fragment(R.layout.fragment_recipe_searching),
         }
 
         addTextChangedListener()
-
+        return binding.root
     }
 
-    private fun addTextChangedListener() =
+    override fun onDestroy() {
+        super.onDestroy()
+        activity?.findViewById<BottomNavigationView>(R.id.bottomNavView)?.visibility = View.VISIBLE
+        activity?.findViewById<Toolbar>(R.id.toolbar)?.title = getStringFromRes(R.string.app_name)
+    }
+
+    override fun onItemClick(view: View, recipeModel: RecipeModel, recipeKey: RecipeListItemClick) {
+        when (recipeKey) {
+            is RecipeListItemClick.OnMarkerClick -> updateRecipe(recipeModel)
+            is RecipeListItemClick.OnFullItemClick -> findNavController().navigate(
+                RecipeSearchingFragmentDirections.actionNavSearchToNavRecipeInfo(recipeModel)
+            )
+            is RecipeListItemClick.OnItemClickInDeleteMode -> toast(getStringFromRes(R.string.error))
+        }
+    }
+
+    override fun notifyItemThatMarkerClicked(position: Int) {
+        recipeAdapter.notifyItemChanged(position)
+    }
+
+    private fun setNewBottomMarginToBottomNavView(bottomMargin: Int = 0) {
+        val layoutParams = ConstraintLayout.LayoutParams(
+            ConstraintLayout.LayoutParams.MATCH_PARENT,
+            ConstraintLayout.LayoutParams.MATCH_PARENT
+        )
+
+        layoutParams.setMargins(0, 0, 0, bottomMargin)
+        activity?.findViewById<View>(R.id.homeHostFragment)?.layoutParams = layoutParams
+    }
+
+    private fun addTextChangedListener() {
         binding.etSearch.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
@@ -87,32 +117,10 @@ class RecipeSearchingFragment : Fragment(R.layout.fragment_recipe_searching),
                 binding.rwRecipes.recycledViewPool.clear()
             }
         })
-
-    override fun onItemClick(view: View, recipeModel: RecipeModel, recipeKey: RecipeListItemClick) {
-        when (recipeKey) {
-            is RecipeListItemClick.OnMarkerClick -> updateRecipe(recipeModel)
-            is RecipeListItemClick.OnFullItemClick -> findNavController().navigate(
-                RecipeSearchingFragmentDirections.actionNavSearchToNavRecipeInfo(recipeModel)
-            )
-            is RecipeListItemClick.OnItemClickInDeleteMode ->
-                Toast.makeText(requireContext(), "Error!", Toast.LENGTH_LONG).show()
-        }
-    }
-
-    override fun notifyItemThatMarkerClicked(position: Int) {
-        recipeAdapter.notifyItemChanged(position)
     }
 
     private fun updateRecipe(recipeModel: RecipeModel) {
         recipeModel.isSaved = !recipeModel.isSaved
         viewModel.updateRecipeInDB(recipeModel)
     }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        activity?.findViewById<BottomNavigationView>(R.id.bottomNavView)?.visibility = View.VISIBLE
-        activity?.findViewById<Toolbar>(R.id.toolbar)?.title =
-            resources.getString(R.string.app_name)
-    }
-
 }

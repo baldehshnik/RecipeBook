@@ -1,23 +1,19 @@
 package com.firstapplication.recipebook.ui.viewmodels
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.viewModelScope
 import com.firstapplication.recipebook.data.interfaces.RecipeRepository
 import com.firstapplication.recipebook.data.models.RecipeEntity
-import com.firstapplication.recipebook.extensions.getMigratedToRecipeModelList
-import com.firstapplication.recipebook.extensions.migrateFromRecipeModelToRecipeEntity
-import com.firstapplication.recipebook.extensions.updateRecipeInDB
 import com.firstapplication.recipebook.ui.models.RecipeModel
 import kotlinx.coroutines.*
 
 class HomeViewModel(application: Application, private val repository: RecipeRepository) :
-    AndroidViewModel(application) {
+    BasicAndroidViewModel(application = application) {
 
-    private var observableRecipes = repository.allRecipesInCategory("")
+    private var observableRecipes = repository.readAllRecipesInCategory("")
 
     private val selectedRecipes = mutableListOf<RecipeModel>()
 
@@ -75,7 +71,7 @@ class HomeViewModel(application: Application, private val repository: RecipeRepo
 
     fun changeRecipeList(category: String) {
         observableRecipes.removeObserver(recipeListObserver)
-        observableRecipes = repository.allRecipesInCategory(category)
+        observableRecipes = repository.readAllRecipesInCategory(category)
         observableRecipes.observeForever(recipeListObserver)
     }
 
@@ -89,5 +85,4 @@ class HomeViewModel(application: Application, private val repository: RecipeRepo
         recipeModels.removeObserver(recipeModelsListObserver)
         super.onCleared()
     }
-
 }

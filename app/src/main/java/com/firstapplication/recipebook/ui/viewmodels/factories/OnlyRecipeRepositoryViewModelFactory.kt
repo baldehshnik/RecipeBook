@@ -12,16 +12,15 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import java.lang.IllegalArgumentException
-import javax.inject.Singleton
 
 class OnlyRecipeRepositoryViewModelFactory @AssistedInject constructor(
-    @Assisted("application") private val application: Application,
+    @Assisted(ASSISTED_APPLICATION) private val application: Application,
     private val repository: RecipeRepository
 ) : ViewModelProvider.AndroidViewModelFactory(application = application) {
 
     @AssistedFactory
     interface Factory {
-        fun create(@Assisted("application") application: Application): OnlyRecipeRepositoryViewModelFactory
+        fun create(@Assisted(ASSISTED_APPLICATION) application: Application): OnlyRecipeRepositoryViewModelFactory
     }
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T = when {
@@ -47,4 +46,8 @@ class OnlyRecipeRepositoryViewModelFactory @AssistedInject constructor(
     @Suppress("UNCHECKED_CAST")
     private fun <T : ViewModel> getRecipeSearchingViewModelAsT(): T =
         RecipeSearchingViewModel(application = application, repository = repository) as T
+
+    companion object {
+        const val ASSISTED_APPLICATION = "application"
+    }
 }

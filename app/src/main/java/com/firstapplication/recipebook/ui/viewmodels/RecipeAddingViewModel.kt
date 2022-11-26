@@ -5,7 +5,6 @@ import androidx.lifecycle.*
 import com.firstapplication.recipebook.data.interfaces.RecipeRepository
 import com.firstapplication.recipebook.enums.HourFormats
 import com.firstapplication.recipebook.enums.MinuteFormats
-import com.firstapplication.recipebook.extensions.migrateFromRecipeModelToRecipeEntity
 import com.firstapplication.recipebook.ui.models.RecipeModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

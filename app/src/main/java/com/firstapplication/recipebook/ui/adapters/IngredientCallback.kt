@@ -4,8 +4,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.firstapplication.recipebook.ui.interfacies.ItemTouchMoveListener
 
-class IngredientCallback(private val moveListener: ItemTouchMoveListener) :
-    ItemTouchHelper.Callback() {
+class IngredientCallback(private val moveListener: ItemTouchMoveListener) : ItemTouchHelper.Callback() {
 
     override fun getMovementFlags(
         recyclerView: RecyclerView,
@@ -20,11 +19,8 @@ class IngredientCallback(private val moveListener: ItemTouchMoveListener) :
         viewHolder: RecyclerView.ViewHolder,
         target: RecyclerView.ViewHolder
     ): Boolean {
-
-        if (viewHolder.itemViewType != target.itemViewType)
-            return false
-
-        return moveListener.onMove(viewHolder.adapterPosition, target.adapterPosition)
+        return if (viewHolder.itemViewType != target.itemViewType) false
+        else moveListener.onMove(viewHolder.adapterPosition, target.adapterPosition)
     }
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {}

@@ -8,8 +8,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="end"
+        android:layout_height="?attr/actionBarSize"
+        android:gravity="end|center_vertical"
         android:orientation="horizontal">
 
         <ImageButton
@@ -27,7 +27,7 @@
             android:layout_marginEnd="10dp"
             android:drawableEnd="@drawable/ic_baseline_close_28"
             android:drawablePadding="10dp"
-            android:hint="@string/search_ru"
+            android:hint="@string/search"
             android:inputType="text"
             android:visibility="gone" />
 
@@ -36,7 +36,6 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rwRecipes"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="?attr/actionBarSize" />
+        android:layout_height="match_parent" />
 
 </LinearLayout>

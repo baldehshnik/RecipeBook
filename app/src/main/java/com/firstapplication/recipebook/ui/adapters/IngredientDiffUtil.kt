@@ -17,5 +17,4 @@ class IngredientDiffUtil : DiffUtil.ItemCallback<Pair<String, String>>() {
     ): Boolean {
         return oldItem.first == newItem.first
     }
-
 }

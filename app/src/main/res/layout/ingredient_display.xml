@@ -52,5 +52,4 @@
             tools:text="18 count" />
 
     </com.google.android.material.card.MaterialCardView>
-
 </LinearLayout>

@@ -15,20 +15,15 @@ import javax.inject.Inject
 
 class HomeActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityHomeBinding
-
     @Inject
     lateinit var inputMethodManager: InputMethodManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         applicationContext.appComponent.inject(this)
         super.onCreate(savedInstanceState)
-
-        binding = ActivityHomeBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        val binding = ActivityHomeBinding.inflate(layoutInflater).also { setContentView(it.root) }
 
         setSupportActionBar(binding.appBarMain.toolbar)
-
         val navController = findNavController(R.id.homeHostFragment)
 
         val configuration = AppBarConfiguration(

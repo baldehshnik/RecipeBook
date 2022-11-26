@@ -10,7 +10,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/white"
+        android:backgroundTint="@color/white"
         android:theme="@style/Theme.RecipeBook.AppBarOverlay"
         app:popupTheme="@style/Theme.RecipeBook.PopupOverlay"
         app:titleTextColor="@color/grey_text" />

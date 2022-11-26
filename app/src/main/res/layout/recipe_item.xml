@@ -30,7 +30,7 @@
                 android:background="@android:color/transparent"
                 android:contentDescription="@string/bookmark"
                 android:src="@drawable/ic_baseline_bookmark_border_36"
-                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="TouchTargetSizeCheck" />
 
@@ -41,7 +41,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="25dp"
                 android:src="@drawable/toque"
-                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
@@ -53,9 +53,11 @@
                 android:layout_marginEnd="65dp"
                 android:textColor="@color/black"
                 android:textSize="20sp"
+                android:lines="1"
+                android:ellipsize="end"
                 android:textStyle="bold"
-                app:layout_constraintLeft_toRightOf="@id/circleImageView"
-                app:layout_constraintRight_toLeftOf="@id/btnMarker"
+                app:layout_constraintStart_toEndOf="@id/circleImageView"
+                app:layout_constraintEnd_toStartOf="@id/btnMarker"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="TITLE" />
 
@@ -68,9 +70,11 @@
                 android:layout_marginEnd="30dp"
                 android:textColor="@color/grey_text"
                 android:textSize="18sp"
+                android:ellipsize="end"
+                android:lines="2"
                 android:textStyle="bold"
-                app:layout_constraintLeft_toRightOf="@id/circleImageView"
-                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintStart_toEndOf="@id/circleImageView"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/twTitle"
                 tools:text="Description" />
 
@@ -87,7 +91,7 @@
                 android:textSize="16sp"
                 app:drawableStartCompat="@drawable/ic_baseline_access_time_24"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/circleImageView"
                 tools:text="Hours" />
 
@@ -112,7 +116,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintRight_toRightOf="parent">
+                app:layout_constraintEnd_toEndOf="parent">
 
                 <RadioButton
                     android:id="@+id/btnRadioDelete"

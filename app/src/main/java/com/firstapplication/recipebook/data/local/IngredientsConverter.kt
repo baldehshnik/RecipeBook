@@ -8,12 +8,12 @@ class IngredientsConverter {
     fun fromIngredients(map: Map<String, String>): String {
         val keysString = map.keys.joinToString(", ")
         val valuesString = map.values.joinToString(", ")
-        return "$keysString|$valuesString"
+        return keysString + resultStringSeparator + valuesString
     }
 
     @TypeConverter
     fun toIngredients(string: String): Map<String, String> {
-        val keysAndValues: List<String> = string.split("|")
+        val keysAndValues: List<String> = string.split(resultStringSeparator)
         val keysArray = keysAndValues[0].split(", ")
         val valuesArray = keysAndValues[1].split(", ")
 
@@ -24,5 +24,9 @@ class IngredientsConverter {
             map[keysArray[i]] = valuesArray[i]
 
         return map
+    }
+
+    companion object {
+        @JvmStatic private val resultStringSeparator = "|0|0|---|0|0|"
     }
 }

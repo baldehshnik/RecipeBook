@@ -3,11 +3,13 @@ package com.firstapplication.recipebook.ui.fragments
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageButton
 import android.widget.TextView
+import androidx.annotation.IdRes
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
@@ -22,8 +24,6 @@ import com.firstapplication.recipebook.databinding.FragmentRecipeAddingBinding
 import com.firstapplication.recipebook.extensions.appComponent
 import com.firstapplication.recipebook.ui.adapters.DishCategoryAdapter
 import com.firstapplication.recipebook.ui.adapters.IngredientAdapter
-import com.firstapplication.recipebook.enums.IngredientsKeys
-import com.firstapplication.recipebook.enums.TimePickerKeys
 import com.firstapplication.recipebook.extensions.closeKeyboard
 import com.firstapplication.recipebook.ui.adapters.IngredientCallback
 import com.firstapplication.recipebook.ui.interfacies.OnCategoryItemClickListener
@@ -35,8 +35,8 @@ import com.firstapplication.recipebook.ui.viewmodels.RecipeAddingViewModel
 import com.firstapplication.recipebook.ui.viewmodels.factories.OnlyRecipeRepositoryViewModelFactory
 import javax.inject.Inject
 
-class RecipeAddingFragment : Fragment(R.layout.fragment_recipe_adding),
-    OnCategoryItemClickListener, OnIngredientDeleteItemClickListener, OnItemMoveListener {
+class RecipeAddingFragment : BasicFragment(), OnCategoryItemClickListener,
+    OnIngredientDeleteItemClickListener, OnItemMoveListener {
 
     private var isSaved = false
     private var time = ""
@@ -45,12 +45,10 @@ class RecipeAddingFragment : Fragment(R.layout.fragment_recipe_adding),
 
     private lateinit var binding: FragmentRecipeAddingBinding
 
+    private lateinit var itemTouchHelper: ItemTouchHelper
+
     @Inject
     lateinit var onlyRecipeRepositoryViewModelFactory: OnlyRecipeRepositoryViewModelFactory.Factory
-
-    private val viewModel: RecipeAddingViewModel by viewModels {
-        onlyRecipeRepositoryViewModelFactory.create(activity?.application as App)
-    }
 
     @Inject
     lateinit var inputMethodManager: InputMethodManager
@@ -58,7 +56,9 @@ class RecipeAddingFragment : Fragment(R.layout.fragment_recipe_adding),
     @Inject
     lateinit var onEditTextFocusChangeListener: OnEditTextFocusChangeListenerImpl
 
-    private lateinit var itemTouchHelper: ItemTouchHelper
+    private val viewModel: RecipeAddingViewModel by viewModels {
+        onlyRecipeRepositoryViewModelFactory.create(activity?.application as App)
+    }
 
     override fun onAttach(context: Context) {
         context.applicationContext.appComponent.inject(this)
@@ -68,34 +68,34 @@ class RecipeAddingFragment : Fragment(R.layout.fragment_recipe_adding),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setFragmentResultListener(IngredientsKeys.CONNECT_KEY.key) { _, bundle ->
+        setFragmentResultListener(INGREDIENT_CONNECT_KEY) { _, bundle ->
             viewModel.addNewIngredient(
-                bundle.getString(IngredientsKeys.NAME_KEY.key).toString(),
-                bundle.getString(IngredientsKeys.COUNT_FULL_NAME_KEY.key).toString()
+                bundle.getString(INGREDIENT_NAME_KEY).toString(),
+                bundle.getString(INGREDIENT_COUNT_FULL_NAME_KEY).toString()
             )
         }
 
-        setFragmentResultListener(TimePickerKeys.CONNECT_KEY.id) { _, bundle ->
+        setFragmentResultListener(TIMEPICKER_CONNECT_KEY) { _, bundle ->
             bundle.apply {
                 time = viewModel.getCookingTime(
-                    getString(TimePickerKeys.HOURS_KEY.id).toString(),
-                    getString(TimePickerKeys.MINUTES_KEY.id).toString()
+                    getString(TIMEPICKER_HOURS_KEY).toString(),
+                    getString(TIMEPICKER_MINUTES_KEY).toString()
                 )
                 binding.twTime.text = time
             }
         }
     }
 
-    @SuppressLint("SetTextI18n", "ClickableViewAccessibility")
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        binding = FragmentRecipeAddingBinding.bind(view)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = FragmentRecipeAddingBinding.inflate(layoutInflater, container, false)
 
         val categoriesList = getCategoriesArray().toList()
 
-        val dishCategoryAdapter =
-            DishCategoryAdapter(categoriesList.subList(1, categoriesList.size), this)
-
+        val dishCategoryAdapter = DishCategoryAdapter(categoriesList.subList(1, categoriesList.size), this)
         val ingredientAdapter = IngredientAdapter(this, this)
 
         val callback = IngredientCallback(ingredientAdapter)
@@ -112,7 +112,6 @@ class RecipeAddingFragment : Fragment(R.layout.fragment_recipe_adding),
                 )
             )
 
-            binding.twAppName.visibility = View.GONE
             isSaved = true
         }
 
@@ -126,13 +125,11 @@ class RecipeAddingFragment : Fragment(R.layout.fragment_recipe_adding),
             rwIngredients.adapter = ingredientAdapter
             rwCategory.adapter = dishCategoryAdapter
 
-            btnEditTime.setOnClickListener { findNavController().navigate(R.id.navTimePick) }
+            btnEditTime.setOnClickListener { navigateTo(R.id.navTimePick) }
 
-            btnAddIngredient.setOnClickListener {
-                openAddingIngredientsFragment()
-            }
+            btnAddIngredient.setOnClickListener { navigateTo(R.id.navAddingIngredient) }
 
-            btnSave.setOnClickListener { btnSaveOnClick() }
+            btnSave.setOnClickListener { onSaveClick() }
 
             setOnFocusChangeListener()
         }
@@ -142,12 +139,41 @@ class RecipeAddingFragment : Fragment(R.layout.fragment_recipe_adding),
             ingredientAdapter.submitList(ingredientsMap.toList())
         }
 
+        return binding.root
     }
 
-    private fun btnSaveOnClick() = with(binding) {
+    override fun onPause() {
+        super.onPause()
+        inputMethodManager.closeKeyboard(activity = activity)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (recipeArgs.currentRecipe == null) {
+            activity?.findViewById<Toolbar>(R.id.toolbar)?.title = getStringFromRes(R.string.app_name)
+        }
+    }
+
+    override fun onCategoryItemClick(categoryName: String) {
+        viewModel.setNewRecipeCategory(categoryName = categoryName)
+    }
+
+    override fun onIngredientDeleteItemClick(view: View, ingredient: Pair<String, String>) {
+        if (view is ImageButton) viewModel.deleteIngredient(ingredient.first)
+    }
+
+    override fun onMove(fromPosition: Int, toPosition: Int) {
+        viewModel.changeIngredientsPosition(fromPosition, toPosition)
+    }
+
+    override fun onStartDrag(viewHolder: RecyclerView.ViewHolder) {
+        itemTouchHelper.startDrag(viewHolder)
+    }
+
+    private fun onSaveClick() = with(binding) {
         when {
             etTitle.length() == 0 -> etTitle.requestFocus()
-            time.isEmpty() -> findNavController().navigate(R.id.navTimePick)
+            time.isEmpty() -> navigateTo(R.id.navTimePick)
             else -> {
                 createNewRecipe()
                 findNavController().popBackStack()
@@ -174,15 +200,9 @@ class RecipeAddingFragment : Fragment(R.layout.fragment_recipe_adding),
         viewModel.setCurrentRecipeIngredients(recipe.ingredients)
 
         btnBack.visibility = View.VISIBLE
-
         btnBack.setOnClickListener {
             findNavController().popBackStack()
         }
-    }
-
-    override fun onPause() {
-        super.onPause()
-        inputMethodManager.closeKeyboard(activity = activity)
     }
 
     private fun setOnFocusChangeListener() = with(binding) {
@@ -193,51 +213,36 @@ class RecipeAddingFragment : Fragment(R.layout.fragment_recipe_adding),
         }
     }
 
-    private fun getCategoriesArray() = resources.getStringArray(
-        R.array.dish_categories
-    )
+    private fun navigateTo(@IdRes id: Int) = findNavController().navigate(id)
 
-    private fun openAddingIngredientsFragment() =
-        findNavController().navigate(R.id.navAddingIngredient)
-
-    override fun onCategoryItemClick(categoryName: String) {
-        viewModel.setNewRecipeCategory(categoryName = categoryName)
-    }
-
-    override fun onIngredientDeleteItemClick(view: View, ingredient: Pair<String, String>) {
-        if (view is ImageButton)
-            viewModel.deleteIngredient(ingredient.first)
-    }
+    private fun getCategoriesArray() = getStringArrayFromRes(R.array.dish_categories)
 
     private fun createNewRecipe() {
         val title = binding.etTitle.text.toString().trim()
         val recipeInfo = binding.etCookingInfo.text.toString()
 
-        when {
-            !isSaved -> viewModel.createRecipe(
+        when(isSaved) {
+            false -> viewModel.createRecipe(
                 title = title,
                 recipeInfo = recipeInfo,
                 time = time
             )
-            isSaved -> viewModel.updateRecipeInDB(
-                recipeArgs.currentRecipe!!, title = title, recipeInfo = recipeInfo,
+            true -> viewModel.updateRecipeInDB(
+                recipeModel = recipeArgs.currentRecipe ?: return,
+                title = title,
+                recipeInfo = recipeInfo,
                 time = time
             )
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        activity?.findViewById<Toolbar>(R.id.toolbar)?.title =
-            resources.getString(R.string.app_name)
-    }
+    companion object {
+        const val INGREDIENT_CONNECT_KEY = "connection_ingredient_key"
+        const val INGREDIENT_NAME_KEY = "name_ingredient_key"
+        const val INGREDIENT_COUNT_FULL_NAME_KEY = "count_full_name_key"
 
-    override fun onMove(fromPosition: Int, toPosition: Int) {
-        viewModel.changeIngredientsPosition(fromPosition, toPosition)
+        const val TIMEPICKER_CONNECT_KEY = "timepicker_connection_key"
+        const val TIMEPICKER_HOURS_KEY = "timepicker_hours_key"
+        const val TIMEPICKER_MINUTES_KEY = "timepicker_minutes_key"
     }
-
-    override fun onStartDrag(viewHolder: RecyclerView.ViewHolder) {
-        itemTouchHelper.startDrag(viewHolder)
-    }
-
 }

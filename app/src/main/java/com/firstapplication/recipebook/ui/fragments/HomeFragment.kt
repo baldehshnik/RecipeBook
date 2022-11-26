@@ -4,13 +4,14 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.util.TypedValue
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.RadioButton
 import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.marginBottom
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -30,13 +31,13 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.card.MaterialCardView
 import javax.inject.Inject
 
-class HomeFragment : Fragment(R.layout.fragment_home), OnRecipeItemClickListener,
-    OnCategoryItemClickListener {
-
+class HomeFragment : BasicFragment(), OnRecipeItemClickListener, OnCategoryItemClickListener {
     private var actionBarSize = 0
     private var selectedCategory = "Все"
 
     private lateinit var binding: FragmentHomeBinding
+    private lateinit var recipeAdapter: RecipeAdapter
+    private lateinit var categoryAdapter: DishCategoryAdapter
 
     @Inject
     lateinit var onlyRecipeRepositoryViewModelFactory: OnlyRecipeRepositoryViewModelFactory.Factory
@@ -45,18 +46,18 @@ class HomeFragment : Fragment(R.layout.fragment_home), OnRecipeItemClickListener
         onlyRecipeRepositoryViewModelFactory.create(activity?.application as App)
     }
 
-    private lateinit var recipeAdapter: RecipeAdapter
-    private lateinit var categoryAdapter: DishCategoryAdapter
-
     override fun onAttach(context: Context) {
         context.applicationContext.appComponent.inject(this)
         super.onAttach(context)
     }
 
     @SuppressLint("SetTextI18n")
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        binding = FragmentHomeBinding.bind(view)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = FragmentHomeBinding.inflate(layoutInflater, container, false)
 
         recipeAdapter = RecipeAdapter(this@HomeFragment)
         categoryAdapter = DishCategoryAdapter(getCategoryList(), this)
@@ -100,9 +101,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), OnRecipeItemClickListener
         }
 
         viewModel.selectedRecipesCount.observe(viewLifecycleOwner) { count ->
-            binding.twDelete.text =
-                "$count ${resources.getString(R.string.count_item_selected_ru)}"
-
+            binding.twDelete.text = "$count ${getStringFromRes(R.string.count_item_selected)}"
             if (count == 0) {
                 disableDeleteWindow()
                 setToolBarText()
@@ -110,6 +109,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), OnRecipeItemClickListener
             }
         }
 
+        return binding.root
     }
 
     override fun onStart() {
@@ -133,10 +133,9 @@ class HomeFragment : Fragment(R.layout.fragment_home), OnRecipeItemClickListener
         return 0
     }
 
-    private fun getCategoryList() = resources.getStringArray(R.array.dish_categories).toList()
+    private fun getCategoryList() = getStringArrayFromRes(R.array.dish_categories).toList()
 
-    private fun getBottomNavView(): BottomNavigationView? =
-        activity?.findViewById(R.id.bottomNavView)
+    private fun getBottomNavView(): BottomNavigationView? = activity?.findViewById(R.id.bottomNavView)
 
     private fun disableDeletedWindowView() = with(binding) {
         btnSearch.visibility = View.VISIBLE
@@ -162,8 +161,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), OnRecipeItemClickListener
     }
 
     private fun setToolBarText() {
-        activity?.findViewById<Toolbar>(R.id.toolbar)?.title =
-            resources.getString(R.string.app_name)
+        activity?.findViewById<Toolbar>(R.id.toolbar)?.title = getStringFromRes(R.string.app_name)
     }
 
     override fun onItemClick(view: View, recipeModel: RecipeModel, recipeKey: RecipeListItemClick) =
@@ -173,10 +171,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), OnRecipeItemClickListener
                 HomeFragmentDirections.actionNavHomeToNavRecipeInfo(recipeModel)
             )
             is RecipeListItemClick.OnItemClickInDeleteMode -> {
-                val radioButton = view.findViewById<RadioButton>(
-                    R.id.btnRadioDelete
-                )
-
+                val radioButton = view.findViewById<RadioButton>(R.id.btnRadioDelete)
                 setRadioButtonVisibility(
                     view = view,
                     radioButton = radioButton,
@@ -200,11 +195,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), OnRecipeItemClickListener
         viewModel.updateRecipeInDB(recipeModel = recipeModel)
     }
 
-    private fun setRadioButtonVisibility(
-        view: View,
-        radioButton: RadioButton,
-        recipeModel: RecipeModel
-    ) =
+    private fun setRadioButtonVisibility(view: View, radioButton: RadioButton, recipeModel: RecipeModel) {
         when (radioButton.visibility) {
             View.VISIBLE -> {
                 viewModel.deleteSelectedRecipe(recipeModel = recipeModel)
@@ -218,6 +209,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), OnRecipeItemClickListener
                 setStrokeColor(view = view)
             }
         }
+    }
 
     override fun onItemLongClick(view: View, recipeModel: RecipeModel): Boolean {
         if (!DeleteMode.isDeleteMode) {
@@ -267,7 +259,6 @@ class HomeFragment : Fragment(R.layout.fragment_home), OnRecipeItemClickListener
     override fun onCategoryItemClick(categoryName: String) {
         if (selectedCategory != categoryName) {
             binding.rwRecipes.recycledViewPool.clear()
-
             selectedCategory = categoryName
 
             if (categoryName == getCategoryList()[0]) viewModel.changeRecipeList(category = "")
@@ -278,5 +269,4 @@ class HomeFragment : Fragment(R.layout.fragment_home), OnRecipeItemClickListener
     override fun notifyItemThatMarkerClicked(position: Int) {
         recipeAdapter.notifyItemChanged(position)
     }
-
 }

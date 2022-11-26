@@ -18,7 +18,7 @@ object AppModule {
         return Room.databaseBuilder(
             context,
             RecipeBookDatabase::class.java,
-            "recipe_database"
+            RecipeBookDatabase.DATABASE_NAME
         )
             .build()
     }
@@ -31,8 +31,7 @@ object AppModule {
     @Singleton
     @Provides
     fun provideInputMethodManager(context: Context): InputMethodManager {
-        return context
-            .getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        return context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
     }
 
 }

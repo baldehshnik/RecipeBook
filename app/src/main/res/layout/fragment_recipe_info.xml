@@ -13,12 +13,12 @@
 
         <ImageView
             android:id="@+id/imageDefault"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="200dp"
             android:contentDescription="@string/default_recipe_info_image"
+            android:scaleType="centerCrop"
             android:src="@drawable/the_second_dishes_potato_meat_products_vegetables_566163_1280x853"
             app:layout_constraintEnd_toEndOf="parent"
-            android:scaleType="fitXY"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -29,7 +29,7 @@
             android:layout_marginStart="15dp"
             android:layout_marginTop="5dp"
             android:backgroundTint="@color/white"
-            android:contentDescription="@string/way_out_to_homefragment"
+            android:contentDescription="@string/way_out_to_home_fragment"
             android:src="@drawable/ic_baseline_arrow_back_ios_24"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -42,19 +42,20 @@
             android:layout_marginTop="5dp"
             android:layout_marginEnd="10dp"
             android:backgroundTint="@color/white"
-            android:contentDescription="@string/way_out_to_homefragment"
+            android:contentDescription="@string/way_out_to_home_fragment"
             android:src="@drawable/ic_baseline_edit_24"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cwTitle"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="15dp"
             android:layout_marginTop="105dp"
             app:cardCornerRadius="15dp"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/btnOut">
 
             <TextView
@@ -78,7 +79,7 @@
             android:layout_marginTop="12dp"
             app:cardCornerRadius="20dp"
             app:cardElevation="3dp"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cwTitle">
 
             <TextView
@@ -116,13 +117,14 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cwRecipeInfo"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="15dp"
             android:layout_marginTop="14dp"
             app:cardCornerRadius="20dp"
             app:cardElevation="3dp"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cwCategory">
 
             <TextView
@@ -134,7 +136,7 @@
                 android:text="@string/recipe_cooking_info"
                 android:textColor="@color/dark_grey"
                 android:textSize="20sp"
-                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cwTime" />
 
         </androidx.cardview.widget.CardView>
@@ -145,7 +147,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="15dp"
             android:layout_marginTop="10dp"
-            android:text="@string/ingredients_ru"
+            android:text="@string/ingredients"
             android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold"
@@ -154,13 +156,14 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cwIngredients"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="15dp"
             android:layout_marginVertical="8dp"
             app:cardCornerRadius="8dp"
             app:cardElevation="3dp"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/twIngredients">
 
@@ -169,7 +172,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:paddingTop="4dp"
-                android:paddingBottom="8dp"/>
+                android:paddingBottom="8dp" />
 
         </androidx.cardview.widget.CardView>
     </androidx.constraintlayout.widget.ConstraintLayout>

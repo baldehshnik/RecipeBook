@@ -13,14 +13,9 @@ import com.firstapplication.recipebook.ui.interfacies.OnCategoryItemClickListene
 class DishCategoryAdapter(
     private val categoryList: List<String>,
     private val listener: OnCategoryItemClickListener
-) :
-    RecyclerView.Adapter<DishCategoryAdapter.DishCategoryViewHolder>() {
+) : RecyclerView.Adapter<DishCategoryAdapter.DishCategoryViewHolder>() {
 
     private var lastPressedItem = 0
-
-    fun setNewSelectedItem(id: Int) {
-        lastPressedItem = id
-    }
 
     class DishCategoryViewHolder(private val binding: DishCategoryItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -42,9 +37,7 @@ class DishCategoryAdapter(
         holder.bind(categoryList[position])
 
         with(holder.itemView) {
-
             val view = findViewById<TextView>(R.id.twCategoryItem)
-
             setNewTextViewStyle(view = view, position = position)
 
             setOnClickListener {
@@ -59,13 +52,18 @@ class DishCategoryAdapter(
         }
     }
 
+    override fun getItemCount(): Int = categoryList.size
+
+    fun setNewSelectedItem(id: Int) {
+        lastPressedItem = id
+    }
+
     private fun setNewTextViewStyle(view: TextView, position: Int) =
-        if (lastPressedItem == position)
-            setNewBackgroundAndColor(
-                view = view,
-                background = R.drawable.category_selected,
-                color = R.color.custom_text
-            )
+        if (lastPressedItem == position) setNewBackgroundAndColor(
+            view = view,
+            background = R.drawable.category_selected,
+            color = R.color.custom_text
+        )
         else setNewBackgroundAndColor(
             view = view,
             background = R.drawable.category_default,
@@ -78,7 +76,4 @@ class DishCategoryAdapter(
         setBackgroundResource(background)
         setTextColor(ContextCompat.getColor(context, color))
     }
-
-    override fun getItemCount(): Int = categoryList.size
-
 }

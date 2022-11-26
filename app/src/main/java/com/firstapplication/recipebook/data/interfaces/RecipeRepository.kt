@@ -8,9 +8,9 @@ interface RecipeRepository {
     suspend fun insertRecipe(recipeEntity: RecipeEntity)
     suspend fun deleteRecipe(recipeEntity: RecipeEntity)
 
-    fun allRecipesInCategory(category: String) : LiveData<List<RecipeEntity>>
+    fun readAllRecipesInCategory(category: String) : LiveData<List<RecipeEntity>>
 
-    fun allSavedRecipes(category: String) : LiveData<List<RecipeEntity>>
+    fun readAllSavedRecipes(category: String) : LiveData<List<RecipeEntity>>
 
     fun readRecipesMatchFormat(format: String) : LiveData<List<RecipeEntity>>
 
