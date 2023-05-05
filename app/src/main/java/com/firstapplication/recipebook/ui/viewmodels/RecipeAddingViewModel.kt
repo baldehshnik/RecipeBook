@@ -10,8 +10,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.*
 
-class RecipeAddingViewModel(application: Application, private val repository: RecipeRepository) :
-    AndroidViewModel(application) {
+class RecipeAddingViewModel(private val repository: RecipeRepository) :
+    BasicViewModel() {
 
     private val ingredientsMap = mutableMapOf<String, String>()
 

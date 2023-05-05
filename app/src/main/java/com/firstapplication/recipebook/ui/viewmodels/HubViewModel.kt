@@ -10,8 +10,8 @@ import com.firstapplication.recipebook.data.models.RecipeEntity
 import com.firstapplication.recipebook.ui.models.RecipeModel
 import kotlinx.coroutines.launch
 
-class HubViewModel(application: Application, private val repository: RecipeRepository) :
-    BasicAndroidViewModel(application = application) {
+class HubViewModel(private val repository: RecipeRepository) :
+    BasicViewModel() {
 
     private var observeSavedRecipes = repository.readAllSavedRecipes("")
 
@@ -20,7 +20,7 @@ class HubViewModel(application: Application, private val repository: RecipeRepos
         get() = _savedRecipeList
 
     private val savedRecipeListObserver = Observer<List<RecipeEntity>> { entitiesList ->
-        setReadRecipes(entitiesList = entitiesList)
+        setReadRecipes(entitiesList)
     }
 
     private val savedRecipeModelsListObserver = Observer<List<RecipeModel>> { models ->
@@ -36,8 +36,7 @@ class HubViewModel(application: Application, private val repository: RecipeRepos
             )
         }
 
-    fun updateRecipeInDB(recipeModel: RecipeModel) =
-        updateRecipeInDB(recipeModel = recipeModel, repository = repository)
+    fun updateRecipeInDB(recipeModel: RecipeModel) = updateRecipeInDB(recipeModel, repository)
 
     fun setObserve(string: String) {
         removeObserve()

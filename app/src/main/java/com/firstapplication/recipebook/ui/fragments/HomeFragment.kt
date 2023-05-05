@@ -40,11 +40,9 @@ class HomeFragment : BasicFragment(), OnRecipeItemClickListener, OnCategoryItemC
     private lateinit var categoryAdapter: DishCategoryAdapter
 
     @Inject
-    lateinit var onlyRecipeRepositoryViewModelFactory: OnlyRecipeRepositoryViewModelFactory.Factory
+    lateinit var factory: OnlyRecipeRepositoryViewModelFactory
 
-    private val viewModel: HomeViewModel by viewModels {
-        onlyRecipeRepositoryViewModelFactory.create(activity?.application as App)
-    }
+    private val viewModel: HomeViewModel by viewModels { factory }
 
     override fun onAttach(context: Context) {
         context.applicationContext.appComponent.inject(this)
@@ -59,7 +57,7 @@ class HomeFragment : BasicFragment(), OnRecipeItemClickListener, OnCategoryItemC
     ): View {
         binding = FragmentHomeBinding.inflate(layoutInflater, container, false)
 
-        recipeAdapter = RecipeAdapter(this@HomeFragment)
+        recipeAdapter = RecipeAdapter(this)
         categoryAdapter = DishCategoryAdapter(getCategoryList(), this)
 
         with(binding) {
@@ -146,15 +144,13 @@ class HomeFragment : BasicFragment(), OnRecipeItemClickListener, OnCategoryItemC
         getBottomNavView()?.visibility = View.VISIBLE
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun disableDeleteWindow() {
         DeleteMode.isDeleteMode = false
         disableDeletedWindowView()
-        notifyAdapterDataSetChanged()
+        recipeAdapter.notifyDataSetChanged()
         setNewMarginsToRecyclerView(marginBottom = actionBarSize, marginTop = 100f)
     }
-
-    @SuppressLint("NotifyDataSetChanged")
-    private fun notifyAdapterDataSetChanged() = recipeAdapter.notifyDataSetChanged()
 
     private fun clearToolBarText() {
         activity?.findViewById<Toolbar>(R.id.toolbar)?.title = ""
@@ -192,7 +188,7 @@ class HomeFragment : BasicFragment(), OnRecipeItemClickListener, OnCategoryItemC
 
     private fun updateRecipe(recipeModel: RecipeModel) {
         recipeModel.isSaved = !recipeModel.isSaved
-        viewModel.updateRecipeInDB(recipeModel = recipeModel)
+        viewModel.updateRecipeInDB(recipeModel)
     }
 
     private fun setRadioButtonVisibility(view: View, radioButton: RadioButton, recipeModel: RecipeModel) {

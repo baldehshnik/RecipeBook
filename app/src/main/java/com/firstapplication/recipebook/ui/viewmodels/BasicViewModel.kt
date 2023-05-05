@@ -1,7 +1,6 @@
 package com.firstapplication.recipebook.ui.viewmodels
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.firstapplication.recipebook.data.interfaces.RecipeRepository
 import com.firstapplication.recipebook.data.models.RecipeEntity
@@ -10,11 +9,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
-open class BasicAndroidViewModel(application: Application) : AndroidViewModel(application) {
-    suspend fun getMigratedToRecipeModelList(
-        entitiesList: List<RecipeEntity>
-    ): List<RecipeModel> {
-
+open class BasicViewModel : ViewModel() {
+    suspend fun getMigratedToRecipeModelList(entitiesList: List<RecipeEntity>): List<RecipeModel> {
         val list = mutableListOf<RecipeModel>()
         val coroutineResult = viewModelScope.async {
             entitiesList.forEach { item ->
@@ -28,9 +24,7 @@ open class BasicAndroidViewModel(application: Application) : AndroidViewModel(ap
 
     fun updateRecipeInDB(recipeModel: RecipeModel, repository: RecipeRepository) {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.updateRecipe(
-                recipeEntity = recipeModel.migrateFromRecipeModelToRecipeEntity()
-            )
+            repository.updateRecipe(recipeModel.migrateFromRecipeModelToRecipeEntity())
         }
     }
 }

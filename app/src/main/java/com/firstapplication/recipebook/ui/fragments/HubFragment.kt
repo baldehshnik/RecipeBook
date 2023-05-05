@@ -32,7 +32,7 @@ class HubFragment : BasicFragment(), OnRecipeItemClickListener {
     private lateinit var recipeAdapter: RecipeAdapter
 
     @Inject
-    lateinit var onlyRecipeRepositoryViewModelFactory: OnlyRecipeRepositoryViewModelFactory.Factory
+    lateinit var factory: OnlyRecipeRepositoryViewModelFactory
 
     @Inject
     lateinit var inputMethodManager: InputMethodManager
@@ -41,7 +41,7 @@ class HubFragment : BasicFragment(), OnRecipeItemClickListener {
     lateinit var onEditTextFocusChangeListener: OnEditTextFocusChangeListener
 
     private val viewModel: HubViewModel by viewModels {
-        onlyRecipeRepositoryViewModelFactory.create(activity?.application as App)
+        factory
     }
 
     override fun onAttach(context: Context) {

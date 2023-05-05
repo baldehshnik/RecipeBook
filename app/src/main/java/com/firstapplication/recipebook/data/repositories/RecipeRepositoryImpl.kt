@@ -23,23 +23,23 @@ class RecipeRepositoryImpl @Inject constructor(private val database: RecipeDao) 
     }
 
     override fun readAllRecipesInCategory(category: String): LiveData<List<RecipeEntity>> {
-        return if (category == "") database.readAllRecipesReversed()
+        return if (category.isBlank()) database.readAllRecipesReversed()
         else database.readAllRecipesInCategoryReversed(category)
     }
 
     override fun readAllSavedRecipes(category: String): LiveData<List<RecipeEntity>> {
-        return if (category == "") database.readAllSavedRecipes()
+        return if (category.isBlank()) database.readAllSavedRecipes()
         else database.readAllSavedRecipesInCategory(category)
     }
 
     override fun readRecipesMatchFormat(format: String): LiveData<List<RecipeEntity>> {
-        return database.readAllRecipesThatMatchFormat(getFormat(string = format))
+        return database.readAllRecipesThatMatchFormat(getFormat(format))
     }
 
     override fun readSavedRecipesMatchFormat(format: String): LiveData<List<RecipeEntity>> {
-        return if (format == "") database.readAllSavedRecipes()
-        else database.readAllSavedRecipesThatMatchFormat(getFormat(string = format))
+        return if (format.isBlank()) database.readAllSavedRecipes()
+        else database.readAllSavedRecipesThatMatchFormat(getFormat(format))
     }
 
-    private fun getFormat(string: String): String = "%$string%"
+    private fun getFormat(string: String) = "%$string%"
 }

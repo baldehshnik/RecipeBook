@@ -12,16 +12,16 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import java.lang.IllegalArgumentException
+import javax.inject.Inject
 
-class OnlyRecipeRepositoryViewModelFactory @AssistedInject constructor(
-    @Assisted(ASSISTED_APPLICATION) private val application: Application,
+class OnlyRecipeRepositoryViewModelFactory @Inject constructor(
     private val repository: RecipeRepository
-) : ViewModelProvider.AndroidViewModelFactory(application = application) {
+) : ViewModelProvider.Factory {
 
-    @AssistedFactory
-    interface Factory {
-        fun create(@Assisted(ASSISTED_APPLICATION) application: Application): OnlyRecipeRepositoryViewModelFactory
-    }
+//    @AssistedFactory
+//    interface Factory {
+//        fun create(@Assisted(ASSISTED_APPLICATION) application: Application): OnlyRecipeRepositoryViewModelFactory
+//    }
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T = when {
         modelClass.isAssignableFrom(HomeViewModel::class.java) -> getHomeViewModelAsT()
@@ -33,21 +33,21 @@ class OnlyRecipeRepositoryViewModelFactory @AssistedInject constructor(
 
     @Suppress("UNCHECKED_CAST")
     private fun <T : ViewModel> getHomeViewModelAsT(): T =
-        HomeViewModel(application = application, repository = repository) as T
+        HomeViewModel(repository = repository) as T
 
     @Suppress("UNCHECKED_CAST")
     private fun <T : ViewModel> getRecipeAddingViewModelAsT(): T =
-        RecipeAddingViewModel(application = application, repository = repository) as T
+        RecipeAddingViewModel(repository = repository) as T
 
     @Suppress("UNCHECKED_CAST")
     private fun <T : ViewModel> getHubViewModeAsT(): T =
-        HubViewModel(application = application, repository = repository) as T
+        HubViewModel(repository = repository) as T
 
     @Suppress("UNCHECKED_CAST")
     private fun <T : ViewModel> getRecipeSearchingViewModelAsT(): T =
-        RecipeSearchingViewModel(application = application, repository = repository) as T
+        RecipeSearchingViewModel(repository = repository) as T
 
-    companion object {
-        const val ASSISTED_APPLICATION = "application"
-    }
+//    companion object {
+//        const val ASSISTED_APPLICATION = "application"
+//    }
 }

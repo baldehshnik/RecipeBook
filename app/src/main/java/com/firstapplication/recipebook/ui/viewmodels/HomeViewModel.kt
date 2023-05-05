@@ -1,6 +1,5 @@
 package com.firstapplication.recipebook.ui.viewmodels
 
-import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
@@ -10,8 +9,7 @@ import com.firstapplication.recipebook.data.models.RecipeEntity
 import com.firstapplication.recipebook.ui.models.RecipeModel
 import kotlinx.coroutines.*
 
-class HomeViewModel(application: Application, private val repository: RecipeRepository) :
-    BasicAndroidViewModel(application = application) {
+class HomeViewModel(private val repository: RecipeRepository) : BasicViewModel() {
 
     private var observableRecipes = repository.readAllRecipesInCategory("")
 
@@ -46,11 +44,10 @@ class HomeViewModel(application: Application, private val repository: RecipeRepo
     val selectedRecipesCount: LiveData<Int> get() = _selectedRecipesCount
 
     private val _recipesList = MutableLiveData<List<RecipeModel>>()
-    val recipesList: LiveData<List<RecipeModel>>
-        get() = _recipesList
+    val recipesList: LiveData<List<RecipeModel>> get() = _recipesList
 
     private val recipeListObserver = Observer<List<RecipeEntity>> { entitiesList ->
-        setReadRecipes(entitiesList = entitiesList)
+        setReadRecipes(entitiesList)
     }
 
     private val recipeModelsListObserver = Observer<List<RecipeModel>> { models ->
@@ -59,15 +56,13 @@ class HomeViewModel(application: Application, private val repository: RecipeRepo
 
     private val recipeModels = MutableLiveData<List<RecipeModel>>()
 
-    private fun setReadRecipes(entitiesList: List<RecipeEntity>) =
+    private fun setReadRecipes(entitiesList: List<RecipeEntity>) {
         viewModelScope.launch {
-            recipeModels.value = this@HomeViewModel.getMigratedToRecipeModelList(
-                entitiesList = entitiesList
-            )
+            recipeModels.value = this@HomeViewModel.getMigratedToRecipeModelList(entitiesList)
         }
+    }
 
-    fun updateRecipeInDB(recipeModel: RecipeModel) =
-        updateRecipeInDB(recipeModel = recipeModel, repository = repository)
+    fun updateRecipeInDB(recipeModel: RecipeModel) = updateRecipeInDB(recipeModel, repository)
 
     fun changeRecipeList(category: String) {
         observableRecipes.removeObserver(recipeListObserver)

@@ -48,7 +48,7 @@ class RecipeAddingFragment : BasicFragment(), OnCategoryItemClickListener,
     private lateinit var itemTouchHelper: ItemTouchHelper
 
     @Inject
-    lateinit var onlyRecipeRepositoryViewModelFactory: OnlyRecipeRepositoryViewModelFactory.Factory
+    lateinit var factory: OnlyRecipeRepositoryViewModelFactory
 
     @Inject
     lateinit var inputMethodManager: InputMethodManager
@@ -57,7 +57,7 @@ class RecipeAddingFragment : BasicFragment(), OnCategoryItemClickListener,
     lateinit var onEditTextFocusChangeListener: OnEditTextFocusChangeListenerImpl
 
     private val viewModel: RecipeAddingViewModel by viewModels {
-        onlyRecipeRepositoryViewModelFactory.create(activity?.application as App)
+        factory
     }
 
     override fun onAttach(context: Context) {

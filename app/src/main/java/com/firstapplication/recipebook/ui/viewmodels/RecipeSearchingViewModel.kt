@@ -1,7 +1,6 @@
 package com.firstapplication.recipebook.ui.viewmodels
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
@@ -12,8 +11,8 @@ import com.firstapplication.recipebook.ui.models.RecipeModel
 import kotlinx.coroutines.launch
 
 class RecipeSearchingViewModel(
-    application: Application, private val repository: RecipeRepository
-) : BasicAndroidViewModel(application = application) {
+    private val repository: RecipeRepository
+) : BasicViewModel() {
 
     private var observableRecipes = repository.readRecipesMatchFormat("")
 

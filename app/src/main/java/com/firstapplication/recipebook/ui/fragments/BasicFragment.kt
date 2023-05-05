@@ -18,5 +18,4 @@ open class BasicFragment: Fragment() {
     fun getStringArrayFromRes(@ArrayRes arrayRes: Int): Array<String> {
         return resources.getStringArray(arrayRes)
     }
-
 }
