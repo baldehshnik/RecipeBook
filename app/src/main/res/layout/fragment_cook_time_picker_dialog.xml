@@ -4,47 +4,18 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:focusable="false"
+    android:focusableInTouchMode="true"
     tools:context=".ui.fragments.CookTimePickerDialogFragment">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <ImageButton
-            android:id="@+id/btnClose"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@android:color/transparent"
-            android:layout_weight="1"
-            android:src="@drawable/ic_baseline_close_28"
-            android:contentDescription="@string/close_time_picker_fragment" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_weight="2"
-            android:text="@string/cooking_time"
-            android:textColor="@color/black"
-            android:textSize="20sp" />
-
-        <ImageButton
-            android:id="@+id/btnConfirm"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@android:color/transparent"
-            android:src="@drawable/ic_baseline_check_28"
-            android:contentDescription="@string/save_time" />
-
-    </LinearLayout>
-
-    <TimePicker
-        android:id="@+id/tpTime"
+    <com.firstapplication.recipebook.ui.view.CookTimePickerView
+        android:id="@+id/myTimePicker"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:timePickerMode="spinner" />
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:paddingBottom="6dp"
+        tools:ignore="RtlSymmetry" />
 
 </LinearLayout>

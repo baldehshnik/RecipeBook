@@ -1,9 +1,12 @@
 package com.firstapplication.recipebook.ui.activities
 
+import android.content.Context
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
+import androidx.annotation.RequiresApi
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -36,9 +39,13 @@ class HomeActivity : AppCompatActivity() {
         binding.bottomNavView.setupWithNavController(navController)
     }
 
-    override fun dispatchTouchEvent(motionEvent: MotionEvent?): Boolean {
-        if (motionEvent != null && motionEvent.action == MotionEvent.ACTION_DOWN)
-            inputMethodManager.hideSoftInputFromWindow(window.decorView.windowToken, 0)
-        return super.dispatchTouchEvent(motionEvent)
+    override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
+        if (ev.action == MotionEvent.ACTION_DOWN) hideKeyboard()
+        return super.dispatchTouchEvent(ev)
+    }
+
+    private fun hideKeyboard() {
+        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(window.decorView.windowToken, 0)
     }
 }

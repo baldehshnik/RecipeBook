@@ -13,7 +13,6 @@ import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.firstapplication.recipebook.App
 import com.firstapplication.recipebook.R
 import com.firstapplication.recipebook.databinding.FragmentHubBinding
 import com.firstapplication.recipebook.extensions.appComponent
@@ -40,9 +39,7 @@ class HubFragment : BasicFragment(), OnRecipeItemClickListener {
     @Inject
     lateinit var onEditTextFocusChangeListener: OnEditTextFocusChangeListener
 
-    private val viewModel: HubViewModel by viewModels {
-        factory
-    }
+    private val viewModel: HubViewModel by viewModels { factory }
 
     override fun onAttach(context: Context) {
         context.applicationContext.appComponent.inject(this)
@@ -57,6 +54,10 @@ class HubFragment : BasicFragment(), OnRecipeItemClickListener {
     ): View {
         binding = FragmentHubBinding.inflate(layoutInflater, container, false)
         recipeAdapter = RecipeAdapter(this)
+
+        binding.click.setOnClickListener {
+            findNavController().navigate(HubFragmentDirections.actionNavHubToNavAdding())
+        }
 
         with(binding) {
             btnSearch.setOnClickListener { setSearchMode() }
@@ -74,8 +75,7 @@ class HubFragment : BasicFragment(), OnRecipeItemClickListener {
 
                 etSearchItem.apply {
                     val intrinsicWidth = compoundDrawables[2].intrinsicWidth
-                    if (motionEvent.x > width - paddingRight - intrinsicWidth)
-                        disableSearchMode()
+                    if (motionEvent.x > width - paddingRight - intrinsicWidth) disableSearchMode()
                 }
 
                 return@setOnTouchListener false
@@ -89,9 +89,7 @@ class HubFragment : BasicFragment(), OnRecipeItemClickListener {
 
             etSearchItem.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-
                 override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-
                 override fun afterTextChanged(inputText: Editable?) {
                     when (inputText?.length) {
                         0 -> viewModel.setObserve("")
@@ -146,6 +144,6 @@ class HubFragment : BasicFragment(), OnRecipeItemClickListener {
 
     private fun updateRecipeMarker(recipeModel: RecipeModel) {
         recipeModel.isSaved = !recipeModel.isSaved
-        viewModel.updateRecipeInDB(recipeModel = recipeModel)
+        viewModel.updateRecipeInDB(recipeModel)
     }
 }

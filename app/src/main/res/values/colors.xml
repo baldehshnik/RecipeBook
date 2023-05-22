@@ -15,4 +15,13 @@
     <color name="light_grey">#DFDFDF</color>
     <color name="dark_grey">#303030</color>
     <color name="delete">#C60000</color>
+
+    <color name="white_background">#f8f8f8</color>
+
+    <color name="orange_500">#ff8d00</color>
+    <color name="orange_300">#ffaf49</color>
+    <color name="orange_700">#f47100</color>
+    <color name="orange_900">#e54304</color>
+    <color name="orange_100">#ffddb0</color>
+    <color name="orange_50">#ffddb0</color>
 </resources>

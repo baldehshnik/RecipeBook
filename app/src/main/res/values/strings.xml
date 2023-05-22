@@ -43,7 +43,22 @@
     <string name="save_time" translatable="false">save time</string>
     <string name="add">Add</string>
     <string name="error">Error</string>
+    <string name="custom_time" translatable="false">Custom time</string>
+    <string name="enter_time" translatable="false">Enter time</string>
 
+    <string name="time_format" translatable="false">%s hours %s minutes</string>
+    <string name="hours_format" translatable="false">%s hours</string>
+    <string name="minutes_format" translatable="false">%s minutes</string>
+
+    <string name="hours" translatable="false">hours</string>
+    <string name="minutes" translatable="false">minutes</string>
+    <string name="hour" translatable="false">Hour</string>
+    <string name="minute" translatable="false">Minute</string>
+
+    <string name="incorrect_text" translatable="false">Incorrect text</string>
+    <string name="too_long" translatable="false">Text is too long</string>
+
+    <string name="close" translatable="false">Close</string>
 
     <string-array name="dish_categories">
         <item name="all">All</item>

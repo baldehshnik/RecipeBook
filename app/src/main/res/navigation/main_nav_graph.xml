@@ -20,6 +20,9 @@
         <action
             android:id="@+id/action_navHub_to_navRecipeInfo"
             app:destination="@id/navRecipeInfo" />
+        <action
+            android:id="@+id/action_navHub_to_navAdding"
+            app:destination="@id/navAdding" />
     </fragment>
     <fragment
         android:id="@+id/navAdding"
