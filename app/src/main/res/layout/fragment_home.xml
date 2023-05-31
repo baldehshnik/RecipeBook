@@ -9,12 +9,10 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rwCategories"
         android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginHorizontal="10dp"
-        android:layout_marginTop="58dp"
-        android:paddingTop="5dp"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="?android:attr/actionBarSize"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="RtlSymmetry" />
 
@@ -22,9 +20,9 @@
         android:id="@+id/btnSearch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
         android:layout_marginTop="4dp"
-        android:backgroundTint="@color/white"
+        android:layout_marginEnd="10dp"
+        android:backgroundTint="@android:color/transparent"
         android:contentDescription="@string/search_image"
         android:src="@drawable/ic_baseline_search_28"
         app:layout_constraintEnd_toEndOf="parent"
@@ -40,8 +38,8 @@
         android:textSize="22sp"
         android:textStyle="bold"
         android:visibility="gone"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -74,11 +72,11 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rwRecipes"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
         android:layout_marginTop="10dp"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/rwCategories" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

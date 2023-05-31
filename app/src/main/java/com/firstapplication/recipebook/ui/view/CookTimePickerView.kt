@@ -88,10 +88,6 @@ class CookTimePickerView(
         }
     }
 
-    fun getCurrentTime(): Pair<String, String> {
-        return Pair(selectedHour, selectedMinute)
-    }
-
     private fun clearEditTextFocus() {
         binding.etTime.clearFocus()
         val manager = context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager

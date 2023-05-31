@@ -2,6 +2,7 @@ package com.firstapplication.recipebook.data.interfaces
 
 import androidx.lifecycle.LiveData
 import com.firstapplication.recipebook.data.models.RecipeEntity
+import com.firstapplication.recipebook.sealed.Response
 
 interface RecipeRepository {
     suspend fun updateRecipe(recipeEntity: RecipeEntity)
@@ -15,4 +16,6 @@ interface RecipeRepository {
     fun readRecipesMatchFormat(format: String) : LiveData<List<RecipeEntity>>
 
     fun readSavedRecipesMatchFormat(format: String) : LiveData<List<RecipeEntity>>
+
+    suspend fun readAllCategories(): Response
 }

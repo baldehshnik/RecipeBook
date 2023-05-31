@@ -7,12 +7,12 @@ plugins {
 }
 
 android {
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.firstapplication.recipebook"
         minSdk 21
-        targetSdk 32
+        targetSdk 33
         versionCode 1
         versionName "1.0"
 
@@ -39,7 +39,7 @@ android {
 }
 
 ext {
-    roomVersion = "2.4.3"
+    roomVersion = "2.5.1"
     lifecycleVersion = "2.5.1"
     daggerVersion = '2.44.2'
     navigationVersion = '2.5.3'
@@ -82,4 +82,7 @@ dependencies {
 
     //Image
     implementation 'de.hdodenhof:circleimageview:2.1.0'
+
+    //Glide
+    implementation 'com.github.bumptech.glide:glide:4.15.1'
 }

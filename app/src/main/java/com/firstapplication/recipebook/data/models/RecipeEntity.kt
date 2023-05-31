@@ -32,15 +32,7 @@ data class RecipeEntity(
     val category: String = "Горячие блюда"
 ) {
 
-    fun migrateFromRecipeEntityToRecipeModel() = RecipeModel(
-        id = id,
-        imageId = imageId,
-        title = title,
-        recipeInfo = recipeInfo,
-        time = time,
-        ingredients = ingredients,
-        isSaved = isSaved,
-        category = category
-    )
-
+    fun toRecipeModel(): RecipeModel {
+        return RecipeModel(id, imageId, title, recipeInfo, time, ingredients, isSaved, category)
+    }
 }

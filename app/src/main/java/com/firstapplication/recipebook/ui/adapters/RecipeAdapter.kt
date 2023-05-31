@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.widget.ImageButton
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.DiffUtil
@@ -17,6 +18,7 @@ import com.firstapplication.recipebook.ui.adapters.RecipeAdapter.RecipeViewHolde
 import com.firstapplication.recipebook.ui.fragments.DeleteMode
 import com.firstapplication.recipebook.ui.interfacies.OnRecipeItemClickListener
 import com.firstapplication.recipebook.ui.models.RecipeModel
+import com.google.android.material.card.MaterialCardView
 
 class RecipeAdapter(
     private val listener: OnRecipeItemClickListener
@@ -79,6 +81,9 @@ class RecipeAdapter(
         }
 
         setImageResource(item.isSaved)
+
+        holder.itemView.findViewById<MaterialCardView>(R.id.cardView)
+            .animation = AnimationUtils.loadAnimation(holder.itemView.context, R.anim.list_anim)
     }
 }
 

@@ -6,10 +6,43 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.viewModelScope
 import com.firstapplication.recipebook.data.interfaces.RecipeRepository
 import com.firstapplication.recipebook.data.models.RecipeEntity
+import com.firstapplication.recipebook.domain.usecase.GetDishCategoriesUseCase
+import com.firstapplication.recipebook.sealed.ErrorResponse
+import com.firstapplication.recipebook.sealed.ProgressResponse
+import com.firstapplication.recipebook.ui.models.DishCategoryModel
 import com.firstapplication.recipebook.ui.models.RecipeModel
+import com.firstapplication.recipebook.utils.AppDispatchers
 import kotlinx.coroutines.*
 
-class HomeViewModel(private val repository: RecipeRepository) : BasicViewModel() {
+class HomeViewModel(
+    private val repository: RecipeRepository,
+    private val dispatchers: AppDispatchers,
+    private val getDishCategoriesUseCase: GetDishCategoriesUseCase
+) : BasicViewModel() {
+
+    private val _categories = MutableLiveData<List<DishCategoryModel>>()
+    val categories: LiveData<List<DishCategoryModel>> get() = _categories
+
+    fun readCategories() {
+        viewModelScope.launch(dispatchers.defaultDispatcher) {
+            val result = getDishCategoriesUseCase()
+            withContext(dispatchers.mainDispatcher) {
+                when(result.second) {
+                    is ErrorResponse -> {
+
+                    }
+                    is ProgressResponse -> {
+
+                    }
+                    else -> {
+                        _categories.value = result.first!!
+                    }
+                }
+            }
+        }
+    }
+
+
 
     private var observableRecipes = repository.readAllRecipesInCategory("")
 

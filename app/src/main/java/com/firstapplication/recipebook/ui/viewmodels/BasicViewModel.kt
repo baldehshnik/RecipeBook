@@ -14,7 +14,7 @@ open class BasicViewModel : ViewModel() {
         val list = mutableListOf<RecipeModel>()
         val coroutineResult = viewModelScope.async {
             entitiesList.forEach { item ->
-                list.add(item.migrateFromRecipeEntityToRecipeModel())
+                list.add(item.toRecipeModel())
             }
         }
 

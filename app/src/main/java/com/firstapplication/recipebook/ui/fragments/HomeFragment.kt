@@ -15,21 +15,21 @@ import androidx.core.view.marginBottom
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.firstapplication.recipebook.App
 import com.firstapplication.recipebook.R
 import com.firstapplication.recipebook.databinding.FragmentHomeBinding
 import com.firstapplication.recipebook.extensions.appComponent
 import com.firstapplication.recipebook.sealed.RecipeListItemClick
-import com.firstapplication.recipebook.ui.adapters.DishCategoryAdapter
+import com.firstapplication.recipebook.ui.adapters.DishesCategoryAdapter
 import com.firstapplication.recipebook.ui.adapters.RecipeAdapter
 import com.firstapplication.recipebook.ui.interfacies.OnCategoryItemClickListener
 import com.firstapplication.recipebook.ui.interfacies.OnRecipeItemClickListener
 import com.firstapplication.recipebook.ui.models.RecipeModel
 import com.firstapplication.recipebook.ui.viewmodels.HomeViewModel
-import com.firstapplication.recipebook.ui.viewmodels.factories.OnlyRecipeRepositoryViewModelFactory
+import com.firstapplication.recipebook.ui.viewmodels.factories.HomeViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.card.MaterialCardView
 import javax.inject.Inject
+import androidx.navigation.NavOptions
 
 class HomeFragment : BasicFragment(), OnRecipeItemClickListener, OnCategoryItemClickListener {
     private var actionBarSize = 0
@@ -37,10 +37,9 @@ class HomeFragment : BasicFragment(), OnRecipeItemClickListener, OnCategoryItemC
 
     private lateinit var binding: FragmentHomeBinding
     private lateinit var recipeAdapter: RecipeAdapter
-    private lateinit var categoryAdapter: DishCategoryAdapter
 
     @Inject
-    lateinit var factory: OnlyRecipeRepositoryViewModelFactory
+    lateinit var factory: HomeViewModelFactory
 
     private val viewModel: HomeViewModel by viewModels { factory }
 
@@ -58,25 +57,15 @@ class HomeFragment : BasicFragment(), OnRecipeItemClickListener, OnCategoryItemC
         binding = FragmentHomeBinding.inflate(layoutInflater, container, false)
 
         recipeAdapter = RecipeAdapter(this)
-        categoryAdapter = DishCategoryAdapter(getCategoryList(), this)
-
         with(binding) {
             actionBarSize = rwRecipes.marginBottom
 
-            btnSearch.setOnClickListener {
-                findNavController().navigate(R.id.navSearch)
-            }
+            btnSearch.setOnClickListener { navigateToSearchFragment() }
 
             rwRecipes.layoutManager = LinearLayoutManager(
                 requireContext(), LinearLayoutManager.VERTICAL, false
             )
-
-            rwCategories.layoutManager = LinearLayoutManager(
-                requireContext(), LinearLayoutManager.HORIZONTAL, false
-            )
-
             rwRecipes.adapter = recipeAdapter
-            rwCategories.adapter = categoryAdapter
 
             btnCloseDeletedWindow.setOnClickListener {
                 disableDeleteWindow()
@@ -107,13 +96,16 @@ class HomeFragment : BasicFragment(), OnRecipeItemClickListener, OnCategoryItemC
             }
         }
 
-        return binding.root
-    }
+        binding.rwCategories.layoutManager = LinearLayoutManager(
+            requireContext(), LinearLayoutManager.HORIZONTAL, false
+        )
 
-    override fun onStart() {
-        super.onStart()
-        if (selectedCategory != "Все")
-            categoryAdapter.setNewSelectedItem(getCurrentRecipeCategoryID(getCategoryList()) + 1)
+        viewModel.readCategories()
+        viewModel.categories.observe(viewLifecycleOwner) {
+            binding.rwCategories.adapter = DishesCategoryAdapter(it, this)
+        }
+
+        return binding.root
     }
 
     override fun onPause() {
@@ -124,16 +116,17 @@ class HomeFragment : BasicFragment(), OnRecipeItemClickListener, OnCategoryItemC
         }
     }
 
-    private fun getCurrentRecipeCategoryID(categoriesList: List<String>): Int {
-        for ((i, item) in categoriesList.subList(1, categoriesList.size).withIndex())
-            if (item == selectedCategory)
-                return i
-        return 0
+    private fun navigateToSearchFragment() {
+        findNavController().navigate(
+            R.id.navSearch, null,
+            NavOptions.Builder()
+                .setEnterAnim(R.anim.to_left_in).setExitAnim(R.anim.to_left_out)
+                .setPopEnterAnim(R.anim.to_right_in).setPopExitAnim(R.anim.to_right_out)
+                .build()
+        )
     }
 
-    private fun getCategoryList() = getStringArrayFromRes(R.array.dish_categories).toList()
-
-    private fun getBottomNavView(): BottomNavigationView? = activity?.findViewById(R.id.bottomNavView)
+    private fun getBottomNavView() = activity?.findViewById<BottomNavigationView>(R.id.bottomNavView)
 
     private fun disableDeletedWindowView() = with(binding) {
         btnSearch.visibility = View.VISIBLE
@@ -149,7 +142,7 @@ class HomeFragment : BasicFragment(), OnRecipeItemClickListener, OnCategoryItemC
         DeleteMode.isDeleteMode = false
         disableDeletedWindowView()
         recipeAdapter.notifyDataSetChanged()
-        setNewMarginsToRecyclerView(marginBottom = actionBarSize, marginTop = 100f)
+        setNewMarginsToRecyclerView(marginBottom = actionBarSize, marginTop = 180f)
     }
 
     private fun clearToolBarText() {
@@ -191,7 +184,11 @@ class HomeFragment : BasicFragment(), OnRecipeItemClickListener, OnCategoryItemC
         viewModel.updateRecipeInDB(recipeModel)
     }
 
-    private fun setRadioButtonVisibility(view: View, radioButton: RadioButton, recipeModel: RecipeModel) {
+    private fun setRadioButtonVisibility(
+        view: View,
+        radioButton: RadioButton,
+        recipeModel: RecipeModel
+    ) {
         when (radioButton.visibility) {
             View.VISIBLE -> {
                 viewModel.deleteSelectedRecipe(recipeModel = recipeModel)
@@ -237,11 +234,15 @@ class HomeFragment : BasicFragment(), OnRecipeItemClickListener, OnCategoryItemC
         return super.onItemLongClick(view, recipeModel)
     }
 
-    private fun setNewMarginsToRecyclerView(marginBottom: Int = 0, marginTop: Float = 58f) {
+    private fun setNewMarginsToRecyclerView(marginBottom: Int = 0, marginTop: Float = 56f) {
         val params = ConstraintLayout.LayoutParams(
             ConstraintLayout.LayoutParams.MATCH_PARENT,
             ConstraintLayout.LayoutParams.MATCH_PARENT
         )
+
+        params.topToBottom = binding.rwCategories.id
+        params.startToStart = ConstraintLayout.LayoutParams.PARENT_ID
+        params.endToEnd = ConstraintLayout.LayoutParams.PARENT_ID
 
         params.bottomMargin = marginBottom
 
@@ -257,8 +258,11 @@ class HomeFragment : BasicFragment(), OnRecipeItemClickListener, OnCategoryItemC
             binding.rwRecipes.recycledViewPool.clear()
             selectedCategory = categoryName
 
-            if (categoryName == getCategoryList()[0]) viewModel.changeRecipeList(category = "")
-            else viewModel.changeRecipeList(category = categoryName)
+            if (categoryName == resources.getString(R.string.all)) {
+                viewModel.changeRecipeList("")
+            } else {
+                viewModel.changeRecipeList(categoryName)
+            }
         }
     }
 

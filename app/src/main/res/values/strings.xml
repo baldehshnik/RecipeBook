@@ -60,6 +60,11 @@
 
     <string name="close" translatable="false">Close</string>
 
+    <string name="all" translatable="false">All</string>
+
+    <string name="failed_open_db" translatable="false">Failed open database. Repeat?</string>
+    <string name="failed_create_db" translatable="false">Failed create database. Repeat?</string>
+
     <string-array name="dish_categories">
         <item name="all">All</item>
         <item name="hot_dish">Hot dishes</item>

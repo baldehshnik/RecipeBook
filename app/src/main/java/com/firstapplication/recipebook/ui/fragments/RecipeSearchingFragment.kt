@@ -9,10 +9,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.isInvisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.firstapplication.recipebook.App
 import com.firstapplication.recipebook.R
 import com.firstapplication.recipebook.databinding.FragmentRecipeSearchingBinding
 import com.firstapplication.recipebook.extensions.appComponent
@@ -55,6 +55,7 @@ class RecipeSearchingFragment : BasicFragment(), OnRecipeItemClickListener {
 
         with(binding) {
             btnOut.setOnClickListener {
+                btnOut.isInvisible = true
                 findNavController().popBackStack()
             }
 
