@@ -4,7 +4,9 @@ import android.content.Context
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -12,9 +14,13 @@ import androidx.navigation.ui.setupWithNavController
 import com.firstapplication.recipebook.R
 import com.firstapplication.recipebook.databinding.ActivityHomeBinding
 import com.firstapplication.recipebook.extensions.appComponent
+import com.firstapplication.recipebook.ui.interfacies.Navigator
+import com.firstapplication.recipebook.utils.MainNavigator
 import javax.inject.Inject
 
 class HomeActivity : AppCompatActivity() {
+
+    val navigator: Navigator by viewModels<MainNavigator> { AndroidViewModelFactory(application) }
 
     @Inject
     lateinit var inputMethodManager: InputMethodManager

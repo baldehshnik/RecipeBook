@@ -16,15 +16,7 @@ data class RecipeModel(
     var category: String = "Горячие блюда"
 ) : Parcelable {
 
-    fun migrateFromRecipeModelToRecipeEntity() = RecipeEntity(
-        id = id,
-        imageId = imageId,
-        title = title,
-        recipeInfo = recipeInfo,
-        time = time,
-        ingredients = ingredients,
-        isSaved = isSaved,
-        category = category
-    )
-
+    fun toRecipeEntity(): RecipeEntity {
+        return RecipeEntity(id, imageId, title, recipeInfo, time, ingredients, isSaved, category)
+    }
 }

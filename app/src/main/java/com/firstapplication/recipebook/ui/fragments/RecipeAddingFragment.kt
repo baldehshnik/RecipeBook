@@ -18,7 +18,6 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.firstapplication.recipebook.App
 import com.firstapplication.recipebook.R
 import com.firstapplication.recipebook.databinding.FragmentRecipeAddingBinding
 import com.firstapplication.recipebook.extensions.appComponent
@@ -32,10 +31,10 @@ import com.firstapplication.recipebook.ui.interfacies.OnItemMoveListener
 import com.firstapplication.recipebook.ui.listeners.OnEditTextFocusChangeListenerImpl
 import com.firstapplication.recipebook.ui.models.RecipeModel
 import com.firstapplication.recipebook.ui.viewmodels.RecipeAddingViewModel
-import com.firstapplication.recipebook.ui.viewmodels.factories.OnlyRecipeRepositoryViewModelFactory
+import com.firstapplication.recipebook.ui.viewmodels.factories.RecipeAddingViewModelFactory
 import javax.inject.Inject
 
-class RecipeAddingFragment : BasicFragment(), OnCategoryItemClickListener,
+class RecipeAddingFragment : BaseFragment(), OnCategoryItemClickListener,
     OnIngredientDeleteItemClickListener, OnItemMoveListener {
 
     private var isSaved = false
@@ -48,7 +47,7 @@ class RecipeAddingFragment : BasicFragment(), OnCategoryItemClickListener,
     private lateinit var itemTouchHelper: ItemTouchHelper
 
     @Inject
-    lateinit var factory: OnlyRecipeRepositoryViewModelFactory
+    lateinit var factory: RecipeAddingViewModelFactory
 
     @Inject
     lateinit var inputMethodManager: InputMethodManager
@@ -56,9 +55,7 @@ class RecipeAddingFragment : BasicFragment(), OnCategoryItemClickListener,
     @Inject
     lateinit var onEditTextFocusChangeListener: OnEditTextFocusChangeListenerImpl
 
-    private val viewModel: RecipeAddingViewModel by viewModels {
-        factory
-    }
+    override val viewModel: RecipeAddingViewModel by viewModels { factory }
 
     override fun onAttach(context: Context) {
         context.applicationContext.appComponent.inject(this)

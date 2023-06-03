@@ -21,20 +21,18 @@ import com.firstapplication.recipebook.ui.adapters.RecipeAdapter
 import com.firstapplication.recipebook.ui.interfacies.OnRecipeItemClickListener
 import com.firstapplication.recipebook.ui.models.RecipeModel
 import com.firstapplication.recipebook.ui.viewmodels.RecipeSearchingViewModel
-import com.firstapplication.recipebook.ui.viewmodels.factories.OnlyRecipeRepositoryViewModelFactory
+import com.firstapplication.recipebook.ui.viewmodels.factories.RecipeSearchingViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import javax.inject.Inject
 
-class RecipeSearchingFragment : BasicFragment(), OnRecipeItemClickListener {
+class RecipeSearchingFragment : BaseFragment(), OnRecipeItemClickListener {
     private lateinit var binding: FragmentRecipeSearchingBinding
     private lateinit var recipeAdapter: RecipeAdapter
 
     @Inject
-    lateinit var factory: OnlyRecipeRepositoryViewModelFactory
+    lateinit var factory: RecipeSearchingViewModelFactory
 
-    private val viewModel: RecipeSearchingViewModel by viewModels {
-        factory
-    }
+    override val viewModel: RecipeSearchingViewModel by viewModels { factory }
 
     override fun onAttach(context: Context) {
         context.applicationContext.appComponent.inject(this)
@@ -111,10 +109,10 @@ class RecipeSearchingFragment : BasicFragment(), OnRecipeItemClickListener {
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
             override fun afterTextChanged(inputText: Editable?) {
-                when (inputText?.length) {
-                    0 -> viewModel.removeObserve()
-                    else -> viewModel.setObserve(inputText.toString())
-                }
+//                when (inputText?.length) {
+//                    0 -> viewModel.removeObserve()
+//                    else -> viewModel.setObserve(inputText.toString())
+//                }
                 binding.rwRecipes.recycledViewPool.clear()
             }
         })

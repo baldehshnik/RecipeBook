@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.firstapplication.recipebook.R
@@ -23,15 +24,15 @@ import com.firstapplication.recipebook.ui.interfacies.OnEditTextFocusChangeListe
 import com.firstapplication.recipebook.ui.interfacies.OnRecipeItemClickListener
 import com.firstapplication.recipebook.ui.models.RecipeModel
 import com.firstapplication.recipebook.ui.viewmodels.HubViewModel
-import com.firstapplication.recipebook.ui.viewmodels.factories.OnlyRecipeRepositoryViewModelFactory
+import com.firstapplication.recipebook.ui.viewmodels.factories.HubViewModelFactory
 import javax.inject.Inject
 
-class HubFragment : BasicFragment(), OnRecipeItemClickListener {
+class HubFragment : BaseFragment(), OnRecipeItemClickListener {
     private lateinit var binding: FragmentHubBinding
     private lateinit var recipeAdapter: RecipeAdapter
 
     @Inject
-    lateinit var factory: OnlyRecipeRepositoryViewModelFactory
+    lateinit var factory: HubViewModelFactory
 
     @Inject
     lateinit var inputMethodManager: InputMethodManager
@@ -39,7 +40,7 @@ class HubFragment : BasicFragment(), OnRecipeItemClickListener {
     @Inject
     lateinit var onEditTextFocusChangeListener: OnEditTextFocusChangeListener
 
-    private val viewModel: HubViewModel by viewModels { factory }
+    override val viewModel: HubViewModel by viewModels { factory }
 
     override fun onAttach(context: Context) {
         context.applicationContext.appComponent.inject(this)
@@ -55,9 +56,7 @@ class HubFragment : BasicFragment(), OnRecipeItemClickListener {
         binding = FragmentHubBinding.inflate(layoutInflater, container, false)
         recipeAdapter = RecipeAdapter(this)
 
-        binding.click.setOnClickListener {
-            findNavController().navigate(HubFragmentDirections.actionNavHubToNavAdding())
-        }
+        binding.btnAdd.setOnClickListener { navigateToAddFragment() }
 
         with(binding) {
             btnSearch.setOnClickListener { setSearchMode() }
@@ -91,10 +90,10 @@ class HubFragment : BasicFragment(), OnRecipeItemClickListener {
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
                 override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
                 override fun afterTextChanged(inputText: Editable?) {
-                    when (inputText?.length) {
-                        0 -> viewModel.setObserve("")
-                        else -> viewModel.setObserve(inputText.toString())
-                    }
+//                    when (inputText?.length) {
+//                        0 -> viewModel.setObserve("")
+//                        else -> viewModel.setObserve(inputText.toString())
+//                    }
                     binding.rwRecipes.recycledViewPool.clear()
                 }
 
@@ -113,16 +112,28 @@ class HubFragment : BasicFragment(), OnRecipeItemClickListener {
         inputMethodManager.closeKeyboard(activity)
     }
 
+    private fun navigateToAddFragment() {
+        findNavController().navigate(
+            HubFragmentDirections.actionNavHubToNavAdding(),
+            NavOptions.Builder()
+                .setEnterAnim(R.anim.to_top_in).setExitAnim(R.anim.to_top_out)
+                .setPopEnterAnim(R.anim.to_bottom_in).setPopExitAnim(R.anim.to_bottom_out)
+                .build()
+            )
+    }
+
     private fun setSearchMode() = with(binding) {
         etSearchItem.visibility = View.VISIBLE
         btnSearch.visibility = View.GONE
         etSearchItem.requestFocus()
+        btnAdd.visibility = View.GONE
     }
 
     private fun disableSearchMode() = with(binding) {
         btnSearch.visibility = View.VISIBLE
         etSearchItem.visibility = View.GONE
         etSearchItem.text.clear()
+        btnAdd.visibility = View.VISIBLE
     }
 
     override fun onItemClick(view: View, recipeModel: RecipeModel, recipeKey: RecipeListItemClick) {

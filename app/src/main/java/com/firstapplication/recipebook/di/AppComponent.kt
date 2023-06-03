@@ -16,6 +16,7 @@ interface AppComponent {
     fun inject(fragment: RecipeAddingFragment)
     fun inject(fragment: HubFragment)
     fun inject(fragment: RecipeSearchingFragment)
+    fun inject(fragment: RecipeInfoFragment)
 
     @Component.Builder
     interface Builder {

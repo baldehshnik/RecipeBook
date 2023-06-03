@@ -10,13 +10,10 @@ class OnEditTextFocusChangeListenerImpl @Inject constructor(
 ) : OnEditTextFocusChangeListener {
 
     override fun setOnFocusChangeListener(hasFocus: Boolean, editText: EditText) {
-        if (hasFocus) inputMethodManager.showSoftInput(
-            editText,
-            InputMethodManager.SHOW_FORCED
-        )
-        else inputMethodManager.hideSoftInputFromWindow(
-            editText.windowToken,
-            0
-        )
+        if (hasFocus) {
+            inputMethodManager.showSoftInput(editText, 0)
+        } else {
+            inputMethodManager.hideSoftInputFromWindow(editText.windowToken, 0)
+        }
     }
 }

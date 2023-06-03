@@ -7,24 +7,29 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.isVisible
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.firstapplication.recipebook.R
 import com.firstapplication.recipebook.databinding.FragmentRecipeInfoBinding
+import com.firstapplication.recipebook.extensions.appComponent
 import com.firstapplication.recipebook.ui.adapters.IngredientDisplayAdapter
 import com.firstapplication.recipebook.ui.models.RecipeModel
+import com.firstapplication.recipebook.ui.viewmodels.RecipeInfoViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class RecipeInfoFragment : BasicFragment() {
+class RecipeInfoFragment : BaseFragment() {
     private lateinit var binding: FragmentRecipeInfoBinding
     private lateinit var recipe: RecipeModel
-
     private val recipeArgs: RecipeInfoFragmentArgs by navArgs()
 
+    override val viewModel: RecipeInfoViewModel by viewModels()
+
     override fun onAttach(context: Context) {
-        activity?.findViewById<Toolbar>(R.id.toolbar)?.visibility = View.GONE
-        activity?.findViewById<BottomNavigationView>(R.id.bottomNavView)?.visibility = View.GONE
+        context.applicationContext.appComponent.inject(this)
+        activity?.findViewById<Toolbar>(R.id.toolbar)?.isVisible = false
+        activity?.findViewById<BottomNavigationView>(R.id.bottomNavView)?.isVisible = false
         super.onAttach(context)
     }
 
@@ -39,27 +44,18 @@ class RecipeInfoFragment : BasicFragment() {
         if (recipeArgs.selectedRecipe == null) dataTransferError()
         else recipe = recipeArgs.selectedRecipe!!
 
-        val adapter = IngredientDisplayAdapter()
-
         with(binding) {
-            btnOut.setOnClickListener {
-                findNavController().popBackStack()
-            }
-
+            btnOut.setOnClickListener { findNavController().popBackStack() }
             btnEdit.setOnClickListener {
-                findNavController().navigate(RecipeInfoFragmentDirections.actionNavRecipeInfoToNavAdding(recipe))
+                findNavController().navigate(
+                    RecipeInfoFragmentDirections.actionNavRecipeInfoToNavAdding(recipe)
+                )
             }
-
-            rwIngredients.layoutManager = LinearLayoutManager(
-                requireContext(), LinearLayoutManager.VERTICAL, false
-            )
-
-            rwIngredients.adapter = adapter
 
             twTitle.text = recipe.title
             twTime.text = getStringFromRes(R.string.time_display) + recipe.time
 
-            if (recipe.recipeInfo.isEmpty()) twRecipeInfo.visibility = View.GONE
+            if (recipe.recipeInfo.isEmpty()) twRecipeInfo.isVisible = false
             else twRecipeInfo.text = recipe.recipeInfo
 
             twCategory.text = getStringFromRes(R.string.category_display) + recipe.category
@@ -69,6 +65,7 @@ class RecipeInfoFragment : BasicFragment() {
                 ingredients.remove("")
             }
 
+            val adapter = IngredientDisplayAdapter().also { rwIngredients.adapter = it }
             adapter.submitList(ingredients.toList())
         }
 
@@ -81,8 +78,8 @@ class RecipeInfoFragment : BasicFragment() {
     }
 
     override fun onDestroy() {
-        activity?.findViewById<Toolbar>(R.id.toolbar)?.visibility = View.VISIBLE
-        activity?.findViewById<BottomNavigationView>(R.id.bottomNavView)?.visibility = View.VISIBLE
+        activity?.findViewById<Toolbar>(R.id.toolbar)?.isVisible = true
+        activity?.findViewById<BottomNavigationView>(R.id.bottomNavView)?.isVisible = true
         super.onDestroy()
     }
 }

@@ -31,7 +31,7 @@ import com.google.android.material.card.MaterialCardView
 import javax.inject.Inject
 import androidx.navigation.NavOptions
 
-class HomeFragment : BasicFragment(), OnRecipeItemClickListener, OnCategoryItemClickListener {
+class HomeFragment : BaseFragment(), OnRecipeItemClickListener, OnCategoryItemClickListener {
     private var actionBarSize = 0
     private var selectedCategory = "Все"
 
@@ -39,9 +39,9 @@ class HomeFragment : BasicFragment(), OnRecipeItemClickListener, OnCategoryItemC
     private lateinit var recipeAdapter: RecipeAdapter
 
     @Inject
-    lateinit var factory: HomeViewModelFactory
+    lateinit var factory: HomeViewModelFactory.Factory
 
-    private val viewModel: HomeViewModel by viewModels { factory }
+    override val viewModel: HomeViewModel by viewModels { factory.build(this) }
 
     override fun onAttach(context: Context) {
         context.applicationContext.appComponent.inject(this)
@@ -70,7 +70,7 @@ class HomeFragment : BasicFragment(), OnRecipeItemClickListener, OnCategoryItemC
             btnCloseDeletedWindow.setOnClickListener {
                 disableDeleteWindow()
                 setToolBarText()
-                viewModel.clearSelectedRecipe()
+                viewModel.clearSelectedRecipes()
                 rwCategories.visibility = View.VISIBLE
             }
 
@@ -112,7 +112,7 @@ class HomeFragment : BasicFragment(), OnRecipeItemClickListener, OnCategoryItemC
         super.onPause()
         if (DeleteMode.isDeleteMode) {
             disableDeleteWindow()
-            viewModel.clearSelectedRecipe()
+            viewModel.clearSelectedRecipes()
         }
     }
 
@@ -191,12 +191,12 @@ class HomeFragment : BasicFragment(), OnRecipeItemClickListener, OnCategoryItemC
     ) {
         when (radioButton.visibility) {
             View.VISIBLE -> {
-                viewModel.deleteSelectedRecipe(recipeModel = recipeModel)
+                viewModel.deleteSelectedRecipe(recipeModel)
                 radioButton.visibility = View.GONE
                 deleteStrokeColor(view = view)
             }
             else -> {
-                viewModel.addNewSelectedRecipes(recipeModel = recipeModel)
+                viewModel.addNewSelectedRecipe(recipeModel)
                 radioButton.isChecked = true
                 radioButton.visibility = View.VISIBLE
                 setStrokeColor(view = view)
@@ -226,7 +226,7 @@ class HomeFragment : BasicFragment(), OnRecipeItemClickListener, OnCategoryItemC
             setNewMarginsToRecyclerView()
             clearToolBarText()
 
-            viewModel.addNewSelectedRecipes(recipeModel = recipeModel)
+            viewModel.addNewSelectedRecipe(recipeModel)
 
             DeleteMode.isDeleteMode = true
         }
@@ -258,11 +258,11 @@ class HomeFragment : BasicFragment(), OnRecipeItemClickListener, OnCategoryItemC
             binding.rwRecipes.recycledViewPool.clear()
             selectedCategory = categoryName
 
-            if (categoryName == resources.getString(R.string.all)) {
-                viewModel.changeRecipeList("")
-            } else {
-                viewModel.changeRecipeList(categoryName)
-            }
+//            if (categoryName == resources.getString(R.string.all)) {
+//                viewModel.changeRecipeList("")
+//            } else {
+//                viewModel.changeRecipeList(categoryName)
+//            }
         }
     }
 

@@ -4,8 +4,11 @@ import android.widget.Toast
 import androidx.annotation.ArrayRes
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
+import com.firstapplication.recipebook.ui.viewmodels.BaseViewModel
 
-open class BasicFragment: Fragment() {
+abstract class BaseFragment: Fragment() {
+
+    abstract val viewModel: BaseViewModel
 
     fun toast(message: String) {
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()

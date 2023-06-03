@@ -1,17 +1,28 @@
 package com.firstapplication.recipebook.ui.viewmodels
 
-import android.app.Application
-import androidx.lifecycle.*
-import com.firstapplication.recipebook.data.interfaces.RecipeRepository
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
+import com.firstapplication.recipebook.domain.usecase.InsertRecipeInLocalDatabaseUseCase
+import com.firstapplication.recipebook.domain.usecase.UpdateRecipeInLocalDatabaseUseCase
 import com.firstapplication.recipebook.enums.HourFormats
 import com.firstapplication.recipebook.enums.MinuteFormats
 import com.firstapplication.recipebook.ui.models.RecipeModel
-import kotlinx.coroutines.Dispatchers
+import com.firstapplication.recipebook.utils.AppDispatchers
 import kotlinx.coroutines.launch
 import java.util.*
+import kotlin.collections.Map
+import kotlin.collections.MutableMap
+import kotlin.collections.mutableMapOf
+import kotlin.collections.set
+import kotlin.collections.toList
+import kotlin.collections.toMap
 
-class RecipeAddingViewModel(private val repository: RecipeRepository) :
-    BasicViewModel() {
+class RecipeAddingViewModel(
+    private val dispatchers: AppDispatchers,
+    private val updateRecipeInLocalDatabaseUseCase: UpdateRecipeInLocalDatabaseUseCase,
+    private val insertRecipeInLocalDatabaseUseCase: InsertRecipeInLocalDatabaseUseCase
+) : BaseViewModel() {
 
     private val ingredientsMap = mutableMapOf<String, String>()
 
@@ -69,13 +80,15 @@ class RecipeAddingViewModel(private val repository: RecipeRepository) :
         recipeModel.ingredients = ingredientsMap
         recipeModel.category = recipeCategory
 
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.updateRecipe(recipeModel.migrateFromRecipeModelToRecipeEntity())
+        viewModelScope.launch(dispatchers.ioDispatcher) {
+            updateRecipeInLocalDatabaseUseCase(recipeModel)
         }
     }
 
-    private fun insertRecipeToDB(recipeModel: RecipeModel) = viewModelScope.launch(Dispatchers.IO) {
-        repository.insertRecipe(recipeModel.migrateFromRecipeModelToRecipeEntity())
+    private fun insertRecipeToDB(recipeModel: RecipeModel) {
+        viewModelScope.launch(dispatchers.ioDispatcher) {
+            insertRecipeInLocalDatabaseUseCase(recipeModel)
+        }
     }
 
     fun getCookingTime(hours: String, minutes: String): String {
@@ -112,5 +125,4 @@ class RecipeAddingViewModel(private val repository: RecipeRepository) :
 
         return "$hours $hoursFormat"
     }
-
 }

@@ -1,6 +1,5 @@
 package com.firstapplication.recipebook.data.repositories
 
-import androidx.lifecycle.LiveData
 import com.firstapplication.recipebook.data.interfaces.DatabaseHelper
 import com.firstapplication.recipebook.data.interfaces.RecipeDao
 import com.firstapplication.recipebook.data.interfaces.RecipeRepository
@@ -35,21 +34,25 @@ class RecipeRepositoryImpl @Inject constructor(
         recipeDatabase.delete(recipeEntity)
     }
 
-    override fun readAllRecipesInCategory(category: String): LiveData<List<RecipeEntity>> {
+    override fun readRecipesInDescendingOrder(): List<RecipeEntity> {
+        return recipeDatabase.readAllRecipesReversed()
+    }
+
+    override fun readAllRecipesInCategory(category: String): List<RecipeEntity> {
         return if (category.isBlank()) recipeDatabase.readAllRecipesReversed()
         else recipeDatabase.readAllRecipesInCategoryReversed(category)
     }
 
-    override fun readAllSavedRecipes(category: String): LiveData<List<RecipeEntity>> {
+    override fun readAllSavedRecipes(category: String): List<RecipeEntity> {
         return if (category.isBlank()) recipeDatabase.readAllSavedRecipes()
         else recipeDatabase.readAllSavedRecipesInCategory(category)
     }
 
-    override fun readRecipesMatchFormat(format: String): LiveData<List<RecipeEntity>> {
+    override fun readRecipesMatchFormat(format: String): List<RecipeEntity> {
         return recipeDatabase.readAllRecipesThatMatchFormat(getFormat(format))
     }
 
-    override fun readSavedRecipesMatchFormat(format: String): LiveData<List<RecipeEntity>> {
+    override fun readSavedRecipesMatchFormat(format: String): List<RecipeEntity> {
         return if (format.isBlank()) recipeDatabase.readAllSavedRecipes()
         else recipeDatabase.readAllSavedRecipesThatMatchFormat(getFormat(format))
     }
